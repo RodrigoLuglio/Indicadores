@@ -1,12 +1,9 @@
 import "../styles/globals.css";
 import { useState } from "react";
-import {
-  MantineProvider,
-  ColorSchemeProvider,
-  ColorScheme,
-} from "@mantine/core";
+import { SessionProvider } from "next-auth/react";
+import { MantineProvider, ColorSchemeProvider } from "@mantine/core";
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   const [colorScheme, setColorScheme] = useState("light");
   const toggleColorScheme = (value) =>
     setColorScheme(value || (colorScheme === "dark" ? "light" : "dark"));
@@ -22,7 +19,9 @@ function MyApp({ Component, pageProps }) {
           withGlobalStyles
           withNormalizeCSS
         >
-          <Component {...pageProps} />
+          <SessionProvider session={session}>
+            <Component {...pageProps} />
+          </SessionProvider>
         </MantineProvider>
       </ColorSchemeProvider>
     </>
