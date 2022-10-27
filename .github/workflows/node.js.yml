@@ -27,6 +27,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: yarn
     - run: yarn build
-    - run: pm2 reload 0
+    - run: pm2 reload 1
       env: 
         CI: true
