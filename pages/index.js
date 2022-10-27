@@ -3,10 +3,7 @@ import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 
 import { useState } from "react";
-import { Autocomplete } from "@mantine/core";
 import { ActionIcon, useMantineColorScheme } from "@mantine/core";
-import { Drawer, Button, Group } from "@mantine/core";
-import Link from "next/link";
 import { Sun, MoonStars } from "tabler-icons-react";
 
 export default function Home() {
@@ -38,66 +35,6 @@ export default function Home() {
             >
               {dark ? <Sun size={18} /> : <MoonStars size={18} />}
             </ActionIcon>
-            <div className="space-x-5 my-10">
-              <Button
-                variant="gradient"
-                gradient={{ from: "indigo", to: "cyan" }}
-              >
-                Indigo cyan
-              </Button>
-              <Button
-                variant="gradient"
-                gradient={{ from: "teal", to: "lime", deg: 105 }}
-              >
-                Lime green
-              </Button>
-              <Button
-                variant="gradient"
-                gradient={{ from: "teal", to: "blue", deg: 60 }}
-              >
-                Teal blue
-              </Button>
-              <Button
-                variant="gradient"
-                gradient={{ from: "orange", to: "red" }}
-              >
-                Orange red
-              </Button>
-              <Button
-                variant="gradient"
-                gradient={{ from: "#ed6ea0", to: "#ec8c69", deg: 35 }}
-              >
-                Peach
-              </Button>
-            </div>
-          </div>
-          <Autocomplete
-            label="Your favorite framework/library"
-            placeholder="Pick one"
-            className="max-w-lg"
-            data={["React", "Angular", "Svelte", "Vue"]}
-          />
-          <div className="my-10">
-            <Drawer
-              opened={opened}
-              onClose={() => setOpened(false)}
-              title="Select your favourite lib"
-              padding="xl"
-              size="xl"
-            >
-              <Autocomplete
-                label="Your favorite framework/library"
-                placeholder="Pick one"
-                data={["React", "Angular", "Svelte", "Vue"]}
-              />
-            </Drawer>
-
-            <Group position="center">
-              <Button onClick={() => setOpened(true)}>Open Drawer</Button>
-            </Group>
-            <div className="mt-10">
-              <Link href="/dash">Hello world</Link>
-            </div>
           </div>
         </div>
 
