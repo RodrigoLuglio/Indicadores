@@ -7,7 +7,7 @@ export default function Protected() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Strapi - Next - NextAuth</title>
+        <title>Strapi - Next -- NextAuth</title>
       </Head>
       <h1>Protected Page</h1>
       <Link href="/">
