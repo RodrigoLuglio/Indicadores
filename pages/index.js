@@ -2,7 +2,19 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 
+import { useState } from "react";
+import { Autocomplete } from "@mantine/core";
+import { ActionIcon, useMantineColorScheme } from "@mantine/core";
+import { Drawer, Button, Group } from "@mantine/core";
+import Link from "next/link";
+import { Sun, MoonStars } from "tabler-icons-react";
+
 export default function Home() {
+  const { colorScheme, toggleColorScheme } = useMantineColorScheme();
+  const dark = colorScheme === "dark";
+
+  const [opened, setOpened] = useState(false);
+
   return (
     <div className={styles.container}>
       <Head>
@@ -16,8 +28,81 @@ export default function Home() {
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
 
-        <p className={styles.description}>
-          Get started by editing{' '}
+        <div className="max-w-3xl mx-auto w-full">
+          <div className="my-10">
+            <ActionIcon
+              variant="outline"
+              color={dark ? "yellow" : "blue"}
+              onClick={() => toggleColorScheme()}
+              title="Toggle color scheme"
+            >
+              {dark ? <Sun size={18} /> : <MoonStars size={18} />}
+            </ActionIcon>
+            <div className="space-x-5 my-10">
+              <Button
+                variant="gradient"
+                gradient={{ from: "indigo", to: "cyan" }}
+              >
+                Indigo cyan
+              </Button>
+              <Button
+                variant="gradient"
+                gradient={{ from: "teal", to: "lime", deg: 105 }}
+              >
+                Lime green
+              </Button>
+              <Button
+                variant="gradient"
+                gradient={{ from: "teal", to: "blue", deg: 60 }}
+              >
+                Teal blue
+              </Button>
+              <Button
+                variant="gradient"
+                gradient={{ from: "orange", to: "red" }}
+              >
+                Orange red
+              </Button>
+              <Button
+                variant="gradient"
+                gradient={{ from: "#ed6ea0", to: "#ec8c69", deg: 35 }}
+              >
+                Peach
+              </Button>
+            </div>
+          </div>
+          <Autocomplete
+            label="Your favorite framework/library"
+            placeholder="Pick one"
+            className="max-w-lg"
+            data={["React", "Angular", "Svelte", "Vue"]}
+          />
+          <div className="my-10">
+            <Drawer
+              opened={opened}
+              onClose={() => setOpened(false)}
+              title="Select your favourite lib"
+              padding="xl"
+              size="xl"
+            >
+              <Autocomplete
+                label="Your favorite framework/library"
+                placeholder="Pick one"
+                data={["React", "Angular", "Svelte", "Vue"]}
+              />
+            </Drawer>
+
+            <Group position="center">
+              <Button onClick={() => setOpened(true)}>Open Drawer</Button>
+            </Group>
+            <div className="mt-10">
+              <Link href="/dash">Hello world</Link>
+            </div>
+          </div>
+        </div>
+
+        <p className="text-3xl font-bold underline">
+          Get started by editing{" "}
           <code className={styles.code}>pages/index.js</code>
         </p>
 
@@ -60,12 +145,12 @@ export default function Home() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by{' '}
+          Powered by{" "}
           <span className={styles.logo}>
             <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
           </span>
         </a>
       </footer>
     </div>
-  )
+  );
 }
