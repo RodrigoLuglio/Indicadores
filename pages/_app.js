@@ -19,7 +19,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
           withGlobalStyles
           withNormalizeCSS
         >
-          <SessionProvider session={session}>
+          <SessionProvider session={session} basePath="/indicadores/api/auth">
             <Component {...pageProps} />
           </SessionProvider>
         </MantineProvider>
