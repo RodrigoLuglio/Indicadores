@@ -26,7 +26,14 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: yarn
+    - name: 'Create env file'
+      run: |
+        touch .env
+        echo STRAPI_URL=${{ secrets.STRAPI_URL }} >> .env
+        echo NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }} >> .env
+        echo NEXTAUTH_URL=${{ secrets.NEXTAUTH_URL }} >> .env
+        cat .env
     - run: yarn build
-    - run: pm2 reload front
+    - run: pm2 reload front --update-env
       env: 
         CI: true
