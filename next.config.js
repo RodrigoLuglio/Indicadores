@@ -5,6 +5,7 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  // Descomentar para fazer push para o servidor | Comentar para teste local
   basePath: "/indicadores",
 };
 
