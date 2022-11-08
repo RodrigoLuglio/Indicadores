@@ -6,7 +6,7 @@ const nextConfig = {
     unoptimized: true,
   },
   // Descomentar para fazer push para o servidor | Comentar para teste local
-  basePath: "/indicadores",
+  // basePath: "/indicadores",
 };
 
 module.exports = nextConfig

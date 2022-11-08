@@ -20,9 +20,9 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
           withNormalizeCSS
         >
           {/* Quando for testar local descomentar a linha abaixo */}
-          {/* <SessionProvider session={session}> */}
+          <SessionProvider session={session}>
           {/* Quando for fazer push para o servidor descomentar a linha abaixo */}
-          <SessionProvider session={session} basePath="/indicadores/api/auth">
+          {/* <SessionProvider session={session} basePath="/indicadores/api/auth"> */}
             <Component {...pageProps} />
           </SessionProvider>
         </MantineProvider>

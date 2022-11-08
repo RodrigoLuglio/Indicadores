@@ -23,7 +23,7 @@ export default function SignIn() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Strapi - Next - NextAuth</title>
+        <title>Presence</title>
       </Head>
       <h1>Sign In</h1>
       <form className={styles.form} onSubmit={onSubmit}>
