@@ -1,4 +1,7 @@
 import Head from 'next/head';
+import Image from "next/image";
+// import { logoSidebar } from '../helpers/getimages';
+import logoSidebar from '../public/imgs/logo-login.svg';
 
 const AdminLayout = ({ children }) => {
 
@@ -12,8 +15,12 @@ const AdminLayout = ({ children }) => {
             <div className="flex flex-row justify-between max-h-screen min-w-full items-start lg:overflow-hidden">
 
                 <div className="fixed top-0 left-0 z-10 w-[60px] h-screen lg:relative min-h-screen basis-sidebar_mobile lg:basis-[30%] xl:basis-[30%] 2xl:basis-3/12 bg-green_mid2 grid lg:p-10 lg:pr-0 2xl:p-12 2xl:pr-0">
-                    <nav className="w-full h-full bg-green_mid flex shadow-2xl">
-                        
+                    <nav className="w-full h-full bg-green_mid flex shadow-2xl relative">
+                        <div className="relative w-full h-full flex flex-col border justify-between items-start z-10">
+                            <div><Image src={logoSidebar} width='100' height='200' className="w-40" alt="Logo Presence - Comunicação e Sustentabilidade"/></div>
+                            <ul><li>menu</li></ul>
+                        </div>
+                        <div className="absolute inset-0 w-[60px] border-l-4 bg-green_dark border-orange z-0"></div>
                     </nav>  
                 </div>
 
