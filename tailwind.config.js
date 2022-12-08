@@ -24,6 +24,14 @@ module.exports = {
         gotham: "Gotham",
         gotham_medium: "Gotham Medium",
         gotham_bold: "Gotham Bold",
+      },
+      flexBasis: {
+        sidebar_mobile: "60px",
+        content_mobile: "calc(100% - 60px)",
+      },
+      maxHeight: {
+        content_2xl: "calc(100vh - 96px)",
+        content_xl: "calc(100vh - 80px)",
       }
     },
   },
