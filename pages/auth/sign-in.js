@@ -1,7 +1,13 @@
 import Head from "next/head";
+import Image from "next/image";
+import Link from 'next/link';
 import styles from "../../styles/SignIn.module.css";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
+import logoLogin from '../../public/imgs/logo-login.svg';
+
+// import { TextInput,  Button} from '@mantine/core';
+// import { useForm } from '@mantine/form';
 
 export default function SignIn() {
   const router = useRouter();
@@ -21,37 +27,57 @@ export default function SignIn() {
   };
 
   return (
-    <div className={styles.container}>
+    <>
       <Head>
-        <title>Strapi - Next - NextAuth</title>
+        <title>Presence</title>
       </Head>
-      <h1>Sign In</h1>
-      <form className={styles.form} onSubmit={onSubmit}>
-        <label htmlFor="email">Email</label>
-        <input id="email" name="email" type="email" className={styles.input} />
-        <label
-          style={{
-            marginTop: 10,
-          }}
-          htmlFor="password"
-        >
-          Password
-        </label>
-        <input
-          id="password"
-          name="password"
-          type="password"
-          className={styles.input}
-        />
-        <button
-          className={styles.button}
-          style={{
-            marginTop: 15,
-          }}
-        >
-          Sign In
-        </button>
-      </form>
-    </div>
+      <section className="loginpage">
+
+        <div className="loginpage__bgcol">
+          <Image src={logoLogin} className="" alt="logo Presence - Comunicação e Sustentabilidade"/>
+        </div>
+
+        {/* login box */}
+        <div className="loginbox">
+
+            <div className="loginbox__bar"></div>
+
+            <div className="loginbox__content">
+
+              <div className="loginbox__wrapper">
+                
+                <h1>Faça seu login</h1>
+
+                <form onSubmit={onSubmit} autoComplete="off">
+
+                  <label htmlFor="email">Email</label>
+                  <input 
+                    id="email" 
+                    name="email" 
+                    type="text" 
+                    autoComplete="nope" />
+
+                  <label htmlFor="password">Senha</label>
+                  <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    autoComplete="new-password"
+                  />
+                  
+                  <div>
+                    <button>Entrar</button>
+                    <Link href="/redefinir-senha">Esqueci minha senha</Link>
+                  </div>
+
+                </form>
+              </div>
+            </div>
+        </div>
+
+      </section>
+    </>
+
+
   );
 }
