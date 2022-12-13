@@ -12,27 +12,30 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
     const getLayout = Component.getLayout || ((page) => page)
 
   return (
-    <>
-      <ColorSchemeProvider
-        colorScheme={colorScheme}
-        toggleColorScheme={toggleColorScheme}
-      >
-        <MantineProvider
-          theme={{ colorScheme: colorScheme }}
-          withGlobalStyles
-          withNormalizeCSS
-        >
-          {/* Quando for testar local descomentar a linha abaixo */}
-          {/* <SessionProvider session={session}> */}
-          {/* Quando for fazer push para o servidor descomentar a linha abaixo */}
-          <SessionProvider session={session} basePath="/indicadores/api/auth">
-            <NotificationsProvider position="top-right">
-              {getLayout(<Component {...pageProps} />)}
-            </NotificationsProvider>
-          </SessionProvider>
-        </MantineProvider>
-      </ColorSchemeProvider>
-    </>
+      <>
+          <ColorSchemeProvider
+              colorScheme={colorScheme}
+              toggleColorScheme={toggleColorScheme}
+          >
+              <MantineProvider
+                  theme={{ colorScheme: colorScheme }}
+                  withGlobalStyles
+                  withNormalizeCSS
+              >
+                  {/* Quando for testar local descomentar a linha abaixo */}
+                  {/* <SessionProvider session={session}> */}
+                  {/* Quando for fazer push para o servidor descomentar a linha abaixo */}
+                  <SessionProvider
+                      session={session}
+                      basePath="/indicadores/api/auth"
+                  >
+                      <NotificationsProvider position="top-right">
+                          {getLayout(<Component {...pageProps} />)}
+                      </NotificationsProvider>
+                  </SessionProvider>
+              </MantineProvider>
+          </ColorSchemeProvider>
+      </>
   );
 }
 
