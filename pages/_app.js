@@ -24,8 +24,8 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
               >
                   {/* Quando for testar local descomentar a linha abaixo */}
                   <SessionProvider session={session}>
-                      {/* Quando for fazer push para o servidor descomentar a linha abaixo */}
-                      {/* <SessionProvider
+                  {/* Quando for fazer push para o servidor descomentar a linha abaixo */}
+                  {/* <SessionProvider
                       session={session}
                       basePath="/indicadores/api/auth"
                   > */}

@@ -58,9 +58,13 @@ export default function Mantine() {
             <Box sx={{ maxWidth: 300 }} mx="auto">
                 <form onSubmit={form.onSubmit(handleSubmit, handleError)}>
                     <TextInput 
+                        // variant="headless" //remover estilos do mantine
                         withAsterisk
                         label="Email"
                         placeholder="your@email.com"
+                        rightSection={rightSection}
+                        size="md"
+                        error="error text"
                         {...form.getInputProps('email')}
                     />
 

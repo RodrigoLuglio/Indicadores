@@ -29,6 +29,10 @@ module.exports = {
         sidebar_mobile: "60px",
         content_mobile: "calc(100% - 60px)",
       },
+      width: {
+        sidebar_mobile: "60px",
+        sidebar_opened: "260px",
+      },
       maxHeight: {
         content_2xl: "calc(100vh - 96px)",
         content_xl: "calc(100vh - 80px)",
