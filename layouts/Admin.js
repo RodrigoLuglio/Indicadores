@@ -1,9 +1,33 @@
 import Head from 'next/head';
 import Image from "next/image";
+import Link from 'next/link'
 // import { logoSidebar } from '../helpers/getimages';
-import logoSidebar from '../public/imgs/logo-login.svg';
+import logoSidebar from '../public/imgs/logo-sidenav.svg';
+import { Gear, Research, Status, Profile } from '../components/sidebar/icons';
+import LinkItem from '../components/sidebar/linkItem';
+import LinkItemSubmenu from '../components/sidebar/linkItemSubmenu';
 
 const AdminLayout = ({ children }) => {
+
+    const toggleMenu = () => {
+        const aside = document.getElementById('aside');
+        aside.classList.toggle('opened');
+    }
+
+    const subitens = [
+        {
+            norma : 'GRI',
+            link : '/gri'
+        },
+        {
+            norma : 'SASB',
+            link : '/gri'
+        },
+        {
+            norma : 'CDI',
+            link : '/cdi'
+        },
+    ]
 
     return (
         <div className="min-h-screen flex flex-col">
@@ -14,15 +38,35 @@ const AdminLayout = ({ children }) => {
             
             <div className="flex flex-row justify-between max-h-screen min-w-full items-start lg:overflow-hidden">
 
-                <div className="fixed top-0 left-0 z-10 w-[60px] h-screen lg:relative min-h-screen basis-sidebar_mobile lg:basis-[30%] xl:basis-[30%] 2xl:basis-3/12 bg-green_mid2 grid lg:p-10 lg:pr-0 2xl:p-12 2xl:pr-0">
-                    <nav className="w-full h-full bg-green_mid flex shadow-2xl relative">
-                        <div className="relative w-full h-full flex flex-col border justify-between items-start z-10">
-                            <div><Image src={logoSidebar} width='100' height='200' className="w-40" alt="Logo Presence - Comunicação e Sustentabilidade"/></div>
-                            <ul><li>menu</li></ul>
+                <aside id="aside">
+                    <div className='sidebar'>
+                        <div className="sidebar__container">
+                            
+                            <div className="pl-24 pt-14 pb-20 hidden lg:block w-full">
+                                <Image src={logoSidebar} width='100%' className='w-[20]' alt="Logo Presence - Comunicação e Sustentabilidade"/>
+                            </div>
+
+                            <nav>
+                                <div onClick={toggleMenu} href="#" id="hambmenu" className="absolute top-2 left-3 w-10 h-10 block lg:hidden bg-red-500/20"></div>
+
+                                <ul className="ul-main w-full">
+                                    <LinkItem link="/mantine" label="Dashboard" icon={<Gear className="group-hover:fill-orange" />} />
+                                    <LinkItemSubmenu label="Incluir" subLabel="Normas:" icon={<Profile className="group-hover:fill-orange" />} subItens={subitens} />
+                                    <LinkItem link="/mantine" label="Consultar" icon={<Research className="group-hover:fill-orange" />} />
+                                    <LinkItem link="/mantine" label="Status" icon={<Status className="group-hover:fill-orange" />} />
+                                </ul>
+
+                                <div className='flex flex-col border border-green-400'>
+                                    box ajuda
+                                    <a href="#">sair</a>
+                                </div>
+
+                            </nav>
                         </div>
-                        <div className="absolute inset-0 w-[60px] border-l-4 bg-green_dark border-orange z-0"></div>
-                    </nav>  
-                </div>
+                        <div className="absolute inset-0 w-sidebar_mobile border-l-4 bg-green_dark border-orange z-0"></div>
+                    </div> 
+
+                </aside>
 
 
                 <div className="min-h-screen ml-[60px] lg:ml-0 basis-content_mobile lg:basis-[70%] xl:basis-[70%] 2xl:basis-9/12 bg-green_lightest grid lg:p-10 lg:pl-0 2xl:p-12 2xl:pl-0 ">
@@ -35,29 +79,6 @@ const AdminLayout = ({ children }) => {
                 </div>
             </div>
 
-            {/* <div class="min-h-screen flex flex-col flex-auto flex-shrink-0 antialiased bg-white dark:bg-gray-700 text-black dark:text-white">
-
-              <div class="fixed flex flex-col top-14 left-0 w-14 hover:w-64 md:w-64 bg-blue-900 dark:bg-gray-900 h-full text-white transition-all duration-300 border-none z-10 sidebar">
-
-
-                <div class="overflow-y-auto overflow-x-hidden flex flex-col justify-between flex-grow">
-                  <ul class="flex flex-col py-4 space-y-1">
-
-                    <li>
-                      <a href="#" class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6">
-                        <span class="inline-flex justify-center items-center ml-4">
-                          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
-                        </span>
-                        <span class="ml-2 text-sm tracking-wide truncate">Dashboard</span>
-                      </a>
-                    </li>
-                  </ul>
-                  <p class="mb-14 px-5 py-3 hidden md:block text-center text-xs">Copyright @2021</p>
-                </div>
-
-              </div>
-
-            </div> */}
         </div>
     );
 }
