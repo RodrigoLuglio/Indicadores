@@ -14,7 +14,6 @@ export default function SignIn() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    console.log(e.target.email.value + e.target.password.value);
     const result = await signIn("credentials", {
       redirect: false,
       email: e.target.email.value,

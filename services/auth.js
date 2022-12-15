@@ -9,3 +9,15 @@ export async function signIn({ email, password }) {
   });
   return res.data;
 }
+
+export async function me(token) {
+    const { data } = await axios.get(
+        `${strapiUrl}/api/users/me?populate=role`,
+        {
+            headers: {
+                Authorization: "Bearer " + token,
+            },
+        }
+    );
+    return data;
+}
