@@ -14,13 +14,18 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   return (
       <>
           <ColorSchemeProvider
-              colorScheme={colorScheme}
-              toggleColorScheme={toggleColorScheme}
+            colorScheme={colorScheme}
+            toggleColorScheme={toggleColorScheme}
           >
               <MantineProvider
-                  theme={{ colorScheme: colorScheme }}
-                  withGlobalStyles
-                  withNormalizeCSS
+                    theme={{ 
+                        colorScheme: colorScheme,
+                        colors: {
+                            orange: ['#EE7416', '#C24B32'],
+                        }
+                    }}
+                    withGlobalStyles
+                    withNormalizeCSS
               >
                   {/* Quando for testar local descomentar a linha abaixo */}
                   {/* <SessionProvider session={session}> */}
