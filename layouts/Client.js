@@ -1,8 +1,8 @@
 import Head from 'next/head';
 import Image from "next/image";
-import SideBarAdmin from '../components/sidebar/sideBarAdmin';
+import SideBar from '../components/sidebar/sideBar';
 
-const AdminLayout = ({ children }) => {
+const ClientLayout = ({ children }) => {
 
     return (
         <div className="min-h-screen flex flex-col">
@@ -13,7 +13,7 @@ const AdminLayout = ({ children }) => {
             
             <div className="flex flex-row justify-between max-h-screen w-full items-start lg:overflow-hidden">
 
-                <SideBarAdmin />
+                <SideBar />
 
                 <section className="ctmain">
                     <div className="ctmain__container scrollbar-thin scrollbar-thumb-green_mid2 scrollbar-track-gray-100 hover:scrollbar-thumb-orange"> {/* s */}
@@ -26,4 +26,4 @@ const AdminLayout = ({ children }) => {
     );
 }
 
-export default AdminLayout
+export default ClientLayout
