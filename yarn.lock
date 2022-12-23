@@ -301,6 +301,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@handsontable/react@npm:^12.3.0":
+  version: 12.3.0
+  resolution: "@handsontable/react@npm:12.3.0"
+  peerDependencies:
+    handsontable: ">=12.0.0"
+  checksum: d5d7519475c8d0a0b73fc07135a12097f19d4392ef2a05dc930a5d98859b17166ccb121d3dace28c618fb4d41d8e52b8674e4829b4e29a945150fb2576326ce2
+  languageName: node
+  linkType: hard
+
 "@humanwhocodes/config-array@npm:^0.11.6":
   version: 0.11.7
   resolution: "@humanwhocodes/config-array@npm:0.11.7"
@@ -791,6 +800,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/pikaday@npm:1.7.4":
+  version: 1.7.4
+  resolution: "@types/pikaday@npm:1.7.4"
+  dependencies:
+    moment: ">=2.14.0"
+  checksum: 9c959b918902bab69f5667675f93e4bf680f33c3d7de1e8040d7bbc717d5c01e1362040642bcdaaaea237b0ecfdcb8788964269e2f27e6731cb37c9c5ec0dc9d
+  languageName: node
+  linkType: hard
+
 "@typescript-eslint/parser@npm:^5.21.0":
   version: 5.46.1
   resolution: "@typescript-eslint/parser@npm:5.46.1"
@@ -1170,6 +1188,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"bignumber.js@npm:^8.0.1":
+  version: 8.1.1
+  resolution: "bignumber.js@npm:8.1.1"
+  checksum: 71544348507cd16c2c152699a8e5146964d9cf4f46108075bcd16a964dffb3963256259fc6ffc9753b4d33dfd0cf863a6b564103a3a20e10002f12a1902e8075
+  languageName: node
+  linkType: hard
+
 "binary-extensions@npm:^2.0.0":
   version: 2.2.0
   resolution: "binary-extensions@npm:2.2.0"
@@ -1304,6 +1329,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"chevrotain@npm:^6.5.0":
+  version: 6.5.0
+  resolution: "chevrotain@npm:6.5.0"
+  dependencies:
+    regexp-to-ast: 0.4.0
+  checksum: ce03cf3874ae1fd91bb57de753ea313442c7d1be04f59ab126c237062b51f5cb3204e9bdbb1b469973c96c1ce0850e83f909bee14a23bb88a0dbbd964e1c2a9e
+  languageName: node
+  linkType: hard
+
 "chokidar@npm:^3.5.3":
   version: 3.5.3
   resolution: "chokidar@npm:3.5.3"
@@ -1433,6 +1467,13 @@ __metadata:
   version: 3.26.1
   resolution: "core-js-pure@npm:3.26.1"
   checksum: d88c40e5e29e413c11d1ef991a8d5b6a63f00bd94707af0f649d3fc18b3524108b202f4ae75ce77620a1557d1ba340bc3362b4f25d590eccc37cf80fc75f7cd4
+  languageName: node
+  linkType: hard
+
+"core-js@npm:^3.0.0":
+  version: 3.26.1
+  resolution: "core-js@npm:3.26.1"
+  checksum: 0a01149f51ff1e9f41d1ea49cc4c9222047949ea597189ede7c4cf8cde3b097766b9c7615acc77c86fe65b4002f20b638a133dfba7b41dba830d707aeeed45ad
   languageName: node
   linkType: hard
 
@@ -1667,6 +1708,13 @@ __metadata:
   dependencies:
     domelementtype: ^2.2.0
   checksum: 4c665ceed016e1911bf7d1dadc09dc888090b64dee7851cccd2fcf5442747ec39c647bb1cb8c8919f8bbdd0f0c625a6bafeeed4b2d656bbecdbae893f43ffaaa
+  languageName: node
+  linkType: hard
+
+"dompurify@npm:^2.1.1":
+  version: 2.4.1
+  resolution: "dompurify@npm:2.4.1"
+  checksum: 1169177465b3cbb25a44322937fba549f6c4e1a91b83245d144471be26619c835cccf0f8e20aa78c25ac11a06efd17cc1b9db9cacadceb78a4c08a1029eafee5
   languageName: node
   linkType: hard
 
@@ -2231,6 +2279,7 @@ __metadata:
     "@emotion/serialize": ^1.1.1
     "@emotion/server": ^11.10.0
     "@emotion/utils": ^1.2.0
+    "@handsontable/react": ^12.3.0
     "@mantine/core": ^5.6.2
     "@mantine/dates": ^5.6.2
     "@mantine/form": ^5.6.2
@@ -2243,6 +2292,8 @@ __metadata:
     dayjs: ^1.11.6
     eslint: 8.26.0
     eslint-config-next: 13.0.0
+    handsontable: ^12.3.0
+    moment: ^2.29.4
     next: 13.0.0
     next-auth: ^4.15.0
     postcss: ^8.4.18
@@ -2457,6 +2508,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"handsontable@npm:^12.3.0":
+  version: 12.3.0
+  resolution: "handsontable@npm:12.3.0"
+  dependencies:
+    "@types/pikaday": 1.7.4
+    core-js: ^3.0.0
+    dompurify: ^2.1.1
+    hyperformula: ^2.0.0
+    moment: 2.29.4
+    numbro: 2.1.2
+    pikaday: 1.8.2
+  dependenciesMeta:
+    hyperformula:
+      optional: true
+  checksum: 3afd9862b372a9f211ae9894a525dd6f65a2507eee7287a8d116584f45eab3ea1fbef3490ab589dbd0a53e497689459bec7b017dc2d9ec2b58ea0c8a6748191d
+  languageName: node
+  linkType: hard
+
 "has-bigints@npm:^1.0.1, has-bigints@npm:^1.0.2":
   version: 1.0.2
   resolution: "has-bigints@npm:1.0.2"
@@ -2613,6 +2682,17 @@ __metadata:
   dependencies:
     ms: ^2.0.0
   checksum: 9c7a74a2827f9294c009266c82031030eae811ca87b0da3dceb8d6071b9bde22c9f3daef0469c3c533cc67a97d8a167cd9fc0389350e5f415f61a79b171ded16
+  languageName: node
+  linkType: hard
+
+"hyperformula@npm:^2.0.0":
+  version: 2.2.0
+  resolution: "hyperformula@npm:2.2.0"
+  dependencies:
+    chevrotain: ^6.5.0
+    tiny-emitter: ^2.1.0
+    unorm: ^1.6.0
+  checksum: 0500b5aa793f0b5b8c2d5d8731c6985fb0c13e267ed78c9da35e4087615939719855d12b3f8a052e993691c20832fcb336950048b901ce2ad31a83bfb162c7ff
   languageName: node
   linkType: hard
 
@@ -3226,6 +3306,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"moment@npm:2.29.4, moment@npm:>=2.14.0, moment@npm:^2.29.4":
+  version: 2.29.4
+  resolution: "moment@npm:2.29.4"
+  checksum: 0ec3f9c2bcba38dc2451b1daed5daded747f17610b92427bebe1d08d48d8b7bdd8d9197500b072d14e326dd0ccf3e326b9e3d07c5895d3d49e39b6803b76e80e
+  languageName: node
+  linkType: hard
+
 "ms@npm:2.0.0":
   version: 2.0.0
   resolution: "ms@npm:2.0.0"
@@ -3435,6 +3522,15 @@ __metadata:
     gauge: ^4.0.3
     set-blocking: ^2.0.0
   checksum: ae238cd264a1c3f22091cdd9e2b106f684297d3c184f1146984ecbe18aaa86343953f26b9520dedd1b1372bc0316905b736c1932d778dbeb1fcf5a1001390e2a
+  languageName: node
+  linkType: hard
+
+"numbro@npm:2.1.2":
+  version: 2.1.2
+  resolution: "numbro@npm:2.1.2"
+  dependencies:
+    bignumber.js: ^8.0.1
+  checksum: b7d7e53503e2fad3fb530f0b5179c8c1ae7cc9ec5604b7dd290636abe5162c43db82a76b853cbc8d9d9c74856ae31b9f1d4359ec6c3c2b9a30c2be55f5c309a8
   languageName: node
   linkType: hard
 
@@ -3685,6 +3781,13 @@ __metadata:
   version: 2.3.0
   resolution: "pify@npm:2.3.0"
   checksum: 9503aaeaf4577acc58642ad1d25c45c6d90288596238fb68f82811c08104c800e5a7870398e9f015d82b44ecbcbef3dc3d4251a1cbb582f6e5959fe09884b2ba
+  languageName: node
+  linkType: hard
+
+"pikaday@npm:1.8.2":
+  version: 1.8.2
+  resolution: "pikaday@npm:1.8.2"
+  checksum: 579e9397f4f40cf98879b41dcc958d2a055aac213e9c3a5cee3e81585e72d4c925facbd9942453a873053ca957407d9ed0cbd226c165fd59cab5b780b7db718a
   languageName: node
   linkType: hard
 
@@ -4011,6 +4114,13 @@ __metadata:
   version: 0.13.11
   resolution: "regenerator-runtime@npm:0.13.11"
   checksum: 27481628d22a1c4e3ff551096a683b424242a216fee44685467307f14d58020af1e19660bf2e26064de946bad7eff28950eae9f8209d55723e2d9351e632bbb4
+  languageName: node
+  linkType: hard
+
+"regexp-to-ast@npm:0.4.0":
+  version: 0.4.0
+  resolution: "regexp-to-ast@npm:0.4.0"
+  checksum: 0f42d802b6259dcd442f79460d8764aa39165323098a6346aded67957816eb2d007ab09e6c674448425df8f721692258c87b51b1ce75c5df23b390dbb36056c0
   languageName: node
   linkType: hard
 
@@ -4531,6 +4641,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tiny-emitter@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "tiny-emitter@npm:2.1.0"
+  checksum: fbcfb5145751a0e3b109507a828eb6d6d4501352ab7bb33eccef46e22e9d9ad3953158870a6966a59e57ab7c3f9cfac7cab8521db4de6a5e757012f4677df2dd
+  languageName: node
+  linkType: hard
+
 "to-fast-properties@npm:^2.0.0":
   version: 2.0.0
   resolution: "to-fast-properties@npm:2.0.0"
@@ -4627,6 +4744,13 @@ __metadata:
   dependencies:
     imurmurhash: ^0.1.4
   checksum: 49f8d915ba7f0101801b922062ee46b7953256c93ceca74303bd8e6413ae10aa7e8216556b54dc5382895e8221d04f1efaf75f945c2e4a515b4139f77aa6640c
+  languageName: node
+  linkType: hard
+
+"unorm@npm:^1.6.0":
+  version: 1.6.0
+  resolution: "unorm@npm:1.6.0"
+  checksum: 9a86546256a45f855b6cfe719086785d6aada94f63778cecdecece8d814ac26af76cb6da70130da0a08b8803bbf0986e56c7ec4249038198f3de02607fffd811
   languageName: node
   linkType: hard
 

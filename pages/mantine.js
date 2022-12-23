@@ -5,8 +5,31 @@ import { ActionIcon } from '@mantine/core';
 import { IconInfoCircle } from '@tabler/icons';
 import { useForm } from "@mantine/form";
 
-export default function Mantine() {
+import { useState } from "react";
+import dynamic from "next/dynamic";
 
+export default function Mantine() {
+    // HotTable failed during the ssr
+    const DynamicComponentWithNoSSR = dynamic(
+        () => import("@handsontable/react").then((mod) => mod.HotTable),
+        { ssr: false }
+    );
+
+    const DATA = [
+        ["", "Tesla", "Mercedes", "Toyota", "Volvo"],
+        ["2019", 10, 11, 12, 13],
+        ["2020", 20, 11, 14, 13],
+        ["2021", 30, 15, 12, 13],
+    ];
+
+    const [data, setData] = useState(DATA);
+    const onBeforeHotChange = (changes, source) => {
+        const newData = data.slice(0);
+        changes.forEach((change) => {
+            newData[change[0]][change[1]] = change[3];
+        });
+        setData(newData);
+    };
 
     const rightSection = (
         <Tooltip
@@ -15,7 +38,7 @@ export default function Mantine() {
             withArrow
             transition="pop-bottom-right"
         >
-            <Text color="dimmed" sx={{ cursor: 'help' }}>
+            <Text color="dimmed" sx={{ cursor: "help" }}>
                 <Center>
                     <IconInfoCircle size={18} stroke={2} />
                 </Center>
@@ -25,39 +48,41 @@ export default function Mantine() {
 
     const form = useForm({
         initialValues: {
-            email: '',
-            termsOfService: false
+            email: "",
+            termsOfService: false,
         },
 
         validate: {
-            email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Email inválido'),
-            termsOfService: (value) => (value === true ? null : 'Necessário aceitar' )
+            email: (value) =>
+                /^\S+@\S+$/.test(value) ? null : "Email inválido",
+            termsOfService: (value) =>
+                value === true ? null : "Necessário aceitar",
         },
     });
 
     const handleSubmit = (values) => console.log(values);
 
     const handleError = (errors) => {
-        console.log(errors)
+        console.log(errors);
         console.log(errors.termsOfService);
-        if(errors.termsOfService) {
-            console.log('precisava aceitar');
+        if (errors.termsOfService) {
+            console.log("precisava aceitar");
             setTimeout(() => {
-                showNotification({ message: 'Necessário aceitar os termos', color: 'red' });
+                showNotification({
+                    message: "Necessário aceitar os termos",
+                    color: "red",
+                });
             }, 200);
         }
     };
 
-
     return (
         <>
-            <Head>
-                Mantine
-            </Head>
+            <Head>Mantine</Head>
 
             <Box sx={{ maxWidth: 300 }} mx="auto">
                 <form onSubmit={form.onSubmit(handleSubmit, handleError)}>
-                    <TextInput 
+                    <TextInput
                         // variant="headless" //remover estilos do mantine
                         withAsterisk
                         label="Email"
@@ -65,17 +90,21 @@ export default function Mantine() {
                         rightSection={rightSection}
                         size="md"
                         error="error text"
-                        {...form.getInputProps('email')}
+                        {...form.getInputProps("email")}
                     />
 
                     <Checkbox
                         mt="md"
                         label="Aceito os termos"
-                        {...form.getInputProps('termsOfService', { type: 'checkbox' })}
+                        {...form.getInputProps("termsOfService", {
+                            type: "checkbox",
+                        })}
                     />
 
                     <Group position="right" mt="md">
-                        <Button color="orange" variant="default" type="submit">Submit</Button>
+                        <Button color="orange" variant="default" type="submit">
+                            Submit
+                        </Button>
                     </Group>
                 </form>
             </Box>
@@ -100,6 +129,17 @@ export default function Mantine() {
                     /> */}
                 </div>
             </div>
+
+            <DynamicComponentWithNoSSR
+                licenseKey="non-commercial-and-evaluation"
+                data={data}
+                beforeChange={onBeforeHotChange}
+                colHeaders={["", "", "", "合計", "2020/1"]}
+                rowHeaders={true}
+                contextMenu={true}
+                width="600"
+                height="300"
+            />
         </>
     );
 }
