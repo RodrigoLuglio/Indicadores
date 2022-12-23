@@ -32,23 +32,21 @@ const SideBar = () => {
                     <Logo />
 
                     <nav>
-                        
                         <HamburgerMenu />
 
                         <ul className="ul-main mt-20 lg:mt-0 w-full">
-                            <LinkItem link="/mantine" label="Dashboard" icon={<Gear className="group-hover:fill-orange" />} />
+                            <LinkItem link="/dashboard" label="Dashboard" icon={<Gear className="group-hover:fill-orange" />} />
                             <LinkItemSubmenu label="Incluir" subLabel="Normas:" icon={<Profile className="group-hover:fill-orange" />} subItens={subitens} />
                             <LinkItem link="/mantine" label="Consultar" icon={<Research className="group-hover:fill-orange" />} />
-                            <LinkItem link="/mantine" label="Status" icon={<Status className="group-hover:fill-orange" />} />
+                            <LinkItem link="/status" label="Status" icon={<Status className="group-hover:fill-orange" />} />
                         </ul>
-
+                        
                         <div className='flex flex-col justify-start'>
                             <BoxHelp />
                             <ul className="ul-main w-full pb-4">
                                 <LinkItem link="/mantine" label="Sair" icon={<Logout className="group-hover:stroke-orange -translate-x-[5px]" />} />
                             </ul>
                         </div>
-
                     </nav>
                 </div>
             </div> 

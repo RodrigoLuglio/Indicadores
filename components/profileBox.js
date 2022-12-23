@@ -9,9 +9,10 @@ const ProfileBox = ({user}) => {
                 <img src={avatar} className="w-full" alt="" />
             </div>
             <div className="relative flex flex-col min-w-[130px]">
-                <span className="text-paragraph font-gotham text-sm md:text-xl block leading-none">Olá,</span>
+                <div className="text-paragraph font-gotham leading-tight text-sm md:text-[19px]">Olá,</div>
+
                 <div className="flex flex-col sm:flex-row justify-start items-start sm:items-center">
-                    <div className="text-paragraph font-gotham_bold text-lg md:text-2xl block leading-none mr-2">{name}</div>
+                    <div className="text-[15px] font-gotham_bold text-lg md:text-2xl block leading-none -translate-y-[2px] mr-2">{name}</div>
                     {(role == 'Admin') && 
                         <div className="bg-orange text-white text-[11px] md:text-[12px] font-gotham_bold px-2 py-px rounded-full">{role}</div>
                     }

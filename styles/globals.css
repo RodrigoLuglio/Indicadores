@@ -275,7 +275,36 @@ a {
         @apply relative w-full rounded-lg bg-white hover:shadow-tbrow transition-all duration-300 px-2 py-3 flex-col justify-center items-start;
     }
 
+    .rowGridHoriz {
+        @apply relative w-full rounded-lg bg-white hover:shadow-tbrow transition-all duration-300 px-3 py-4 flex justify-between items-center;
+    }
+
+    .rowGridLower {
+        @apply relative w-full rounded-lg bg-white hover:shadow-tbrow transition-all duration-300 px-2 py-2 flex-col justify-center items-start;
+    }
+
     .tb_waiting {
         @apply w-full border border-blue-500 !important;
+    }
+
+    .formLabel {
+        @apply font-gotham_medium text-sm pl-[6px] leading-[1.35] mb-[5px] text-[#596983];
+        span {
+            @apply font-gotham;
+        }
+    }
+
+    form {
+        button[type="submit"] {
+            @apply bg-green_light text-white rounded-lg border-green_light border-2 hover:bg-white hover:text-green_light transition-all duration-300 px-8 h-9 mb-10;
+        }
+    }
+
+    .acc-content {
+        @apply relative w-full border border-red-500 h-0 overflow-hidden transition-all duration-300;
+    }
+
+    .acc-content.opened {
+        @apply h-auto;
     }
 }

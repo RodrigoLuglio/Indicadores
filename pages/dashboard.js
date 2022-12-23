@@ -1,15 +1,10 @@
 import Layout from '../layouts/Client'
 import HelloBar from "../components/helloBar";
 import StatusCard from "../components/statusCard";
-import ViewBtn from "../components/buttons/viewBtn";
-import {IconCardClientes, IconCardIndAbertos, IconCardIndFinalizados, IconCardAguardVerificacao, IconGri, GetNormasIcon} from "../components/icons";
+import {IconCardClientes, IconCardIndAbertos, IconCardIndFinalizados, IconCardAguardVerificacao } from "../components/icons";
 import { BlockTitle } from "../components/titles";
-import { Tbhr, FullCard, StatusBall } from "../components/misc";
-import { Slider, createStyles } from '@mantine/core';
-import { marks, progressStyles } from "../services/progress";
-
-const useStyles = createStyles((theme) => progressStyles(theme) );
-
+import { IndicSectionHead, IndicSectionItem } from "../components/indicadores";
+import ProgressBar from "../components/progressBar";
 
 export default function ClientDashboard() {
 
@@ -20,11 +15,14 @@ export default function ClientDashboard() {
     }
 
     const items = [
-        { title: 'Incluir', href: null },
-        { title: 'GRI', href: '/incluir/gri' },
+        { title: 'Dashboard', href: null },
+        // { title: 'GRI', href: '/incluir/gri' },
     ];
 
-    const { classes } = useStyles();
+    const company = {
+        name: 'Noctua.Art LTDA',
+        avatar: 'https://pbs.twimg.com/profile_images/636661084720500737/_QglFGym_400x400.jpg'
+    }
 
     return (
         <>
@@ -39,50 +37,23 @@ export default function ClientDashboard() {
 
             <section className="w-full mt-16">
                 <BlockTitle>Progresso Preenchimento</BlockTitle>
-                <FullCard>
-                    <div className="relative w-full flex items-center justify-end py-6">
-                        <div className="absolute top-5 left-0 w-[30px] h-[30px] rounded-lg bg-red-300 -translate-y-4 overflow-hidden">
-                            <img src="https://pbs.twimg.com/profile_images/636661084720500737/_QglFGym_400x400.jpg" className="object-cover object-center w-full"  alt="" />
-                        </div>
-                        <div className="absolute top-1 left-10 font-gotham_medium text-paragraph text-sm">Lorem Ipsum LTDA</div>
-                        <div className="w-progressbar">
-                            <Slider
-                                color="gray"
-                                marks={marks}
-                                classNames={{
-                                    track: classes.track,
-                                    bar: classes.bar,
-                                    mark: classes.mark,
-                                    markFilled: classes.markFilled,
-                                    markLabel: classes.markLabel,
-                                    thumb: classes.thumb
-                                }}
-                                value={20}
-                            />
-                        </div>
-                    </div>
-                </FullCard>
+                <ProgressBar value="25" company={company} />
             </section>
 
             
             <section className="mt-16">
+                <IndicSectionHead title="GRI 2: Conteúdos Gerais 2021" />
+                <IndicSectionItem number="2.1" title="Detalhe da Organização" status="Finalizado" />
+                <IndicSectionItem number="2.2" title="Entidades incluídas no relatório de sustentabilidade da organização" status="Incompleto" />
+                
+                <IndicSectionItem number="2.3" title="Período do relatório, frequência e ponto de contato" status="Sem informação" />
+                <IndicSectionItem number="2.4" title="Entidades incluídas no relatório de sustentabilidade da organização" status="Sem informação" />
 
-                <div className="tableGrid">
-                    <div className="col-span-8 tableH2 pl-2"><h2>GRI 2:  Conteúdos Gerais 2021</h2></div>
-                    <div className="col-span-3 tableHead">Status</div>
-                    <div className="col-span-1 tableHead mx-auto">Ações</div>
-                </div>
-                <Tbhr />
-                <div className="rowGrid">
-                    <div className="tableGrid">
-                        <div className="col-span-8 2xl:col-span-9 flex flex-col justify-center">
-                            
-                        </div>
-                        <div className="col-span-3 2xl:col-span-2 flex justify-start items-center"><StatusBall status="finalizado" withLabel /></div>
-                        <div className="col-span-1 flex justify-center items-center"><ViewBtn link="/" /></div>
-                    </div>
-                </div>
-                <Tbhr />
+                <br /><br />
+                <IndicSectionHead title="GRI 3: Temas Materiais" />
+                <IndicSectionItem number="3.1" title="Processo para determinar os temas materiais" status="aprovado" />
+                <IndicSectionItem number="3.2" title="Lista dos tópicos materiais" status="sem informação" />
+
             </section>
         </>
     )
