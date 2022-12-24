@@ -17,6 +17,8 @@ module.exports = {
                 green_mid2: "#388286",
                 green_aqua: "#01D7DF",
                 green_dark: "#0B3C3F",
+                green_input: "#CCE3E9",
+                green_input_focus: "#F4F8F8",
 
                 orange: "#EE7416",
                 orange_dark: "#C24B32",
@@ -24,7 +26,9 @@ module.exports = {
                 paragraph: "#404059",
                 gray2: "#A5B4CB",
                 gray3: "#7D8DA6",
-                
+
+                blue1: "#007EC6",
+                red1: "#B31717",
             },
             backgroundImage: () => ({
                 login: "url('/imgs/login-bg.jpg')",

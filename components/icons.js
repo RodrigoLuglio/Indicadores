@@ -35,9 +35,9 @@ export const Status = ({className}) => {
 export const Logout = ({className}) => { 
     return (
         <svg width="24" height="25" className={`stroke-green_light transition-all duration-300 ${className}`} viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M7.90002 7.66998C8.21002 4.06998 10.06 2.59998 14.11 2.59998H14.24C18.71 2.59998 20.5 4.38998 20.5 8.85998V15.38C20.5 19.85 18.71 21.64 14.24 21.64H14.11C10.09 21.64 8.24002 20.19 7.91002 16.65" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M3 12.11L14 12.11" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M11.65 8.75998L15 12.11L11.65 15.46" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M7.90002 7.66998C8.21002 4.06998 10.06 2.59998 14.11 2.59998H14.24C18.71 2.59998 20.5 4.38998 20.5 8.85998V15.38C20.5 19.85 18.71 21.64 14.24 21.64H14.11C10.09 21.64 8.24002 20.19 7.91002 16.65" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M3 12.11L14 12.11" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M11.65 8.75998L15 12.11L11.65 15.46" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
     );
 }
