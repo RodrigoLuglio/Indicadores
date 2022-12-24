@@ -22,6 +22,11 @@ export default function Indicadores({ padroesData, padroesSelectData }) {
         validate: {},
     });
 
+    const padroesSubmit = padroesForm.onSubmit(
+        (values) => console.log(values),
+        (errors) => console.log(errors)
+    );
+
     useEffect(() => {
         if (selectedPadrao != undefined) {
             const dadosPadrao = padroesData.filter((padrao) => {
@@ -33,13 +38,6 @@ export default function Indicadores({ padroesData, padroesSelectData }) {
                 numero: dadosPadrao[0].attributes.numero,
                 nome: dadosPadrao[0].attributes.nome,
             };
-
-            console.log(padrao);
-            // padroesForm.setFieldValue(
-            //     "numero",
-            //     dadosPadrao[0].attributes.numero
-            // );
-            // padroesForm.setFieldValue("nome", dadosPadrao[0].attributes.nome);
             padroesForm.setValues(padrao);
         }
     }, [selectedPadrao]);
@@ -63,11 +61,7 @@ export default function Indicadores({ padroesData, padroesSelectData }) {
                     />
                     <div className="">
                         <h3>Adicionar ou editar Padrões</h3>
-                        <form
-                            onSubmit={padroesForm.onSubmit((values) =>
-                                console.log(values)
-                            )}
-                        >
+                        <form onSubmit={padroesSubmit}>
                             <TextInput
                                 hidden
                                 {...padroesForm.getInputProps("id")}
