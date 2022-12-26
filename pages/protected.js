@@ -19,6 +19,8 @@ export default function Protected() {
 
 export const getServerSideProps = async (context) => {
     const session = await getSession(context);
+
+    console.log('session: ', session)
     // Check if session exists and if the user is Admin, if not, redirect
     if (session == null || session.user.role != "Admin") {
         return {

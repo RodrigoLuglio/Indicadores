@@ -66,12 +66,12 @@ export const IndicSectionItem = ({number, title, status}) => {
         <>
             <div className="rowGridLower cursor-pointer" onClick={() => setOpened((o) => !o)}>
                 <div className="tableGrid">
-                    <div className="col-span-8 2xl:col-span-9 flex justify-start items-center pr-4">
+                    <div className="col-span-9 lg:col-span-8 2xl:col-span-9 flex justify-start items-center pr-4">
                         <span className="font-gotham_bold text-green_light text-lg mr-4">{number}</span>
                         <span className="font-gotham_medium text-[15px] text-paragraph leading-tight">{title}</span>
                     </div>
-                    <div className="col-span-3 2xl:col-span-2 flex justify-start items-center"><StatusBall status={status} withLabel /></div>
-                    <div className="col-span-1 flex justify-center items-center"><ViewBtn link="/" /></div>
+                    <div className="col-span-1 lg:col-span-3 2xl:col-span-2 flex justify-start items-center"><StatusBall status={status} withLabel /></div>
+                    <div className="col-span-2 lg:col-span-1 flex justify-center items-center"><ViewBtn link="/" /></div>
                 </div>
             </div>
 

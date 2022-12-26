@@ -1,12 +1,14 @@
 /** @type {import('next').NextConfig} */
+
+const basepath = (process.env.NODE_ENV == 'development') ? "" : "/indicadores/api/auth";
+
 const nextConfig = {
     reactStrictMode: true,
     swcMinify: true,
     images: {
         unoptimized: true,
     },
-    // Descomentar para fazer push para o servidor | Comentar para teste local
-    basePath: "/indicadores",
+    basePath: basepath,
 };
 
 module.exports = nextConfig

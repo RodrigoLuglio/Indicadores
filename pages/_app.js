@@ -8,6 +8,8 @@ import { NotificationsProvider } from "@mantine/notifications";
 import PresenceTheme from "../services/presenceTheme";
 
 
+
+
     function MyApp({ Component, pageProps: { session, ...pageProps } }) {
         const [colorScheme, setColorScheme] = useState("light");
         const toggleColorScheme = (value) =>
@@ -16,6 +18,8 @@ import PresenceTheme from "../services/presenceTheme";
             );
 
         const getLayout = Component.getLayout || ((page) => page);
+
+        const basepath = (process.env.NODE_ENV == 'development') ? null : "/indicadores/api/auth";
 
         return (
             <>
@@ -28,13 +32,7 @@ import PresenceTheme from "../services/presenceTheme";
                         withGlobalStyles
                         withNormalizeCSS
                     >
-                        {/* Quando for testar local descomentar a linha abaixo */}
-                        {/* <SessionProvider session={session}> */}
-                        {/* Quando for fazer push para o servidor descomentar a linha abaixo */}
-                        <SessionProvider
-                            session={session}
-                            basePath="/indicadores/api/auth"
-                        >
+                        <SessionProvider session={session} basePath={basepath}>
                             <NotificationsProvider position="top-right">
                                 {getLayout(<Component {...pageProps} />)}
                             </NotificationsProvider>
