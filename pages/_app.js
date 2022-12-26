@@ -32,17 +32,7 @@ import PresenceTheme from "../services/presenceTheme";
                         withGlobalStyles
                         withNormalizeCSS
                     >
-<<<<<<< HEAD
-                        {/* Quando for testar local descomentar a linha abaixo */}
-                        <SessionProvider session={session}>
-                            {/* Quando for fazer push para o servidor descomentar a linha abaixo */}
-                            {/* <SessionProvider
-                            session={session}
-                            basePath="/indicadores/api/auth"
-                        > */}
-=======
                         <SessionProvider session={session} basePath={basepath}>
->>>>>>> 697c15c1a375cabb4f0a6a2cc24abecb84c5abe7
                             <NotificationsProvider position="top-right">
                                 {getLayout(<Component {...pageProps} />)}
                             </NotificationsProvider>
