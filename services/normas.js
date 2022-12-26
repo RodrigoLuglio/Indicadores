@@ -15,7 +15,7 @@ export async function getPadroes(jwt) {
     }
 }
 export async function addUpPadrao(jwt, dados) {
-    if (dados.id == null) {
+    if (dados.id == "") {
         try {
             const res = await axios.post(api + "padroes", {
                 headers: {

@@ -29,12 +29,12 @@ import PresenceTheme from "../services/presenceTheme";
                         withNormalizeCSS
                     >
                         {/* Quando for testar local descomentar a linha abaixo */}
-                        {/* <SessionProvider session={session}> */}
-                        {/* Quando for fazer push para o servidor descomentar a linha abaixo */}
-                        <SessionProvider
+                        <SessionProvider session={session}>
+                            {/* Quando for fazer push para o servidor descomentar a linha abaixo */}
+                            {/* <SessionProvider
                             session={session}
                             basePath="/indicadores/api/auth"
-                        >
+                        > */}
                             <NotificationsProvider position="top-right">
                                 {getLayout(<Component {...pageProps} />)}
                             </NotificationsProvider>

@@ -15,6 +15,7 @@ export default function Indicadores({ padroesData, padroesSelectData }) {
     const [selectedPadrao, setSelectedPadrao] = useState(null);
     const padroesForm = useForm({
         initialValues: {
+            id: "",
             numero: "",
             nome: "",
         },
@@ -23,7 +24,9 @@ export default function Indicadores({ padroesData, padroesSelectData }) {
     });
 
     const padroesSubmit = padroesForm.onSubmit(
-        (values) => console.log(values),
+        (values) => {
+            console.log("Form Values -> ", values);
+        },
         (errors) => console.log(errors)
     );
 
@@ -33,12 +36,12 @@ export default function Indicadores({ padroesData, padroesSelectData }) {
                 return padrao.attributes.numero == selectedPadrao;
             });
 
-            const padrao = {
+            const padraoSelecionado = {
                 id: dadosPadrao[0].id,
                 numero: dadosPadrao[0].attributes.numero,
                 nome: dadosPadrao[0].attributes.nome,
             };
-            padroesForm.setValues(padrao);
+            padroesForm.setValues(padraoSelecionado);
         }
     }, [selectedPadrao]);
 
