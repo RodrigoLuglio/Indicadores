@@ -36,7 +36,7 @@ export const StatusBall = ({status, withLabel}) => {
         <div className={`${ withLabel && 'flex justify-start items-center '}`}>
             <div className={`rounded-full w-[18px] h-[18px] block ${bg}`}></div>
             { withLabel && 
-                <div className={`ml-2 font-gotham_medium text-sm leading-none ${color}`}>
+                <div className={`hidden lg:block ml-2 font-gotham_medium text-sm leading-none ${color}`}>
                     {status.charAt(0).toUpperCase() + status.slice(1)}
                 </div> 
             }
