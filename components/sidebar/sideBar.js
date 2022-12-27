@@ -1,10 +1,11 @@
 import Image from "next/image";
 import HamburgerMenu from './hamburgerMenu';
-import { Gear, Research, Status, Profile, Logout } from '../icons';
+import { Gear, Research, Status, Profile } from '../icons';
 import LinkItem from './linkItem';
 import LinkItemSubmenu from './linkItemSubmenu';
 import BoxHelp from './boxHelp';
 import Logo from './logo';
+import LogOut from './logOut'
 
 
 const SideBar = () => {
@@ -43,9 +44,7 @@ const SideBar = () => {
                         
                         <div className='flex flex-col justify-start'>
                             <BoxHelp />
-                            <ul className="ul-main w-full pb-4">
-                                <LinkItem link="/mantine" label="Sair" icon={<Logout className="group-hover:stroke-orange -translate-x-[5px]" />} />
-                            </ul>
+                            <LogOut />
                         </div>
                     </nav>
                 </div>

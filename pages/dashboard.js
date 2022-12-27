@@ -14,7 +14,7 @@ export default function ClientDashboard() {
         avatar: 'https://source.unsplash.com/gySMaocSdqs/50x50'
     }
 
-    const items = [
+    const breads = [
         { title: 'Dashboard', href: null },
         // { title: 'GRI', href: '/incluir/gri' },
     ];
@@ -26,7 +26,7 @@ export default function ClientDashboard() {
 
     return (
         <>
-            <HelloBar user={user} breadcrumbs={items} />
+            <HelloBar user={user} breadcrumbs={breads} />
 
             <section className="cardsGrid">
                 <StatusCard title="Total" subTitle="clientes" val="24" bgIcon="bg-orange" icon={<IconCardClientes /> } />

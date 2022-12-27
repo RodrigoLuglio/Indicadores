@@ -12,34 +12,46 @@ const HelloBar = ({ user, breadcrumbs }) => {
     
     const items = (breadcrumbs) ? 
             breadcrumbs.map((item, index, {length}) => (
-                    <Anchor 
-                        href={item.href} 
-                        key={index} 
-                        className={`${(length - 1 === index) ? 'text-green_light' : 'text-green_mid'} font-gotham_medium text-[28px]`}
-                        >
-                        {item.title}
-                    </Anchor>
+                    <>
+                        { (length - 1 !== index) ? '' : <span className="absolute bottom-2 text-green_light">{`>`}</span> }
+                        <Anchor 
+                            href={item.href} 
+                            key={index} 
+                            className={`
+                                ${(length - 1 === index) ? 'text-green_light text-lg lg:text-[26px] pl-3' : 'text-green_mid text-base'} 
+                                font-gotham_medium leading-none`}
+                            >
+                            {item.title} 
+                        </Anchor> 
+                    </>
                 )) : null;
     
 
     return (
-        <div className={`flex ${(role != 'Admin') && `flex-row-reverse` } justify-between items-center`}>
+        // <div className={`flex ${(role != 'Admin') && `flex-row-reverse` } justify-between items-center`}>
+        <div className={`flex justify-between items-center`}>
             
-            <ProfileBox user={user} />
+            <Breadcrumbs separator=">">
+                <div className="flex flex-col relative">
+                    {items}
+                </div>
+            </Breadcrumbs>
 
             <div className="hidden md:block">
                 { (role == 'Admin')
                     ? 
-                        <SolidGreen link="/novo-cliente" label="Novo Cliente" icon={<IconProfileBall className="fill-green_light" />} />
+                        <></>
                     : ( items &&
                         <>
-                            <Breadcrumbs separator=">">{items}</Breadcrumbs>
+                            
                         </>
                     )
                 }
 
-
             </div>
+
+            <ProfileBox user={user} />
+
         </div>
     )
 }
