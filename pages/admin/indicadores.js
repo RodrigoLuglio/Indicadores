@@ -5,13 +5,15 @@ import Layout from "../../layouts/Admin";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { getToken } from "next-auth/jwt";
+import { useSession } from "next-auth/react";
 import { Select, TextInput, Button, Group } from "@mantine/core";
 import { useForm } from "@mantine/form";
 
-import { getPadroes } from "../../services/normas";
+import { getPadroes, addUpPadrao, deletePadrao } from "../../services/normas";
 
-export default function Indicadores({ padroesData, padroesSelectData }) {
+export default function Indicadores({ padroesData, padroesSelectData, jwt }) {
     const [padroes, setPadroes] = useState(padroesData);
+    const [padroesSelect, setPadroesSelect] = useState(padroesSelectData);
     const [selectedPadrao, setSelectedPadrao] = useState(null);
     const padroesForm = useForm({
         initialValues: {
@@ -23,17 +25,39 @@ export default function Indicadores({ padroesData, padroesSelectData }) {
         validate: {},
     });
 
+    const updatePadroesData = async () => {
+        const padroesSelectDados = [];
+        const padroesDados = await getPadroes(jwt);
+        setPadroes(padroesDados.data);
+
+        padroesDados.data.forEach((padrao) => {
+            padroesSelectDados.push({
+                valor: padrao.attributes.numero,
+                value: padrao.id,
+                text: padrao.attributes.nome,
+                label: `${padrao.attributes.numero}. ${padrao.attributes.nome}`,
+            });
+        });
+        setPadroesSelect(padroesSelectDados);
+    };
+
     const padroesSubmit = padroesForm.onSubmit(
-        (values) => {
-            console.log("Form Values -> ", values);
+        async (values) => {
+            const res = await addUpPadrao(jwt, values);
+            await updatePadroesData();
         },
         (errors) => console.log(errors)
     );
 
+    const novoPadrao = () => {
+        padroesForm.reset();
+        setSelectedPadrao(null);
+    };
+
     useEffect(() => {
         if (selectedPadrao != undefined) {
-            const dadosPadrao = padroesData.filter((padrao) => {
-                return padrao.attributes.numero == selectedPadrao;
+            const dadosPadrao = padroes.filter((padrao) => {
+                return padrao.id == selectedPadrao;
             });
 
             const padraoSelecionado = {
@@ -42,6 +66,8 @@ export default function Indicadores({ padroesData, padroesSelectData }) {
                 nome: dadosPadrao[0].attributes.nome,
             };
             padroesForm.setValues(padraoSelecionado);
+        } else {
+            padroesForm.reset();
         }
     }, [selectedPadrao]);
 
@@ -54,14 +80,25 @@ export default function Indicadores({ padroesData, padroesSelectData }) {
                 <h1>Normas e indicadores</h1>
                 <div className="">
                     <h2>Padrões</h2>
-                    <Select
-                        searchable
-                        clearable
-                        placeholder="Selecione um padrão"
-                        data={padroesSelectData}
-                        value={selectedPadrao}
-                        onChange={setSelectedPadrao}
-                    />
+                    <div className="flex flex-row space-x-4">
+                        <Select
+                            className="flex-grow"
+                            searchable
+                            clearable
+                            placeholder="Selecione um padrão"
+                            data={padroesSelect}
+                            value={selectedPadrao}
+                            onChange={setSelectedPadrao}
+                            on
+                        />
+                        <Button
+                            className="bg-green_light text-white rounded-lg border-green_light border-2 hover:bg-white hover:text-green_light transition-all duration-300 "
+                            onClick={novoPadrao}
+                        >
+                            +
+                        </Button>
+                    </div>
+
                     <div className="">
                         <h3>Adicionar ou editar Padrões</h3>
                         <form onSubmit={padroesSubmit}>
@@ -83,7 +120,7 @@ export default function Indicadores({ padroesData, padroesSelectData }) {
                             />
 
                             <Group position="right" mt="md">
-                                <Button type="submit">Submit</Button>
+                                <Button type="submit">Salvar</Button>
                             </Group>
                         </form>
                     </div>
@@ -106,7 +143,8 @@ export async function getServerSideProps(context) {
 
     padroes.data.forEach((padrao) => {
         padroesSelectData.push({
-            value: padrao.attributes.numero,
+            valor: padrao.attributes.numero,
+            value: padrao.id,
             text: padrao.attributes.nome,
             label: `${padrao.attributes.numero}. ${padrao.attributes.nome}`,
         });
@@ -114,6 +152,7 @@ export async function getServerSideProps(context) {
 
     return {
         props: {
+            jwt: session.jwt,
             padroesData: padroes.data,
             padroesSelectData: padroesSelectData,
         },
