@@ -1,3 +1,6 @@
+import { getSession } from "next-auth/react";
+import { checkUserRole } from "../services/auth";
+
 import Layout from '../layouts/Client'
 import HelloBar from "../components/helloBar";
 import StatusCard from "../components/statusCard";
@@ -6,13 +9,13 @@ import { BlockTitle } from "../components/titles";
 import { IndicSectionHead, IndicSectionItem } from "../components/indicadores";
 import ProgressBar from "../components/progressBar";
 
-export default function ClientDashboard() {
+export default function ClientDashboard({user}) {
 
-    const user = {
-        name: 'Iury Nadin',
-        role: 'CAdmin',
-        avatar: 'https://source.unsplash.com/gySMaocSdqs/50x50'
-    }
+    // const user = {
+    //     name: 'Iury Nadin',
+    //     role: 'CAdmin',
+    //     avatar: 'https://source.unsplash.com/gySMaocSdqs/50x50'
+    // }
 
     const breads = [
         { title: 'Dashboard', href: null },
@@ -62,4 +65,17 @@ export default function ClientDashboard() {
 
 ClientDashboard.getLayout = function getLayout(page) {
     return <Layout>{page}</Layout>
+}
+
+export const getServerSideProps = async (context) => {
+    const session = await getSession(context);
+
+    const returnedObj = checkUserRole (session, "CAdmin");
+    if(returnedObj != null) return returnedObj;
+
+    return {
+        props: {
+            user: session.user
+        }
+    }
 }

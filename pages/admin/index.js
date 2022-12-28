@@ -1,15 +1,14 @@
 import Head from "next/head";
 
 import { getSession } from "next-auth/react";
-import { useSession } from "next-auth/react";
-import { useEffect } from "react";
+import { checkUserRole } from "../../services/auth";
 
 import Layout from '../../layouts/Admin'
 import HelloBar from "../../components/helloBar";
 import StatusCard from "../../components/statusCard";
 import DeleteBtn from "../../components/buttons/deleteBtn";
 import ViewBtn from "../../components/buttons/viewBtn";
-import {IconCardClientes, IconCardIndAbertos, IconCardIndFinalizados, IconCardAguardVerificacao, IconGri, GetNormasIcon} from "../../components/icons";
+import { IconCardClientes, IconCardIndAbertos, IconCardIndFinalizados, IconCardAguardVerificacao, IconGri, GetNormasIcon } from "../../components/icons";
 import { BlockTitle } from "../../components/titles";
 import { Tbhr, StatusBall, AvatarCompany } from "../../components/misc";
 
@@ -168,17 +167,13 @@ AdminDashboard.getLayout = function getLayout(page) {
 
 export const getServerSideProps = async (context) => {
     const session = await getSession(context);
-    if (session == null || session.user.role != "Admin") {
-        return {
-            redirect: {
-                destination: "/auth/not-authenticated",
-                permanent: true,
-            },
-        };
-    } 
+
+    const returnedObj = checkUserRole (session, "Admin");
+    if(returnedObj != null) return returnedObj;
+
     return {
         props: {
             user: session.user
-        },
-    };
+        }
+    }
 }

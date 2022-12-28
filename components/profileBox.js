@@ -18,7 +18,7 @@ const ProfileBox = ({user}) => {
                     }
                 </div>
                 {(role != 'Admin') &&
-                    <div className="absolute top-[2px] right-2 bg-orange text-white text-[11px] md:text-[12px] font-gotham_bold px-2 py-px rounded-full">{role}</div>
+                    <div className="absolute top-[2px] right-2 bg-orange text-white text-[11px] md:text-[12px] font-gotham_bold px-2 py-px rounded-full">{(role == "CAdmin") ? 'Cliente' : role }</div>
                 } 
             </div>
         </div>

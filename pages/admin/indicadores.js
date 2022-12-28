@@ -1,4 +1,6 @@
 import Head from "next/head";
+import { checkUserRole } from "../../services/auth";
+import { getSession } from "next-auth/react";
 
 import Layout from "../../layouts/Admin";
 
@@ -723,7 +725,10 @@ Indicadores.getLayout = function getLayout(page) {
 };
 
 export async function getServerSideProps(context) {
-    const session = await getToken(context);
+    const session = await getSession(context);
+
+    const returnedObj = checkUserRole (session, "Admin");
+    if(returnedObj != null) return returnedObj;
 
     const normas = await getNormas(session.jwt);
 

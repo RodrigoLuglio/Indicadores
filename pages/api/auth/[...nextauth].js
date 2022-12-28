@@ -12,6 +12,8 @@ export default NextAuth({
                 password: { label: "Password", type: "password" },
             },
             async authorize(credentials, req) {
+
+                // const path = req.next
                 /**
                  * This function is used to define if the user is authenticated or not.
                  * If authenticated, the function should return an object contains the user data.
@@ -56,4 +58,7 @@ export default NextAuth({
             return Promise.resolve(token);
         },
     },
+    pages: {
+        signIn: "/auth/sign-in"
+    }
 });
