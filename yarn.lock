@@ -2298,6 +2298,7 @@ __metadata:
     next-auth: ^4.15.0
     postcss: ^8.4.18
     postcss-import: ^15.1.0
+    qs: ^6.11.0
     react: 18.2.0
     react-dom: 18.2.0
     tabler-icons-react: ^1.55.0
@@ -3975,6 +3976,15 @@ __metadata:
   version: 2.1.1
   resolution: "punycode@npm:2.1.1"
   checksum: 823bf443c6dd14f669984dea25757b37993f67e8d94698996064035edd43bed8a5a17a9f12e439c2b35df1078c6bec05a6c86e336209eb1061e8025c481168e8
+  languageName: node
+  linkType: hard
+
+"qs@npm:^6.11.0":
+  version: 6.11.0
+  resolution: "qs@npm:6.11.0"
+  dependencies:
+    side-channel: ^1.0.4
+  checksum: 6e1f29dd5385f7488ec74ac7b6c92f4d09a90408882d0c208414a34dd33badc1a621019d4c799a3df15ab9b1d0292f97c1dd71dc7c045e69f81a8064e5af7297
   languageName: node
   linkType: hard
 

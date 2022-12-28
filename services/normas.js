@@ -1,7 +1,46 @@
 import axios from "axios";
+import qs from "qs";
 
 const api = "https://api.rlabs.com.br/api/";
 
+export async function getNormas(jwt) {
+    const query = qs.stringify(
+        {
+            populate: {
+                padroes: {
+                    populate: {
+                        secoes: {
+                            populate: {
+                                padrao: { populate: ["nome"] },
+                                conteudos: {
+                                    populate: {
+                                        secao: { populate: ["nome"] },
+                                        campos: {
+                                            populate: "*",
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        },
+        {
+            encodeValuesOnly: true, // prettify URL
+        }
+    );
+    try {
+        const res = await axios.get(api + "normas?" + query, {
+            headers: {
+                Authorization: `Bearer ${jwt}`,
+            },
+        });
+        return res.data;
+    } catch (error) {
+        return error;
+    }
+}
 export async function getPadroes(jwt) {
     try {
         const res = await axios.get(api + "padroes", {
@@ -14,14 +53,13 @@ export async function getPadroes(jwt) {
         return error;
     }
 }
-export async function addUpPadrao(jwt, dados) {
-    console.log("JWT -> ", jwt, "Dados -> ", dados);
+
+export async function addUpItem(jwt, collection, dados) {
     if (dados.id == "") {
         dados.id = null;
-        console.log("Dados POST -> ", dados);
         try {
             const res = await axios.post(
-                api + "padroes",
+                api + collection,
                 {
                     data: dados,
                 },
@@ -37,10 +75,9 @@ export async function addUpPadrao(jwt, dados) {
             return error;
         }
     } else {
-        console.log("Dados PUT -> ", dados);
         try {
             const res = await axios.put(
-                api + "padroes/" + dados.id,
+                api + collection + "/" + dados.id,
                 {
                     data: dados,
                 },
@@ -58,9 +95,9 @@ export async function addUpPadrao(jwt, dados) {
     }
 }
 
-export async function deletePadrao(jwt, id) {
+export async function deleteItem(jwt, collection, id) {
     try {
-        const res = await axios.delete(api + "padrao/" + id, {
+        const res = await axios.delete(api + collection + "/" + id, {
             headers: {
                 Authorization: `Bearer ${jwt}`,
             },
@@ -68,6 +105,6 @@ export async function deletePadrao(jwt, id) {
         return res.data;
     } catch (error) {
         console.log("Ocorreu um erro: ", error);
-        return error
+        return error;
     }
 };
