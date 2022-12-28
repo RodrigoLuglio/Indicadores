@@ -43,8 +43,6 @@ export default function ClientStatus() {
                 <StatusIndicSectionHead status="Incompleto" />
                 <StatusIndicSectionHead status="Sem informação" />
 
-
-
             </section>
         </>
     )

@@ -4,7 +4,7 @@ const ProfileBox = ({user}) => {
     
     return (
 
-        <div className={`flex justify-start items-center min-w-[180px]`}>
+        <div className={`flex justify-start items-center min-w-[180px] border border-orange`}>
             <div className="rounded-full w-[43px] h-[43px] bg-green_light mr-4 object-cover object-center overflow-hidden ">
                 <img src={avatar} className="w-full" alt="" />
             </div>

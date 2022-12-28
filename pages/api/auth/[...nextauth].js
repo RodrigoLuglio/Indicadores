@@ -29,6 +29,7 @@ export default NextAuth({
                     });
                     const data = await me(jwt);
                     user.role = data.role.name;
+                    user.name = data.name;
                     return { ...user, jwt };
                 } catch (error) {
                     // Sign In Fail
@@ -50,6 +51,7 @@ export default NextAuth({
                 token.id = user.id;
                 token.jwt = user.jwt;
                 token.role = user.role;
+                token.name = user.name;
             }
             return Promise.resolve(token);
         },

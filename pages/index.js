@@ -6,6 +6,7 @@ import { signOut, useSession } from "next-auth/react";
 import { ActionIcon, useMantineColorScheme, Button } from "@mantine/core";
 import { Sun, MoonStars } from "tabler-icons-react";
 import styles from "../styles/Home.module.css";
+import Router from "next/router";
 
 export default function Home() {
     const { data: session } = useSession();
@@ -17,7 +18,8 @@ export default function Home() {
 
     useEffect(() => {
         if (session == null) return;
-        console.log("Session -> ", session);
+        const route =  (session.user.role == "Admin") ? "/admin/" : "/dashboard";
+        Router.push(route);
     }, [session]);
 
     return (

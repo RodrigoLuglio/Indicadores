@@ -1,5 +1,9 @@
 import Head from "next/head";
 
+import { getSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
+import { useEffect } from "react";
+
 import Layout from '../../layouts/Admin'
 import HelloBar from "../../components/helloBar";
 import StatusCard from "../../components/statusCard";
@@ -10,14 +14,24 @@ import { BlockTitle } from "../../components/titles";
 import { Tbhr, StatusBall, AvatarCompany } from "../../components/misc";
 
 
+export default function AdminDashboard({user}) {
 
-export default function AdminDashboard() {
+    // const { data: session } = useSession();
 
-    const user = {
-        name: 'Fernanda',
-        role: 'Admin',
-        avatar: 'https://source.unsplash.com/gySMaocSdqs/50x50'
-    }
+    // useEffect(() => {
+    //     if (session == null) return;
+    //     console.log("Session -> ", session);
+    // }, [session]);
+
+    // useEffect(() => {
+    //     console.log("Session [] -> ", session);
+    // }, []);
+
+    // const user = {
+    //     name: 'Fernanda',
+    //     role: 'Admin',
+    //     avatar: 'https://source.unsplash.com/gySMaocSdqs/50x50'
+    // }
 
     return (
         <>
@@ -78,8 +92,6 @@ export default function AdminDashboard() {
                         </div>
                         <Tbhr />
                     
-
-
                     </div>
                 </div>
             </section>
@@ -87,6 +99,7 @@ export default function AdminDashboard() {
 
             <section className="tb_waiting mt-10 ">
                 <BlockTitle>Aguardando Verificação</BlockTitle>
+                <br />
 
                 <div className="relative overflow-x-scroll">
                     
@@ -151,4 +164,21 @@ export default function AdminDashboard() {
 
 AdminDashboard.getLayout = function getLayout(page) {
     return <Layout>{page}</Layout>
+}
+
+export const getServerSideProps = async (context) => {
+    const session = await getSession(context);
+    if (session == null || session.user.role != "Admin") {
+        return {
+            redirect: {
+                destination: "/auth/not-authenticated",
+                permanent: true,
+            },
+        };
+    } 
+    return {
+        props: {
+            user: session.user
+        },
+    };
 }
