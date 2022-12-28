@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useRouter } from 'next/router'
 
 const strapiUrl = process.env.STRAPI_URL;
 
@@ -20,4 +21,24 @@ export async function me(token) {
         }
     );
     return data;
+}
+
+export function checkUserRole (session, role) {
+    if (session == null || session.user.role != role) {
+        return {
+            redirect: {
+                destination: (session == null) 
+                    ? "/auth/not-authenticated" 
+                    : (role == "CAdmin") ? "/admin" : "/dashboard",
+                permanent: true,
+            },
+        };
+    }
+    return null;
+
+    // return {
+    //     props: {
+    //         user: session.user
+    //     }
+    // }
 }

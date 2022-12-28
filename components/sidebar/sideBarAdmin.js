@@ -39,6 +39,7 @@ const SideBarAdmin = () => {
                         <ul className="ul-main mt-20 lg:mt-0 w-full">
                             <LinkItem link="/admin" label="Dashboard" icon={<Gear className="group-hover:fill-orange" />} />
                             <LinkItemSubmenu label="Incluir" subLabel="Normas:" icon={<Profile className="group-hover:fill-orange" />} subItens={subitens} />
+                            <LinkItem link="/admin/clientes" label="Clientes" icon={<Profile className="group-hover:fill-orange" />} />
                             <LinkItem link="/mantine" label="Consultar" icon={<Research className="group-hover:fill-orange" />} />
                             <LinkItem link="/admin/status" label="Status" icon={<Status className="group-hover:fill-orange" />} />
                         </ul>

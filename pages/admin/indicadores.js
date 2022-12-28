@@ -1,4 +1,6 @@
 import Head from "next/head";
+import { checkUserRole } from "../../services/auth";
+import { getSession } from "next-auth/react";
 
 import Layout from "../../layouts/Admin";
 import HelloBar from "../../components/helloBar";
@@ -114,17 +116,10 @@ Indicadores.getLayout = function getLayout(page) {
 };
 
 export async function getServerSideProps(context) {
-    const session = await getToken(context);
-    // const session = await getSession(context);
+    const session = await getSession(context);
 
-    if (session == null || session.role != "Admin") {
-        return {
-            redirect: {
-                destination: "/auth/not-authenticated",
-                permanent: true,
-            },
-        };
-    }
+    const returnedObj = checkUserRole (session, "Admin");
+    if(returnedObj != null) return returnedObj;
 
     const padroes = await getPadroes(session.jwt);
 
@@ -140,7 +135,7 @@ export async function getServerSideProps(context) {
 
     return {
         props: {
-            user: session,
+            user: session.user,
             padroesData: padroes.data,
             padroesSelectData: padroesSelectData,
         },
