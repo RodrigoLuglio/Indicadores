@@ -12,7 +12,7 @@ const HelloBar = ({ user, breadcrumbs }) => {
     
     const items = (breadcrumbs) ? 
             breadcrumbs.map((item, index, {length}) => (
-                    <>
+                    <div key={index}>
                         { (length - 1 !== index) ? '' : <span className="absolute bottom-2 text-green_light">{`>`}</span> }
                         <Anchor 
                             href={item.href} 
@@ -23,7 +23,7 @@ const HelloBar = ({ user, breadcrumbs }) => {
                             >
                             {item.title} 
                         </Anchor> 
-                    </>
+                    </div>
                 )) : null;
     
 

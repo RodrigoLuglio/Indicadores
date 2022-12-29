@@ -13,7 +13,7 @@ export async function signIn({ email, password }) {
 
 export async function me(token) {
     const { data } = await axios.get(
-        `${strapiUrl}/api/users/me?populate=role`,
+        `${strapiUrl}/api/users/me?populate=*`,
         {
             headers: {
                 Authorization: "Bearer " + token,

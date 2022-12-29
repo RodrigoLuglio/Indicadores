@@ -7,7 +7,7 @@ import Layout from "../../layouts/Admin";
 import HelloBar from "../../components/helloBar";
 
 import { useState, useEffect } from "react";
-import { Select, TextInput, NumberInput, Button, Group } from "@mantine/core";
+import { Select, TextInput, Button, Group, Textarea } from "@mantine/core";
 import { useForm } from "@mantine/form";
 
 import { BlockTitle } from "../../components/titles";
@@ -15,17 +15,25 @@ import { Tbhr } from "../../components/misc";
 
 export default function Clientes({ user, clientes, jwt }) {
 
+    const [clientlist, setClientlist] = useState(clientes);
+
     const clienteForm = useForm({
         initialValues: {
             email: "",
             nome: "",
+            organizacao: ""
         },
-
-        validate: {},
+        validate: {
+            nome: (value) => (value.length < 2 ? 'Nome precisa ter pelo menos 2 dígitos' : null),
+            email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Email inválido'),
+            organizacao: (value) => (value.length < 2 ? 'Nome precisa ter pelo menos 2 dígitos' : null),
+        },
     });
 
+    //for do cliente master
     const clienteSubmit =  clienteForm.onSubmit(
         async (values) =>  {
+            values.role = 4; //CAdmin
             console.log('value', values);
             const res = await addUpCliente(jwt, values);
             console.log('res', res);
@@ -38,10 +46,16 @@ export default function Clientes({ user, clientes, jwt }) {
         { title: 'Clientes', href: '/admin/clientes' },
     ];
 
+    useEffect(() => {
+        console.log('clientlist', clientlist);
+        
+    }, [])
+    
+
     return (
         <>
             <Head>
-                <title>Presence - CLientes</title>
+                <title>Presence - Clientes</title>
             </Head>
             <section>
                 <HelloBar user={user} breadcrumbs={breads} />
@@ -54,35 +68,41 @@ export default function Clientes({ user, clientes, jwt }) {
                         hidden
                         {...clienteForm.getInputProps("id")}
                     />
-                    <div className="grid grid-cols-12 gap-4">
-                        <div className="sm:col-span-6">
+                    <div className="grid grid-cols-12 gap-x-4">
+                        <div className="col-span-12 md:col-span-4">
                             <TextInput
                                 withAsterisk
-                                label="Nome"
-                                placeholder="Nome"
+                                label="Nome (usuário master)"
                                 {...clienteForm.getInputProps("nome")}
                             />
                         </div>
-                        <div className="sm:col-span-6">
+                        <div className="col-span-12 md:col-span-4">
                             <TextInput
                                 withAsterisk
                                 label="Email"
-                                placeholder="email"
                                 {...clienteForm.getInputProps("email")}
                             />
                         </div>
+                        <div className="col-span-12 md:col-span-4">
+                            <TextInput
+                                withAsterisk
+                                label="Organização"
+                                {...clienteForm.getInputProps("organizacao")}
+                            />
+                        </div>
+
                     </div>
 
                     <Group position="right" mt="md">
-                        <Button type="submit">Submit</Button>
+                        <Button type="submit">Registrar Usuário</Button>
                     </Group>
                 </form>
 
                 <BlockTitle>Clientes</BlockTitle>
                 <Tbhr />
 
-                { clientes && 
-                    clientes.map((client, id) => <div key={id}>{client.name}</div> )
+                { clientlist && 
+                    clientlist.map((client, index) => <div key={index}>{client.name}, {client.email}, {client.organizacao.nome}</div> )
                 }
 
             </section>
@@ -101,6 +121,7 @@ export async function getServerSideProps(context) {
     if(returnedObj != null) return returnedObj;
 
     const clientes = await getUsersByRole(session.jwt, "CAdmin");
+    console.log('CLIENTES > ', clientes);
 
     return {
         props: {
