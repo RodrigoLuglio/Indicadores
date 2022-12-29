@@ -54,6 +54,45 @@ export async function getPadroes(jwt) {
     }
 }
 
+export async function getOrgs(jwt) {
+    // const query = qs.stringify(
+    //     {
+    //         populate: {
+    //             padroes: {
+    //                 populate: {
+    //                     secoes: {
+    //                         populate: {
+    //                             padrao: { populate: ["nome"] },
+    //                             conteudos: {
+    //                                 populate: {
+    //                                     secao: { populate: ["nome"] },
+    //                                     campos: {
+    //                                         populate: "*",
+    //                                     },
+    //                                 },
+    //                             },
+    //                         },
+    //                     },
+    //                 },
+    //             },
+    //         },
+    //     },
+    //     {
+    //         encodeValuesOnly: true, // prettify URL
+    //     }
+    // );
+    try {
+        const res = await axios.get(api + "organizacoes", {
+            headers: {
+                Authorization: `Bearer ${jwt}`,
+            },
+        });
+        return res.data;
+    } catch (error) {
+        return error;
+    }
+}
+
 export async function addUpItem(jwt, collection, dados) {
     if (dados.id == "") {
         dados.id = null;

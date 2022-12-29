@@ -1,8 +1,20 @@
 import Head from "next/head";
-import { Grid, TextInput, Tooltip, Text, Center, Checkbox, Button, Group, Box, Notification } from "@mantine/core";
-import { showNotification } from '@mantine/notifications';
-import { ActionIcon } from '@mantine/core';
-import { IconInfoCircle } from '@tabler/icons';
+import {
+    Grid,
+    TextInput,
+    Tooltip,
+    Text,
+    Center,
+    Checkbox,
+    Button,
+    Group,
+    Box,
+    Notification,
+    TransferList,
+} from "@mantine/core";
+import { showNotification } from "@mantine/notifications";
+import { ActionIcon } from "@mantine/core";
+import { IconInfoCircle } from "@tabler/icons";
 import { useForm } from "@mantine/form";
 
 import { useState } from "react";
@@ -21,6 +33,27 @@ export default function Mantine() {
         ["2020", 20, 11, 14, 13],
         ["2021", 30, 15, 12, 13],
     ];
+
+    const initialValues = [
+        [
+            { value: "react", label: "React" },
+            { value: "ng", label: "Angular" },
+            { value: "next", label: "Next.js" },
+            { value: "blitz", label: "Blitz.js" },
+            { value: "gatsby", label: "Gatsby.js" },
+            { value: "vue", label: "Vue" },
+            { value: "jq", label: "jQuery" },
+        ],
+        [
+            { value: "sv", label: "Svelte" },
+            { value: "rw", label: "Redwood" },
+            { value: "np", label: "NumPy" },
+            { value: "dj", label: "Django" },
+            { value: "fl", label: "Flask" },
+        ],
+    ];
+
+    const [data1, setData1] = useState(initialValues);
 
     const [data, setData] = useState(DATA);
     const onBeforeHotChange = (changes, source) => {
@@ -101,6 +134,13 @@ export default function Mantine() {
                         })}
                     />
 
+                    <TransferList
+                        value={data1}
+                        onChange={setData1}
+                        searchPlaceholder="Search..."
+                        nothingFound="Nothing here"
+                    />
+
                     <Group position="right" mt="md">
                         <Button color="orange" variant="default" type="submit">
                             Submit
@@ -130,10 +170,18 @@ export default function Mantine() {
                 </div>
             </div>
 
-
             <section className="relative w-full mt-10 border border-green-700 overflow-x-auto px-10">
                 <div className="tb_wrapper border border-red-600 min-w-[758px]">
-                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quo deserunt consectetur porro iste pariatur qui numquam sit perspiciatis, repellendus ea modi dolorem delectus voluptas dolores neque temporibus maiores aperiam iusto consequuntur reprehenderit adipisci quibusdam placeat praesentium? Accusamus doloremque est harum unde tenetur possimus, sequi laborum incidunt quia iste sunt ducimus.</p>
+                    <p>
+                        Lorem ipsum, dolor sit amet consectetur adipisicing
+                        elit. Quo deserunt consectetur porro iste pariatur qui
+                        numquam sit perspiciatis, repellendus ea modi dolorem
+                        delectus voluptas dolores neque temporibus maiores
+                        aperiam iusto consequuntur reprehenderit adipisci
+                        quibusdam placeat praesentium? Accusamus doloremque est
+                        harum unde tenetur possimus, sequi laborum incidunt quia
+                        iste sunt ducimus.
+                    </p>
                     {/* <div className="tableFlex">
                         <div className="basis-3/12 tableHead pl-3">Empresa/Usuário</div>
                         <div className="basis-2/12 tableHead">Setor</div>
@@ -186,7 +234,6 @@ export default function Mantine() {
                     </div>
                     <Tbhr /> */}
                 </div>
-
             </section>
         </>
     );

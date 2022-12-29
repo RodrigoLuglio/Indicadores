@@ -75,7 +75,7 @@ export const getServerSideProps = async (context) => {
 
     return {
         props: {
-            user: session.user
-        }
-    }
+            user: session.user,
+        },
+    };
 }

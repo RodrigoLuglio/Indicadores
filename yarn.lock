@@ -1076,6 +1076,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"array.partial@npm:^1.0.5":
+  version: 1.0.5
+  resolution: "array.partial@npm:1.0.5"
+  checksum: 5ab59d67064855ddcfe1cc3999eb3857ed446d8203be34c7f5c7e9e533406af70ed4060bae7f17f7082f77f0af275a544ee54c2c05133a8d153cfcf2a69b0d3d
+  languageName: node
+  linkType: hard
+
 "array.prototype.flat@npm:^1.2.5":
   version: 1.3.1
   resolution: "array.prototype.flat@npm:1.3.1"
@@ -2301,6 +2308,7 @@ __metadata:
     qs: ^6.11.0
     react: 18.2.0
     react-dom: 18.2.0
+    react-dropdown-tree-select: ^2.7.1
     tabler-icons-react: ^1.55.0
     tailwind-scrollbar: ^2.0.1
     tailwindcss: ^3.2.1
@@ -4011,6 +4019,28 @@ __metadata:
   peerDependencies:
     react: ^18.2.0
   checksum: 7d323310bea3a91be2965f9468d552f201b1c27891e45ddc2d6b8f717680c95a75ae0bc1e3f5cf41472446a2589a75aed4483aee8169287909fcd59ad149e8cc
+  languageName: node
+  linkType: hard
+
+"react-dropdown-tree-select@npm:^2.7.1":
+  version: 2.7.1
+  resolution: "react-dropdown-tree-select@npm:2.7.1"
+  dependencies:
+    array.partial: ^1.0.5
+    react-infinite-scroll-component: ^4.0.2
+  peerDependencies:
+    react: ^16.0.0 || ^17
+  checksum: 511e0f5a5d829b62bf3942401237cd1cc4e9d640a5d9d7244acb9d26716a8ecb1fec60ddb133c65c53339fd755f2af455a9781f487ffb2f577a9da6e2a42e5b0
+  languageName: node
+  linkType: hard
+
+"react-infinite-scroll-component@npm:^4.0.2":
+  version: 4.5.3
+  resolution: "react-infinite-scroll-component@npm:4.5.3"
+  peerDependencies:
+    prop-types: ^15.0.0
+    react: ">=0.14.0"
+  checksum: 7ab69b68447a3457b11769ab4f931d742c98c24cbb2faa6212d9afa86e5e3fd2a951ad90daa806daed13093055900a05b7419311326b938ecb29efae04c95eff
   languageName: node
   linkType: hard
 
