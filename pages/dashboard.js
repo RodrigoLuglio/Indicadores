@@ -70,8 +70,8 @@ ClientDashboard.getLayout = function getLayout(page) {
 export const getServerSideProps = async (context) => {
     const session = await getSession(context);
 
-    const returnedObj = checkUserRole (session, "CAdmin");
-    if(returnedObj != null) return returnedObj;
+    // const returnedObj = checkUserRole (session, "CAdmin");
+    // if(returnedObj != null) return returnedObj;
 
     return {
         props: {
