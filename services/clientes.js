@@ -27,8 +27,9 @@ export async function addUpCliente(jwt, dados) {
         console.log('password', password);
         console.log('dados: ', dados);
         console.log('dados.nome: ', slugify(dados.nome));
+        var resUser;
         try {
-            const res = await axios.post(`${strapiUrl}/api/users`, 
+            resUser = await axios.post(`${strapiUrl}/api/users`, 
                 {
                     username: slugify(dados?.nome) + generatePassword(4),
                     password: password,
@@ -42,8 +43,13 @@ export async function addUpCliente(jwt, dados) {
                     }
                 },
             );
+        } catch (error) {
+            return error.response.data.error;
+        }
 
-            const user = res.data.id;
+        const user = resUser.data.id;
+        try {
+            
             if(user) {
                 const resOrg = await axios.post(`${strapiUrl}/api/organizacoes`,
                     {
@@ -58,26 +64,26 @@ export async function addUpCliente(jwt, dados) {
                         }
                     }
                 )
-                console.log('resOrg', resOrg);
+                return formatClienteObject(resUser.data, resOrg.data.data);
+
             }
-            return res.data;
         } catch (error) {
             return error;
         }
     }
 }
 
-
-
-// export async function getDepartamentos(jwt, role) {
-//     try {
-//         const { data } = await axios.get(`${strapiUrl}/api/departamentos?fields[0]=nome`, {
-//             headers: {
-//                 Authorization: `Bearer ${jwt}`,
-//             },
-//         });
-//         return data;
-//     } catch (error) {
-//         return error;
-//     }
-// }
+function formatClienteObject(user, organizacao) {
+    return {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: {
+            id: 4, name: 'CAdmin'
+        },
+        organizacao: {
+            id: organizacao.id,
+            nome: organizacao.attributes.nome
+        }
+    }
+}

@@ -265,7 +265,7 @@ a {
     }
 
     .tableGrid {
-        @apply grid grid-cols-12 gap-2;
+        @apply grid grid-cols-12 gap-2 w-full;
     }
 
     .tableFlex {
@@ -307,6 +307,9 @@ a {
     .rowGridLower {
         @apply relative w-full rounded-lg bg-white hover:shadow-tbrow transition-all duration-300 px-2 py-2 flex-col justify-center items-start;
     }
+    .rowGridLowerHoriz {
+        @apply relative w-full rounded-lg bg-white hover:shadow-tbrow transition-all duration-300 px-2 py-2 flex justify-between items-center;
+    }
 
     .tb_waiting {
         @apply w-full !important;
@@ -331,5 +334,9 @@ a {
 
     .acc-content.opened {
         @apply h-auto;
+    }
+
+    .notific-success {
+        @apply bg-red-500 !important;
     }
 }
