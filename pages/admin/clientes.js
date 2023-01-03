@@ -39,6 +39,7 @@ export default function Clientes({ user, clientes, jwt }) {
         async (values) =>  {
             values.role = 4; //CAdmin
             const res = await addUpCliente(jwt, values);
+            console.log('res ::: ', res);
             if(res.status == 400){
                 setShowError(res.message);
             }else{
@@ -50,7 +51,7 @@ export default function Clientes({ user, clientes, jwt }) {
                     message: "Cliente cadastrado!",
                     icon: <IconCheck size={18} />,
                     color: 'teal',
-                    autoClose: false,
+                    autoClose: 5000,
                 });
                 setShowError(false);
             }
@@ -122,7 +123,7 @@ export default function Clientes({ user, clientes, jwt }) {
                 <BlockTitle>Clientes</BlockTitle>
                 <Tbhr />
                 { clientlist && 
-                    clientlist.map((client, index) => <ClientRowList key={index} client={client} /> )
+                    clientlist.map((client, index) => <ClientRowList key={index} client={client} tn={jwt} /> )
                 }
             </section>
         </>
@@ -135,6 +136,8 @@ Clientes.getLayout = function getLayout(page) {
 
 export async function getServerSideProps(context) {
     const session = await getSession(context);
+
+    console.log('session.jwt: ', session.jwt);
 
     const returnedObj = checkUserRole (session, "Admin");
     if(returnedObj != null) return returnedObj;

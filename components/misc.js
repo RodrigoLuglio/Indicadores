@@ -4,6 +4,7 @@ import { randomId } from '@mantine/hooks';
 import { useForm } from "@mantine/form";
 import ViewBtn from './buttons/viewBtn';
 import { getDepartamentos } from "../services/utils";
+import { addUpEmployees } from "../services/clientes";
 import DeleteBtn from "../components/buttons/deleteBtn";
 import AdduserBtn from "../components/buttons/adduserBtn";
 
@@ -77,7 +78,7 @@ export const FullCard = ({children}) => {
     )
 }
 
-export const ClientRowList = ({client}) => {
+export const ClientRowList = ({client, tn}) => {
     const [opened, setOpened] = useState(false);
     
     const removeFormLine = (index) => {
@@ -105,12 +106,13 @@ export const ClientRowList = ({client}) => {
     
     const subClienteSubmit =  subClienteForm.onSubmit(
         async (values) =>  {
+            console.log('-------------- [INICIO] subClienteSubmit -------------')
             console.log(values);
             const val = subClienteForm.validate();
-            if(val.hasErrors) {
-                console.log('form com erro');
-            }
-            console.log('val: ', val);
+            // console.log('subClienteSubmit val: ', val);
+            const resAddEmployee = await addUpEmployees(tn, values);
+            console.log('resAddEmployee', resAddEmployee);
+            console.log('-------------- [FIM] subClienteSubmit -------------')
         }
     );
 

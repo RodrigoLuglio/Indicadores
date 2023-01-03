@@ -20,42 +20,43 @@ export async function getUsersByRole(jwt, role) {
     }
 }
 
+// reponsalve p adicionar usuário CAdmin (addUpCjiente) e cliente (AddUpEmployees)
+export async function addUser (jwt, dados) {
+    const password = generatePassword(12);
+
+    try {
+        const { data } = await axios.post(`${strapiUrl}/api/users`, 
+            {
+                username: slugify(dados?.nome) + generatePassword(4),
+                password: password,
+                role: dados.role,
+                email: dados.email,
+                name: dados.nome
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                }
+            },
+        );
+        return data;
+    } catch (error) {
+        return error.response.data.error;
+    }
+}
+
 
 export async function addUpCliente(jwt, dados) {
     if(dados.id == null) {
-        const password = generatePassword(12);
-        console.log('password', password);
-        console.log('dados: ', dados);
-        console.log('dados.nome: ', slugify(dados.nome));
-        var resUser;
-        try {
-            resUser = await axios.post(`${strapiUrl}/api/users`, 
-                {
-                    username: slugify(dados?.nome) + generatePassword(4),
-                    password: password,
-                    role: dados.role,
-                    email: dados.email,
-                    name: dados.nome
-                },
-                {
-                    headers: {
-                        Authorization: `Bearer ${jwt}`,
-                    }
-                },
-            );
-        } catch (error) {
-            return error.response.data.error;
-        }
-
-        const user = resUser.data.id;
-        try {
-            
-            if(user) {
+        const user = await addUser (jwt, dados);
+        console.log('const user: ', user);
+        if(user.id) {
+            try {
                 const resOrg = await axios.post(`${strapiUrl}/api/organizacoes`,
                     {
                         data: {
                             nome: dados.organizacao,
-                            users: [user],
+                            users: [user.id],
                         }
                     },
                     {
@@ -64,26 +65,66 @@ export async function addUpCliente(jwt, dados) {
                         }
                     }
                 )
-                return formatClienteObject(resUser.data, resOrg.data.data);
-
+                return formatClienteObject(user, resOrg.data.data, 'CAdmin');
+            } catch (error) {
+                return error;
             }
-        } catch (error) {
-            return error;
         }
+
+        return user;
     }
 }
 
-function formatClienteObject(user, organizacao) {
-    return {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        role: {
-            id: 4, name: 'CAdmin'
-        },
-        organizacao: {
-            id: organizacao.id,
-            nome: organizacao.attributes.nome
+export async function addUpEmployees(jwt, dados) {
+    console.log('addUpEmployees jwt: ', jwt);
+    console.log('addUpEmployees dados: ', dados);
+        dados.employees.map(async (item, index) => {
+            const password = generatePassword(12);
+            const formatedDados = {
+                username: slugify(item.nome) + generatePassword(4),
+                password: password,
+                role: 5,
+                email: item.email,
+                name: item.nome
+            };
+            console.log('formatedDados :', formatedDados);
+            
+            try{
+                // TODO (error): DANDO ERRO DE DATA NULL
+                const resUser = await axios.post(`${strapiUrl}/api/users`,
+                                { data: formatedDados },{ headers: { Authorization: `Bearer ${jwt}`, }}
+                );
+                console.log(`data ${index} :`, resUser); 
+                return resUser;
+            }catch(error) {
+                return error;
+            }
+        })
+
+
+        console.log('dados:', dados);
+        console.log('length:', dados.employees.length);
+        // console.log('const userClient: ', userClient);
+}
+
+function formatClienteObject(user, organizacao, role) {
+    if(role == 'CAdmin') {
+        return {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            role: {
+                id: 4, name: 'CAdmin'
+            },
+            organizacao: {
+                id: organizacao.id,
+                nome: organizacao.attributes.nome
+            }
         }
     }
+    return {
+
+    }
 }
+
+
