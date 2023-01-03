@@ -1,8 +1,11 @@
-import { useState } from 'react';
-import { Collapse, TextInput, Button, Group, Alert  } from '@mantine/core';
-import ViewBtn from './buttons/viewBtn';
-import { useLocalStorage } from '@mantine/hooks';
+import React, { useEffect, useState, useRef } from 'react';
+import { Collapse, TextInput, Input, Button, Group, Alert, Code, Select  } from '@mantine/core';
+import { randomId } from '@mantine/hooks';
 import { useForm } from "@mantine/form";
+import ViewBtn from './buttons/viewBtn';
+import { getDepartamentos } from "../services/utils";
+import DeleteBtn from "../components/buttons/deleteBtn";
+import AdduserBtn from "../components/buttons/adduserBtn";
 
 export const Tbhr = ({lower}) => {
     const marginY = (lower) ? 'my-1' : 'my-2';
@@ -53,8 +56,10 @@ export const StatusBall = ({status, withLabel}) => {
 export const AvatarCompany = ({ company, subinfo, logo  }) => {
     return (
         <div className="flex w-full justify-start items-center">
-            <div className="h-[34px] w-[34px] flex rounded-[10px] overflow-hidden bg-red-300 mr-2">
-                <img src={logo} className="object-center object-cover w-full" alt="" />
+            <div className="h-[34px] w-[34px] flex rounded-[10px] overflow-hidden bg-slate-300 mr-2">
+                { logo && 
+                    <img src={logo} className="object-center object-cover w-full" alt="" />
+                }
             </div>
             <div>
                 <div className="text-paragraph font-gotham_medium leading-none">{company}</div>
@@ -74,47 +79,42 @@ export const FullCard = ({children}) => {
 
 export const ClientRowList = ({client}) => {
     const [opened, setOpened] = useState(false);
-    const [clientid, setClientId] = useLocalStorage({ key: 'client-id', defaultValue: '' });
+    // const [clientid, setClientId] = useLocalStorage({ key: 'client-id', defaultValue: '' });
+    // const [clientid, setClientId] = useState(client.id);
     
-    const [inputFields, setInputFields] = useState([
-        { nome: '', email: '' }
-    ]);
-    
+    const removeFormLine = (index) => {
+        subClienteForm.removeListItem('employees', index);
+    }
 
     const subClienteForm = useForm({
         initialValues: {
-            nome: "",
-            email: "",
+            employees: [{ 
+                cliente: client.id,
+                nome:  '',
+                email: '',
+                departamento: null,
+                key: randomId()
+            }],
         },
-        // validate: {
-        //     nome: (value) => (value.length < 2 ? 'Nome precisa ter pelo menos 2 dígitos' : null),
-        //     email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Email inválido'),
-        // },
+        validate: {
+            employees: {
+                nome: (value) => (value.length < 2 ? 'Nome precisa ter pelo menos 2 dígitos' : null),
+                email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Email inválido'),
+                departamento: (value) => ( value  ? null : 'Necessário departamento'  ),
+            }
+        }
     });
-
-    const addFields = () => {
-        setInputFields([...inputFields, { nome: '', email: '' }])
-    }
-
-    const removeFields = (index) => {
-        let data = [...inputFields];
-        data.splice(index, 1);
-        setInputFields(data);
-    }
-
-    const handleFormChange = (index, event) => {
-        let data = [...inputFields];
-        data[index][event.target.name] = event.target.value;
-        setInputFields(data);
-    }
-
+    
     const subClienteSubmit =  subClienteForm.onSubmit(
         async (values) =>  {
             console.log(values);
-            console.log('inputFields', inputFields);
+            const val = subClienteForm.validate();
+            if(val.hasErrors) {
+                console.log('form com erro');
+            }
+            console.log('val: ', val);
         }
     );
-
 
     return (
         <>
@@ -122,8 +122,7 @@ export const ClientRowList = ({client}) => {
                 setOpened((o) => !o)
                 if(!opened){
                     setTimeout(() => {
-                        console.log('clientId', client.id);
-                        setClientId((current) => { return [...current, client.id] });                    
+                        console.log('clientId', client.id);               
                     }, 400);
                 }
             }}>
@@ -140,53 +139,63 @@ export const ClientRowList = ({client}) => {
             </div>
 
             <Collapse transitionDuration={400} in={opened}>
-                <div className="p-4">
-                    {/* {client.id} */}
+                <div className="p-6 m-1 bg-[#edf8fb] rounded-md">
+
                     <form onSubmit={subClienteSubmit}>
-                        {inputFields.map((input, index) => {
+                        {subClienteForm.values.employees.map((item, index) => {
                             return (
-                                <div key={index}>
+                                <div key={item.key}>
+                                    <Input
+                                        hidden
+                                        val={client.id}
+                                        {...subClienteForm.getInputProps(`employees.${index}.cliente`)}
+                                    />
                                     <div className="grid grid-cols-12 gap-x-4">
-                                        <div className="col-span-12 md:col-span-4 xl:col-span-3">
+                                        <div className="col-span-12 md:col-span-4 xl:col-span-4">
                                             <TextInput
                                                 withAsterisk
                                                 label="Nome"
-                                                name="nome"
-                                                value={input.nome}
-                                                onChange={event => handleFormChange(index, event)}
-                                                // {...subClienteForm.getInputProps(`nome.${index}`)}
+                                                {...subClienteForm.getInputProps(`employees.${index}.nome`)}
                                             />
                                         </div>
-                                        <div className="col-span-12 md:col-span-4 xl:col-span-3">
+                                        <div className="col-span-12 md:col-span-4 xl:col-span-4">
                                             <TextInput
                                                 withAsterisk
                                                 label="Email"
-                                                name="email"
-                                                value={input.email}
-                                                onChange={event => handleFormChange(index, event)}
-                                                // {...subClienteForm.getInputProps("email")}
+                                                {...subClienteForm.getInputProps(`employees.${index}.email`)}
                                             />
                                         </div>
                                         <div className="col-span-12 md:col-span-4 xl:col-span-3">
-                                            select
+                                            <Select label="Departamento" 
+                                                withAsterisk
+                                                placeholder="Escolha uma opção"
+                                                data={ getDepartamentos() } 
+                                                searchable
+                                                allowDeselect
+                                                transition="pop-top-left"
+                                                transitionDuration={200}
+                                                transitionTimingFunction="ease" 
+                                                {...subClienteForm.getInputProps(`employees.${index}.departamento`, { type: 'select' })}
+                                            />
                                         </div>
-                                        <div className="col-span-12 md:col-span-4 xl:col-span-3">
-                                            <button onClick={() => removeFields(index)}>Remover</button>
+                                        <div className="col-span-12 md:col-span-4 xl:col-span-1 flex items-center">
+                                            <button onClick={() => removeFormLine(index) }><DeleteBtn /></button>
                                         </div>
                                     </div>
                                 </div>
                             )
                         })}
-                        {/* <Group position="left" mt="md">
-                            <Button color="cyan" onClick={() => addFormFields()}>Adicionar</Button>
-                        </Group> */}
 
-                        <button onClick={addFields}>Adicionar reponsável</button>
+                        <button onClick={() => subClienteForm.insertListItem('employees', { cliente: client.id , nome: '', email: '', departamento: '', key: randomId()}) } className="flex justify-start items-center">
+                            <AdduserBtn /> <div className="ml-2 text-blue1 font-gotham_bold uppercase text-xs text-left leading-none">Adicionar<br />funcionário</div>
+                        </button>
 
                         <Group position="right" mt="md">
                             <Button type="submit">Registrar Cliente</Button>
                         </Group>
                     </form>
+
+                    {/* <Code block>{JSON.stringify(subClienteForm.values, null, 2)}</Code> */}
                 </div>
             </Collapse>
             <Tbhr />

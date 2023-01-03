@@ -84,5 +84,44 @@ export const getDepartamentos = () => {
         'Varejo', 
         'Vendas' 
     ];
-
 }
+
+// export const getDepartamentosArrObject = () => {
+//     return [
+//         { value: 'Administrativo', label: 'Administrativo'} ,
+//         { value: 'Atacado', label: 'Atacado'} ,
+//         { value: 'Atendimento ao cliente', label: 'Atendimento ao cliente'} ,
+//         { value: 'Auditoria', label: 'Auditoria'} ,
+//         { value: 'Comercial', label: 'Comercial'} ,
+//         { value: 'Comunicação', label: 'Comunicação'} ,
+//         { value: 'Contabilidade', label: 'Contabilidade'} ,
+//         { value: 'Controladoria', label: 'Controladoria'} ,
+//         { value: 'Crédito', label: 'Crédito'} ,
+//         { value: 'Desenvolvimento de negócios', label: 'Desenvolvimento de negócios'} ,
+//         { value: 'Estratégia', label: 'Estratégia'} ,
+//         { value: 'Exportação', label: 'Exportação'} ,
+//         { value: 'Financeiro	', label: 'Financeiro	'} ,
+//         { value: 'Garantia de Qualidade', label: 'Garantia de Qualidade'} ,
+//         { value: 'Importação', label: 'Importação'} ,
+//         { value: 'Inteligência de Mercado', label: 'Inteligência de Mercado'} ,
+//         { value: 'Legal', label: 'Legal'} ,
+//         { value: 'Logística', label: 'Logística'} ,
+//         { value: 'Manutenção', label: 'Manutenção'} ,
+//         { value: 'Marketing', label: 'Marketing'} ,
+//         { value: 'Operações', label: 'Operações'} ,
+//         { value: 'Pesquisa e Desenvolvimento	', label: 'Pesquisa e Desenvolvimento	'} ,
+//         { value: 'Planejamento', label: 'Planejamento'} ,
+//         { value: 'Planejamento Financeiro', label: 'Planejamento Financeiro'} ,
+//         { value: 'Processos	', label: 'Processos	'} ,
+//         { value: 'Produção', label: 'Produção'} ,
+//         { value: 'Projetos', label: 'Projetos'} ,
+//         { value: 'Recursos Humanos', label: 'Recursos Humanos'} ,
+//         { value: 'Seguros	', label: 'Seguros	'} ,
+//         { value: 'Tesouraria', label: 'Tesouraria'} ,
+//         { value: 'TI – Tecnologia da Informação', label: 'TI – Tecnologia da Informação'} ,
+//         { value: 'Treinamento e Desenvolvimento', label: 'Treinamento e Desenvolvimento'} ,
+//         { value: 'Tributário, Fiscal', label: 'Tributário, Fiscal'} ,
+//         { value: 'Varejo', label: 'Varejo'} ,
+//         { value: 'Vendas', label: 'Vendas'} 
+//     ];
+// }

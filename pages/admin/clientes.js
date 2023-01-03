@@ -119,18 +119,11 @@ export default function Clientes({ user, clientes, jwt }) {
                         </Alert>
                     }
                 </form>
-
                 <BlockTitle>Clientes</BlockTitle>
                 <Tbhr />
-
                 { clientlist && 
-                    clientlist.map((client, index) => <ClientRowList key={index} client={client} />
-                        
-                    )
+                    clientlist.map((client, index) => <ClientRowList key={index} client={client} /> )
                 }
-{/* 
-<div key={index}>{client?.id} - {client?.name}, {client?.email}, {client.organizacao?.nome}</div>  */}
-
             </section>
         </>
     );
