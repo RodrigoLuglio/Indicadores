@@ -328,6 +328,10 @@ a {
         }
     }
 
+    .formClientBtn {
+        @apply m-3 !important;
+    }
+
     .acc-content {
         @apply relative w-full border border-red-500 h-0 overflow-hidden transition-all duration-300;
     }

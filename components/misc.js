@@ -79,8 +79,6 @@ export const FullCard = ({children}) => {
 
 export const ClientRowList = ({client}) => {
     const [opened, setOpened] = useState(false);
-    // const [clientid, setClientId] = useLocalStorage({ key: 'client-id', defaultValue: '' });
-    // const [clientid, setClientId] = useState(client.id);
     
     const removeFormLine = (index) => {
         subClienteForm.removeListItem('employees', index);
@@ -100,7 +98,7 @@ export const ClientRowList = ({client}) => {
             employees: {
                 nome: (value) => (value.length < 2 ? 'Nome precisa ter pelo menos 2 dígitos' : null),
                 email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Email inválido'),
-                departamento: (value) => ( value  ? null : 'Necessário departamento'  ),
+                departamento: (value) => ( value   ? null : 'Necessário departamento' ),
             }
         }
     });
@@ -139,64 +137,66 @@ export const ClientRowList = ({client}) => {
             </div>
 
             <Collapse transitionDuration={400} in={opened}>
-                <div className="p-6 m-1 bg-[#edf8fb] rounded-md">
 
-                    <form onSubmit={subClienteSubmit}>
-                        {subClienteForm.values.employees.map((item, index) => {
-                            return (
-                                <div key={item.key}>
-                                    <Input
-                                        hidden
-                                        val={client.id}
-                                        {...subClienteForm.getInputProps(`employees.${index}.cliente`)}
-                                    />
-                                    <div className="grid grid-cols-12 gap-x-4">
-                                        <div className="col-span-12 md:col-span-4 xl:col-span-4">
-                                            <TextInput
-                                                withAsterisk
-                                                label="Nome"
-                                                {...subClienteForm.getInputProps(`employees.${index}.nome`)}
-                                            />
-                                        </div>
-                                        <div className="col-span-12 md:col-span-4 xl:col-span-4">
-                                            <TextInput
-                                                withAsterisk
-                                                label="Email"
-                                                {...subClienteForm.getInputProps(`employees.${index}.email`)}
-                                            />
-                                        </div>
-                                        <div className="col-span-12 md:col-span-4 xl:col-span-3">
-                                            <Select label="Departamento" 
-                                                withAsterisk
-                                                placeholder="Escolha uma opção"
-                                                data={ getDepartamentos() } 
-                                                searchable
-                                                allowDeselect
-                                                transition="pop-top-left"
-                                                transitionDuration={200}
-                                                transitionTimingFunction="ease" 
-                                                {...subClienteForm.getInputProps(`employees.${index}.departamento`, { type: 'select' })}
-                                            />
-                                        </div>
-                                        <div className="col-span-12 md:col-span-4 xl:col-span-1 flex items-center">
-                                            <button onClick={() => removeFormLine(index) }><DeleteBtn /></button>
+                <form onSubmit={subClienteSubmit}>
+                    <div className="mt-1 mr-1 ml-1 mb-0 bg-[#edf8fb] rounded-md overflow-hidden mx-auto">
+
+                        <div className="p-6 pb-4">
+                            {subClienteForm.values.employees.map((item, index) => {
+                                return (
+                                    <div key={item.key} className="mb-4">
+                                        <Input
+                                            hidden
+                                            val={client.id}
+                                            {...subClienteForm.getInputProps(`employees.${index}.cliente`)}
+                                        />
+                                        <div className="grid grid-cols-12 gap-x-4 border-b border-green_input">
+                                            <div className="col-span-12 md:col-span-4 xl:col-span-4">
+                                                <TextInput
+                                                    withAsterisk
+                                                    label="Nome"
+                                                    {...subClienteForm.getInputProps(`employees.${index}.nome`)}
+                                                />
+                                            </div>
+                                            <div className="col-span-12 md:col-span-4 xl:col-span-4">
+                                                <TextInput
+                                                    withAsterisk
+                                                    label="Email"
+                                                    {...subClienteForm.getInputProps(`employees.${index}.email`)}
+                                                />
+                                            </div>
+                                            <div className="col-span-12 md:col-span-4 xl:col-span-3">
+                                                <Select label="Departamento" 
+                                                    withAsterisk
+                                                    placeholder="Escolha uma opção"
+                                                    data={ getDepartamentos() } 
+                                                    searchable
+                                                    allowDeselect
+                                                    transition="pop-top-left"
+                                                    transitionDuration={200}
+                                                    transitionTimingFunction="ease" 
+                                                    {...subClienteForm.getInputProps(`employees.${index}.departamento`, { type: 'select' })}
+                                                />
+                                            </div>
+                                            <div className="col-span-12 md:col-span-4 xl:col-span-1 flex items-center">
+                                                <button onClick={() => removeFormLine(index) }><DeleteBtn /></button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            )
-                        })}
+                                )
+                            })}
+                            <button onClick={() => subClienteForm.insertListItem('employees', { cliente: client.id , nome: '', email: '', departamento: '', key: randomId()}) } className="flex justify-start items-center">
+                                <AdduserBtn /> <div className="ml-2 text-blue1 font-gotham_bold uppercase text-xs text-left leading-none">Adicionar<br />funcionário</div>
+                            </button>
+                        </div>
 
-                        <button onClick={() => subClienteForm.insertListItem('employees', { cliente: client.id , nome: '', email: '', departamento: '', key: randomId()}) } className="flex justify-start items-center">
-                            <AdduserBtn /> <div className="ml-2 text-blue1 font-gotham_bold uppercase text-xs text-left leading-none">Adicionar<br />funcionário</div>
-                        </button>
+                        <div className="flex relative justify-end w-full bg-green_input">
+                            <Button type="submit" className='formClientBtn'>Registrar Cliente</Button>
+                        </div>
+                    </div>
+                </form>
 
-                        <Group position="right" mt="md">
-                            <Button type="submit">Registrar Cliente</Button>
-                        </Group>
-                    </form>
-
-                    {/* <Code block>{JSON.stringify(subClienteForm.values, null, 2)}</Code> */}
-                </div>
+                {/* <Code block>{JSON.stringify(subClienteForm.values, null, 2)}</Code> */}
             </Collapse>
             <Tbhr />
         </>
