@@ -85,3 +85,43 @@ export const getDepartamentos = () => {
         'Vendas' 
     ];
 }
+
+export const getDepartamentosArrObject = () => {
+    return [
+        { value: 1, label: 'Administrativo'} ,
+        { value: 2, label: 'Atacado'} ,
+        { value: 3, label: 'Atendimento ao cliente'} ,
+        { value: 4, label: 'Auditoria'} ,
+        { value: 5, label: 'Comercial'} ,
+        { value: 6, label: 'Comunicação'} ,
+        { value: 7, label: 'Contabilidade'} ,
+        { value: 8, label: 'Controladoria'} ,
+        { value: 9, label: 'Crédito'} ,
+        { value: 10, label: 'Desenvolvimento de negócios'} ,
+        { value: 11, label: 'Estratégia'} ,
+        { value: 12, label: 'Exportação'} ,
+        { value: 13, label: 'Financeiro	'} ,
+        { value: 14, label: 'Garantia de Qualidade'} ,
+        { value: 15, label: 'Importação'} ,
+        { value: 16, label: 'Inteligência de Mercado'} ,
+        { value: 17, label: 'Legal'} ,
+        { value: 18, label: 'Logística'} ,
+        { value: 19, label: 'Manutenção'} ,
+        { value: 20, label: 'Marketing'} ,
+        { value: 21, label: 'Operações'} ,
+        { value: 22, label: 'Pesquisa e Desenvolvimento	'} ,
+        { value: 23, label: 'Planejamento'} ,
+        { value: 24, label: 'Planejamento Financeiro'} ,
+        { value: 25, label: 'Processos	'} ,
+        { value: 26, label: 'Produção'} ,
+        { value: 27, label: 'Projetos'} ,
+        { value: 28, label: 'Recursos Humanos'} ,
+        { value: 29, label: 'Seguros	'} ,
+        { value: 30, label: 'Tesouraria'} ,
+        { value: 31, label: 'TI – Tecnologia da Informação'} ,
+        { value: 32, label: 'Treinamento e Desenvolvimento'} ,
+        { value: 33, label: 'Tributário, Fiscal'} ,
+        { value: 34, label: 'Varejo'} ,
+        { value: 35, label: 'Vendas'},
+    ];
+}

@@ -26,6 +26,7 @@ module.exports = {
                 paragraph: "#404059",
                 gray2: "#A5B4CB",
                 gray3: "#7D8DA6",
+                gray_label: "#596983",
 
                 blue1: "#007EC6",
                 red1: "#B31717",

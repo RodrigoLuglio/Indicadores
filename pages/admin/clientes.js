@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { checkUserRole } from "../../services/auth";
-import { getUsersByRole, addUpCliente } from "../../services/clientes";
+import { getUsersByRole, addUpCliente, getEmployees } from "../../services/clientes";
 import { getSession } from "next-auth/react";
 
 import Layout from "../../layouts/Admin";
@@ -13,13 +13,15 @@ import { showNotification } from "@mantine/notifications";
 import { IconAlertCircle, IconCheck } from '@tabler/icons';
 
 import { BlockTitle } from "../../components/titles";
-import { Tbhr, ClientRowList } from "../../components/misc";
+import { Tbhr } from "../../components/misc";
+import ClientRowList from "../../components/clientRowList"
 
 // const ClientContext = createContext('light');
-export default function Clientes({ user, clientes, jwt }) {
+export default function Clientes({ user, clientes, employees, jwt }) {
 
     const [showError, setShowError] = useState(false);
     const [clientlist, setClientlist] = useState(clientes);
+    const [employeeslist, setEmployeeslist] = useState(employees);
 
     const clienteForm = useForm({
         initialValues: {
@@ -64,9 +66,6 @@ export default function Clientes({ user, clientes, jwt }) {
         { title: 'Clientes', href: '/admin/clientes' },
     ];
 
-    useEffect(() => {
-        
-    }, [])
     
 
     return (
@@ -123,7 +122,7 @@ export default function Clientes({ user, clientes, jwt }) {
                 <BlockTitle>Clientes</BlockTitle>
                 <Tbhr />
                 { clientlist && 
-                    clientlist.map((client, index) => <ClientRowList key={index} client={client} tn={jwt} /> )
+                    clientlist.map((client, index) => <ClientRowList key={index} client={client} employees={employees} tn={jwt} /> )
                 }
             </section>
         </>
@@ -137,19 +136,20 @@ Clientes.getLayout = function getLayout(page) {
 export async function getServerSideProps(context) {
     const session = await getSession(context);
 
-    console.log('session.jwt: ', session.jwt);
-
     const returnedObj = checkUserRole (session, "Admin");
     if(returnedObj != null) return returnedObj;
 
     const clientes = await getUsersByRole(session.jwt, "CAdmin");
+    const employees = await getEmployees(session.jwt);
     console.log('CLIENTES > ', clientes);
+    console.log('EMPLOYEES > ', employees);
 
     return {
         props: {
             user: session.user,
+            jwt: session.jwt,
             clientes,
-            jwt: session.jwt
+            employees
         },
     };
 }
