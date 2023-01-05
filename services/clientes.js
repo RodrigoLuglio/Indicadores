@@ -43,7 +43,7 @@ export async function getEmployees(jwt) {
 // reponsavel p adicionar usuário CAdmin (addUpCjiente) e cliente (AddUpEmployees)
 export async function addUser (jwt, dados) {
     const password = generatePassword(12);
-    console.log('formato de dados', dados);
+    console.log('dados', dados);
     const formatData = {
         username: slugify(dados?.nome) + generatePassword(4),
         password: password,
@@ -51,12 +51,14 @@ export async function addUser (jwt, dados) {
         email: dados.email,
         name: dados.nome
     };
+    console.log('formatData', formatData);
     // se vier dados de funcionário (só vindo de registro de funcionário)
     const employee = (dados.departamento && dados.organizacao )
         ? { organizacao: dados.organizacao,
             departamento: dados.departamento
         } : null;
 
+    console.log('employee', employee);
     try {
         const { data } = await axios.post(`${strapiUrl}/api/users`, 
             { ...formatData, ...employee },
@@ -103,25 +105,57 @@ export async function addUpCliente(jwt, dados) {
 }
 
 export async function addUpEmployees(jwt, dados) {
-    console.log('## ----- addUpEmployees inicia aqui -------');
-    console.log('addUpEmployees dados: ', dados);
+    console.log('## ----- [INICIO] addUpEmployees -------');
+    // console.log('addUpEmployees dados: ', dados);
+    // console.log('dados.length', dados.employees.length);
 
     let addedUsers = [];
-    dados.employees.map(async (item, index) => {
+    dados.employees.forEach(async (item, index) => {
         item.role = 5;
         item.organizacao = item.organizacao;
         item.departamento = item.departamento;
-        const resUser = await addUser(jwt, item);
-        console.log('resUser addUSer: ', resUser);
-        addedUsers.push({
-            ...resUser, 
-            organizacao: item.organizacao, 
-            departamento: item.departamento 
-        });
+        const password = generatePassword(12);
+        const formatData = formatEmployeeObject(password, item);
+
+        try {
+            const { data } = await axios.post(`${strapiUrl}/api/users`, 
+                formatData,
+                {
+                    headers: {
+                        Authorization: `Bearer ${jwt}`,
+                    }
+                },
+            );
+            console.log(`data ${index}`, data);
+            addedUsers.push({
+                ...data, 
+                organizacao: item.organizacao, 
+                departamento: item.departamento 
+            });
+        } catch (error) {
+            return error.response.data.error;
+        }
     })
 
-    // console.log('addedUsers:', addedUsers);
+    console.log('## ----- [FIM] addUpEmployees -------');
     return addedUsers;
+}
+
+function formatEmployeeObject(password, dados) {
+    const formatData = {
+        username: slugify(dados?.nome) + generatePassword(4),
+        password: password,
+        role: dados.role,
+        email: dados.email,
+        name: dados.nome
+    };
+
+    const employee = (dados.departamento && dados.organizacao )
+        ? { organizacao: dados.organizacao,
+            departamento: dados.departamento
+        } : null;
+
+    return { ...formatData, ...employee };
 }
 
 function formatClienteObject(user, organizacao, role) {
@@ -141,6 +175,21 @@ function formatClienteObject(user, organizacao, role) {
     }
     return {
 
+    }
+}
+
+
+export async function deleteEmployee (jwt, id) {
+    try {
+        const res = await axios.delete(`${strapiUrl}/api/users/` + id, {
+            headers: {
+                Authorization: `Bearer ${jwt}`,
+            },
+        });
+        return res.data;
+    } catch (error) {
+        console.log("Ocorreu um erro: ", error);
+        return error;
     }
 }
 

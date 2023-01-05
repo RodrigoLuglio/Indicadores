@@ -21,7 +21,7 @@ export default function Clientes({ user, clientes, employees, jwt }) {
 
     const [showError, setShowError] = useState(false);
     const [clientlist, setClientlist] = useState(clientes);
-    const [employeeslist, setEmployeeslist] = useState(employees);
+    
 
     const clienteForm = useForm({
         initialValues: {
@@ -122,7 +122,7 @@ export default function Clientes({ user, clientes, employees, jwt }) {
                 <BlockTitle>Clientes</BlockTitle>
                 <Tbhr />
                 { clientlist && 
-                    clientlist.map((client, index) => <ClientRowList key={index} client={client} employees={employees} tn={jwt} /> )
+                    clientlist.map((client, index) => <ClientRowList key={index} client={client} employees={employees} jwt={jwt} /> )
                 }
             </section>
         </>

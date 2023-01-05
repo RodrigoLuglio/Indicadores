@@ -125,3 +125,6 @@ export const getDepartamentosArrObject = () => {
         { value: 35, label: 'Vendas'},
     ];
 }
+
+
+export const getDepartamentoLabel = (deparatamentoId) => getDepartamentosArrObject().filter(dep => dep.value == deparatamentoId)[0].label

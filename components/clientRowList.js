@@ -1,22 +1,26 @@
 import { useEffect, useState } from 'react';
-import { Collapse, TextInput, Input, Button, Group, Alert, Code, Select, Badge  } from '@mantine/core';
+import { Collapse, TextInput, Input, Button, Select, Badge  } from '@mantine/core';
 import { randomId } from '@mantine/hooks';
 import { useForm } from "@mantine/form";
+import { showNotification } from "@mantine/notifications";
+import { IconAlertCircle, IconCheck } from '@tabler/icons';
+
 import ViewBtn from './buttons/viewBtn';
-import { getDepartamentosArrObject } from "../services/utils";
-import { addUpEmployees } from "../services/clientes";
+import { getDepartamentosArrObject, getDepartamentoLabel } from "../services/utils";
+import { addUpEmployees, deleteEmployee } from "../services/clientes";
 import DeleteBtn from "../components/buttons/deleteBtn";
 import AdduserBtn from "../components/buttons/adduserBtn";
 import { AvatarCompany, Tbhr, TitleBadge, DevBadge, Label } from './misc';
 
 
-const ClientRowList = ({client, tn, employees}) => {
+const ClientRowList = ({client, jwt, employees}) => {
     const [opened, setOpened] = useState(false);
+    const [employeeslist, setEmployeeslist] = useState(employees.filter( employee => employee.organizacao?.id === client.organizacao?.id));
     
     const removeFormLine = (index) => {
         subClienteForm.removeListItem('employees', index);
     }
-
+    
     const subClienteForm = useForm({
         initialValues: {
             employees: [{ 
@@ -36,19 +40,48 @@ const ClientRowList = ({client, tn, employees}) => {
         }
     });
     
-    const subClienteSubmit =  subClienteForm.onSubmit(
-        async (values) =>  {
+    const subClienteSubmit = subClienteForm.onSubmit(
+        async (values, _event) =>  {
             console.log('-------------- [INICIO] subClienteSubmit -------------')
-            console.log(values);
+            console.log('subClienteSubmit values: ', values);
             const val = subClienteForm.validate();
-            console.log('subClienteSubmit val: ', val);
-            const resAddEmployee = await addUpEmployees(tn, values);
-            console.log('resAddEmployee val: ', resAddEmployee);
+            const resAddEmployee = await addUpEmployees(jwt, values);;
+            // TODO: Não funcionou sem o setTimeout, confirmar se não existe alguma solução sem o setTimeout
+            setTimeout(() => {
+                if(resAddEmployee.length === values.employees.length){
+                    resAddEmployee.map((emp) => {
+                        console.log('######## entrouu #######');
+                        console.log('emp', emp)
+                        showNotification({
+                            title: `Funcionário ${emp.name} cadastrado`,
+                            message: `Foi enviado um email com as instruções de acesso para o ${emp.name}`,
+                            icon: <IconCheck size={18} />,
+                            color: 'teal',
+                            autoClose: 6000,
+                        });
+                        setEmployeeslist( prevState => [...prevState, emp] );
+                    })
+                    subClienteForm.reset();
+                }
+            }, 400);
             console.log('-------------- [FIM] subClienteSubmit -------------')
-        }
+        },
+        (errors) => console.log(errors)
     );
 
-    const filteredEmployees = employees.filter( employee => employee.organizacao?.id === client.organizacao?.id);
+    const removeEmployee = async (id) => {
+        const delEmployee = await deleteEmployee(jwt, id);
+        if(delEmployee.id){
+            showNotification({
+                title: "Sucesso",
+                message: `Funcionário ${delEmployee.name}deletado!`,
+                icon: <IconCheck size={18} />,
+                color: 'teal',
+                autoClose: 4000,
+            });
+            setEmployeeslist(employeeslist.filter(item => item.id !== delEmployee.id ));
+        }
+    }
 
     return (
         <>
@@ -78,11 +111,11 @@ const ClientRowList = ({client, tn, employees}) => {
                     <div className="mt-1 mr-1 ml-1 mb-0 bg-[#edf8fb] rounded-md overflow-hidden mx-auto">
 
                         <div className="p-6 pb-4">
-                            { filteredEmployees.length > 0 && 
+                            { employeeslist.length > 0 && 
                                 <>
                                     <TitleBadge>Funcionários cadastrados (org.id: {client.organizacao?.id})</TitleBadge>
                                     <div className='mb-6'>
-                                        { filteredEmployees.map((empl, index) => {
+                                        { employeeslist.map((empl, index) => {
                                                 return ( 
                                                     <div key={index}>
                                                         <div className={`grid grid-cols-12 gap-x-4 border-b border-green_input px-2 py-1`} >
@@ -93,9 +126,14 @@ const ClientRowList = ({client, tn, employees}) => {
                                                                 <Label>{empl.email}</Label>
                                                             </div>
                                                             <div className="col-span-12 md:col-span-4 xl:col-span-3">
-                                                                <Label>{empl.departamento?.nome}</Label>
+                                                                <Label>{(empl.departamento?.nome) ? empl.departamento?.nome : getDepartamentoLabel(empl.departamento)}</Label>
                                                             </div>
-                                                            <div></div>
+                                                            <div className="flex justify-end items-center space-x-2">
+                                                                <ViewBtn size="w-[28px] h-[28px]" />
+                                                                <div onClick={ () => removeEmployee(empl.id) }>
+                                                                    <DeleteBtn size="w-[28px] h-[28px]" />
+                                                                </div>
+                                                            </div>
                                                         </div>
             
                                                     </div>
@@ -107,7 +145,7 @@ const ClientRowList = ({client, tn, employees}) => {
                             }
 
                             {/* Form de cadastro de novos funcionários */}
-                            <TitleBadge>Novos funcionários</TitleBadge>
+                            <TitleBadge>Cadastro de funcionários</TitleBadge>
                             { subClienteForm.values.employees.map((item, index) => {
                                 return (
                                         <div key={item.key} className="mb-4">
