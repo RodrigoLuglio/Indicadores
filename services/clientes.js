@@ -40,7 +40,7 @@ export async function getEmployees(jwt) {
     }
 }
 
-// reponsavel p adicionar usuário CAdmin (addUpCjiente) e cliente (AddUpEmployees)
+// reponsavel p adicionar usuário CAdmin (addUpCjiente)
 export async function addUser (jwt, dados) {
     const password = generatePassword(12);
     console.log('dados', dados);
@@ -194,3 +194,16 @@ export async function deleteEmployee (jwt, id) {
 }
 
 
+export async function countUserByRole (jwt, roleid) {
+    try {
+        const res = await axios.get(`${strapiUrl}/api/users/count?role=` + roleid, {
+            headers: {
+                Authorization: `Bearer ${jwt}`,
+            },
+        });
+        return res.data;
+    } catch (error) {
+        console.log("Ocorreu um erro: ", error);
+        return error;
+    }
+}

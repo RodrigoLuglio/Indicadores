@@ -42,3 +42,15 @@ export function checkUserRole (session, role) {
     //     }
     // }
 }
+
+export async function getUserAvatar(jwt, userId) {
+    const { data } = await axios.get(
+        `${strapiUrl}/api/users/${userId}/?fields[0]=id&fields[1]=name&populate[avatar][fields][0]=formats`,
+        {
+            headers: {
+                Authorization: "Bearer " + jwt,
+            },
+        }
+    );
+    return data;
+}

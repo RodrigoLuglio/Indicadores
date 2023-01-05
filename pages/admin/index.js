@@ -1,7 +1,8 @@
 import Head from "next/head";
 
 import { getSession } from "next-auth/react";
-import { checkUserRole } from "../../services/auth";
+import { checkUserRole, getUserAvatar } from "../../services/auth";
+import { countUserByRole } from "../../services/clientes";
 
 import Layout from '../../layouts/Admin'
 import HelloBar from "../../components/helloBar";
@@ -13,7 +14,7 @@ import { BlockTitle } from "../../components/titles";
 import { Tbhr, StatusBall, AvatarCompany } from "../../components/misc";
 
 
-export default function AdminDashboard({user}) {
+export default function AdminDashboard({user, countedClients}) {
 
     // const { data: session } = useSession();
 
@@ -26,18 +27,12 @@ export default function AdminDashboard({user}) {
     //     console.log("Session [] -> ", session);
     // }, []);
 
-    // const user = {
-    //     name: 'Fernanda',
-    //     role: 'Admin',
-    //     avatar: 'https://source.unsplash.com/gySMaocSdqs/50x50'
-    // }
-
     return (
         <>
             <HelloBar user={user} />
 
             <section className="cardsGrid">
-                <StatusCard title="Total" subTitle="clientes" val="24" bgIcon="bg-orange" icon={<IconCardClientes /> } />
+                <StatusCard title="Total" subTitle="clientes" val={countedClients} bgIcon="bg-orange" icon={<IconCardClientes /> } />
                 <StatusCard title="Indicadores" subTitle="em aberto" val="145" bgIcon="bg-orange_dark" icon={<IconCardIndAbertos /> } />
                 <StatusCard title="Indicadores" subTitle="finalizados" val="57" bgIcon="bg-green_mid" icon={<IconCardIndFinalizados /> } />
                 <StatusCard title="Indicadores aguardando" subTitle="verificação" val="12" bgIcon="bg-green_light" icon={<IconCardAguardVerificacao /> } />
@@ -171,9 +166,16 @@ export const getServerSideProps = async (context) => {
     const returnedObj = checkUserRole (session, "Admin");
     if(returnedObj != null) return returnedObj;
 
+    const countedClients = await countUserByRole(session.jwt, 4);
+    const avatar = await getUserAvatar(session.jwt, 4);
+
+    // console.log(session)
+    console.log(avatar)
+
     return {
         props: {
-            user: session.user
+            user: session.user,
+            countedClients
         }
     }
 }
