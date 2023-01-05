@@ -17,15 +17,14 @@ import { ActionIcon } from "@mantine/core";
 import { IconInfoCircle } from "@tabler/icons";
 import { useForm } from "@mantine/form";
 
-import { useState } from "react";
-import dynamic from "next/dynamic";
+import { useState, useRef } from "react";
+
+import HotTable from "../components/HotTable";
 
 export default function Mantine() {
-    // HotTable failed during the ssr
-    const DynamicComponentWithNoSSR = dynamic(
-        () => import("@handsontable/react").then((mod) => mod.HotTable),
-        { ssr: false }
-    );
+    const hotRef = useRef(null);
+    // you can reference the Handsontable instance via hotRef.current.hotInstance
+    console.log(hotRef);
 
     const DATA = [
         ["", "Tesla", "Mercedes", "Toyota", "Volvo"],
@@ -134,11 +133,12 @@ export default function Mantine() {
                         })}
                     />
 
-                    <TransferList
-                        value={data1}
-                        onChange={setData1}
-                        searchPlaceholder="Search..."
-                        nothingFound="Nothing here"
+                    <HotTable
+                        ref={hotRef}
+                        licenseKey="non-commercial-and-evaluation"
+                        data={data}
+                        onBeforeHotChange={onBeforeHotChange}
+                        // you can add options here (https://handsontable.com/docs/8.2.0/Options.html)
                     />
 
                     <Group position="right" mt="md">

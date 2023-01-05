@@ -1,4 +1,5 @@
-import { useState } from "react";
+import dynamic from "next/dynamic";
+import { useEffect, useState } from "react";
 import { Tbhr, FullCard, StatusBall } from "./misc";
 import ViewBtn from "./buttons/viewBtn";
 import {
@@ -14,9 +15,29 @@ import {
 import { IconInfoCircle } from "@tabler/icons";
 import { useForm } from "@mantine/form";
 import { getStatusColor } from "../services/utils";
+import { TruckReturn } from "tabler-icons-react";
+
+import { HotTable } from "../components/HotTable";
 
 export const Campo = ({ campo }) => {
     const { numero, texto, tipo, config, status, conteudo, respostas } = campo;
+    const hotRef = useRef(null);
+
+    const DATA = [
+        ["", "Tesla", "Mercedes", "Toyota", "Volvo"],
+        ["2019", 10, 11, 12, 13],
+        ["2020", 20, 11, 14, 13],
+        ["2021", 30, 15, 12, 13],
+    ];
+
+    const [data, setData] = useState(DATA);
+    const onBeforeHotChange = (changes, source) => {
+        const newData = data.slice(0);
+        changes.forEach((change) => {
+            newData[change[0]][change[1]] = change[3];
+        });
+        setData(newData);
+    };
 
     const form = useForm({
         initialValues: {},
@@ -32,20 +53,67 @@ export const Campo = ({ campo }) => {
         console.log(errors);
     };
 
+    const getCampo = () => {
+        switch (tipo) {
+            case "tabela":
+                return (
+                    <HotTable
+                        ref={hotRef}
+                        // onBeforeHotChange={onBeforeHotChange}
+                        data={[]}
+                        dataSchema={{
+                            id: null,
+                            name: {
+                                first: null,
+                                last: null,
+                            },
+                            address: null,
+                        }}
+                        startRows={5}
+                        startCols={4}
+                        colHeaders={[
+                            "ID",
+                            "First Name",
+                            "Last Name",
+                            "Address",
+                        ]}
+                        height="auto"
+                        width="auto"
+                        columns={[
+                            { data: "id" },
+                            { data: "name.first" },
+                            { data: "name.last" },
+                            { data: "address" },
+                        ]}
+                        minSpareRows={1}
+                        licenseKey="non-commercial-and-evaluation"
+                    />
+                );
+            case "numero":
+                return (
+                    <TextInput
+                        error="error text"
+                        {...form.getInputProps("resposta")}
+                    />
+                );
+            case "texto":
+                return (
+                    <TextInput
+                        error="error text"
+                        {...form.getInputProps("resposta")}
+                    />
+                );
+            case "nenhum":
+                return null;
+            default:
+                return null;
+        }
+    };
+
     return (
         <>
             <div className="p-4">
                 <form onSubmit={form.onSubmit(handleSubmit, handleError)}>
-                    <TextInput
-                        // variant="headless" //remover estilos do mantine
-                        withAsterisk
-                        label="a. liste todas as entidades incluídas no relatório de sustentabilidade"
-                        placeholder="your@email.com"
-                        rightSection={rightSection}
-                        error="error text"
-                        {...form.getInputProps("email")}
-                    />
-
                     <div className="formLabel">
                         {numero}. {texto} <br />
                     </div>
@@ -53,6 +121,7 @@ export const Campo = ({ campo }) => {
                         error="error text"
                         {...form.getInputProps("resposta")}
                     />
+                    {getCampo()}
 
                     <Group position="left" mt="md">
                         <Button variant="default" type="submit">

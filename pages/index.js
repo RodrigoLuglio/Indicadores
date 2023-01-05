@@ -16,11 +16,11 @@ export default function Home() {
 
     const [opened, setOpened] = useState(false);
 
-    useEffect(() => {
-        if (session == null) return;
-        const route =  (session.user.role == "Admin") ? "/admin/" : "/dashboard";
-        Router.push(route);
-    }, [session]);
+    // useEffect(() => {
+    //     if (session == null) return;
+    //     const route =  (session.user.role == "Admin") ? "/admin/" : "/dashboard";
+    //     Router.push(route);
+    // }, [session]);
 
     return (
         <div className={styles.container}>

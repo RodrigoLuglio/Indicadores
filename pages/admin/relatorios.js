@@ -1,7 +1,10 @@
+import styles from "../../styles/Relatorios.module.css";
+
 import Head from "next/head";
 import { useState, useEffect } from "react";
 
 import Layout from "../../layouts/Admin";
+import Campo from "../../components/campo";
 
 import { getSession } from "next-auth/react";
 
@@ -11,30 +14,13 @@ import { getNormas, getOrgs } from "../../services/normas";
 import DropdownTreeSelect from "react-dropdown-tree-select";
 import "react-dropdown-tree-select/dist/styles.css";
 
-export default function Relatorios({ orgs, normas, normasListData }) {
+export default function Relatorios({ orgs, normas, normasListData, jwt }) {
     const [normasData, setNormasData] = useState(normasListData);
     useEffect(() => {
         console.log("Orgs -> ", orgs);
         console.log("Normas -> ", normas);
         console.log("Lista data -> ", normasListData);
     }, []);
-
-    // const data = {
-    //     label: "search me",
-    //     value: "searchme",
-    //     children: [
-    //         {
-    //             label: "search me too",
-    //             value: "searchmetoo",
-    //             children: [
-    //                 {
-    //                     label: "No one can get me",
-    //                     value: "anonymous",
-    //                 },
-    //             ],
-    //         },
-    //     ],
-    // };
 
     const onChange = (currentNode, selectedNodes) => {
         console.log("onChange::", currentNode, selectedNodes);
@@ -59,6 +45,7 @@ export default function Relatorios({ orgs, normas, normasListData }) {
                     onNodeToggle={onNodeToggle}
                 />
             </section>
+            <section>{/* <Campo campo={campos} */}</section>
         </>
     );
 }
@@ -95,6 +82,7 @@ export async function getServerSideProps(context) {
                             ". " +
                             campo.attributes.texto,
                         tipo: "campo",
+                        disabled: true,
                     });
                 });
                 conteudosListData.push({
@@ -127,6 +115,7 @@ export async function getServerSideProps(context) {
 
     return {
         props: {
+            jwt: session.jwt,
             normas: normas.data,
             normasListData: normasListData,
             orgs: orgs.data,

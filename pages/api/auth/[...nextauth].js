@@ -30,8 +30,10 @@ export default NextAuth({
                         password: credentials.password,
                     });
                     const data = await me(jwt);
+                    console.log(data);
                     user.role = data.role.name;
-                    user.name = data.name;
+                    user.name = data.username;
+                    user.id = data.id;
                     return { ...user, jwt };
                 } catch (error) {
                     // Sign In Fail
@@ -45,6 +47,8 @@ export default NextAuth({
             session.id = token.id;
             session.jwt = token.jwt;
             session.user.role = token.role;
+            session.user.name = token.name;
+            session.user.id = token.id;
             return Promise.resolve(session);
         },
         jwt: async ({ token, user }) => {
