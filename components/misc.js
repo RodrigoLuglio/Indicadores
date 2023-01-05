@@ -1,3 +1,5 @@
+import { Badge } from '@mantine/core';
+
 export const Tbhr = ({lower}) => {
     const marginY = (lower) ? 'my-1' : 'my-2';
     return (
@@ -47,8 +49,10 @@ export const StatusBall = ({status, withLabel}) => {
 export const AvatarCompany = ({ company, subinfo, logo  }) => {
     return (
         <div className="flex w-full justify-start items-center">
-            <div className="h-[34px] w-[34px] flex rounded-[10px] overflow-hidden bg-red-300 mr-2">
-                <img src={logo} className="object-center object-cover w-full" alt="" />
+            <div className="h-[34px] w-[34px] flex rounded-[10px] overflow-hidden bg-slate-300 mr-2">
+                { logo && 
+                    <img src={logo} className="object-center object-cover w-full" alt="" />
+                }
             </div>
             <div>
                 <div className="text-paragraph font-gotham_medium leading-none">{company}</div>
@@ -63,5 +67,29 @@ export const FullCard = ({children}) => {
         <div className="relative w-full mb-10 bg-white rounded-lg py-3 px-5 shadow-status_card_xs md:shadow-status_card">
             {children}
         </div>
+    )
+}
+
+export const DevBadge = ({children, color = 'cyan'}) => {
+    if (process.env.NODE_ENV == 'development') {
+        return (
+            <Badge variant="filled" size='sm' color={color}>
+                {children}
+            </Badge>
+        )
+    }
+}
+
+export const TitleBadge = ({children, textcolor = 'text-[#78a0aa]', bgcolor = 'bg-green_input'}) => {
+    return (
+        <Badge variant="filled" size='sm' className={`${textcolor} ${bgcolor} mb-1`}>
+            {children}
+        </Badge>
+    )
+}
+
+export const Label = ({children}) => {
+    return (
+        <span className="text-gray_label text-sm font-gotham_medium" >{children}</span>
     )
 }

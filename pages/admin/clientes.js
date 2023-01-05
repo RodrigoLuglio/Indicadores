@@ -1,21 +1,27 @@
 import Head from "next/head";
 import { checkUserRole } from "../../services/auth";
-import { getUsersByRole, addUpCliente } from "../../services/clientes";
+import { getUsersByRole, addUpCliente, getEmployees } from "../../services/clientes";
 import { getSession } from "next-auth/react";
 
 import Layout from "../../layouts/Admin";
 import HelloBar from "../../components/helloBar";
 
-import { useState, useEffect } from "react";
-import { Select, TextInput, Button, Group, Textarea } from "@mantine/core";
+import { useState, useEffect, createContext } from "react";
+import { Select, TextInput, Button, Group, Alert } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { showNotification } from "@mantine/notifications";
+import { IconAlertCircle, IconCheck } from '@tabler/icons';
 
 import { BlockTitle } from "../../components/titles";
 import { Tbhr } from "../../components/misc";
+import ClientRowList from "../../components/clientRowList"
 
-export default function Clientes({ user, clientes, jwt }) {
+// const ClientContext = createContext('light');
+export default function Clientes({ user, clientes, employees, jwt }) {
 
+    const [showError, setShowError] = useState(false);
     const [clientlist, setClientlist] = useState(clientes);
+    
 
     const clienteForm = useForm({
         initialValues: {
@@ -34,9 +40,23 @@ export default function Clientes({ user, clientes, jwt }) {
     const clienteSubmit =  clienteForm.onSubmit(
         async (values) =>  {
             values.role = 4; //CAdmin
-            console.log('value', values);
             const res = await addUpCliente(jwt, values);
-            console.log('res', res);
+            console.log('res ::: ', res);
+            if(res.status == 400){
+                setShowError(res.message);
+            }else{
+                setClientlist( prevState => {
+                    return [ ...prevState, res ]
+                });
+                showNotification({
+                    title: "Sucesso",
+                    message: "Cliente cadastrado!",
+                    icon: <IconCheck size={18} />,
+                    color: 'teal',
+                    autoClose: 5000,
+                });
+                setShowError(false);
+            }
         },
         (errors) => console.log(errors)
     );
@@ -46,10 +66,6 @@ export default function Clientes({ user, clientes, jwt }) {
         { title: 'Clientes', href: '/admin/clientes' },
     ];
 
-    useEffect(() => {
-        console.log('clientlist', clientlist);
-        
-    }, [])
     
 
     return (
@@ -96,15 +112,18 @@ export default function Clientes({ user, clientes, jwt }) {
                     <Group position="right" mt="md">
                         <Button type="submit">Registrar Usuário</Button>
                     </Group>
-                </form>
 
+                    { showError && 
+                        <Alert icon={<IconAlertCircle size={16} />} title="Erro" color="red" variant="filled" className="mb-8">
+                            { showError }
+                        </Alert>
+                    }
+                </form>
                 <BlockTitle>Clientes</BlockTitle>
                 <Tbhr />
-
                 { clientlist && 
-                    clientlist.map((client, index) => <div key={index}>{client.name}, {client.email}, {client.organizacao.nome}</div> )
+                    clientlist.map((client, index) => <ClientRowList key={index} client={client} employees={employees} jwt={jwt} /> )
                 }
-
             </section>
         </>
     );
@@ -121,13 +140,16 @@ export async function getServerSideProps(context) {
     if(returnedObj != null) return returnedObj;
 
     const clientes = await getUsersByRole(session.jwt, "CAdmin");
+    const employees = await getEmployees(session.jwt);
     console.log('CLIENTES > ', clientes);
+    console.log('EMPLOYEES > ', employees);
 
     return {
         props: {
             user: session.user,
+            jwt: session.jwt,
             clientes,
-            jwt: session.jwt
+            employees
         },
     };
 }

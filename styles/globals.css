@@ -102,15 +102,40 @@ a {
 
                 input[type="text"],
                 input[type="password"] {
-                    @apply border-b border-green_light bg-transparent outline-none font-gotham_medium text-sm text-green_aqua focus:outline-none focus:border-green_aqua focus:ring-0 focus:text-white focus:bg-transparent transition-all duration-300 mb-10 py-3 px-2;
+                    @apply border-t-0 border-l-0 border-r-0 rounded-none border-b border-green_light bg-transparent outline-none font-gotham_medium text-sm text-green_aqua focus:outline-none focus:border-green_aqua focus:ring-0 focus:text-white focus:bg-transparent transition-all duration-300 py-4 px-2;
+                }
+                
+                .mantine-1b887t2 {
+                    @apply mb-8;
                 }
 
-                div {
-                    @apply flex flex-wrap md:flex-nowrap justify-between w-full items-center;
+                .mantine-1spk3rd {
+                    @apply rounded-none border-none bg-transparent;
                 }
+
+                .mantine-1rzga8z {
+                    @apply bg-transparent w-full;
+                }
+
+                .mantine-y8fv1k { /* focus qdo erro */
+                    @apply bg-transparent rounded-none border-l-0 border-t-0 border-r-0;
+                }
+
+                .mantine-14z3xly{ /* botão do olho da senha */
+                    @apply bg-transparent pl-1 pt-1 !important;
+                }
+
+                /* div {
+                    @apply flex flex-wrap md:flex-nowrap justify-between w-full items-center;
+                } */
 
                 button {
-                    @apply bg-orange font-gotham_medium text-white text-sm px-4 py-2 inline-block rounded-md transition-all duration-300 hover:bg-green_dark mb-6 lg:mb-0;
+                    @apply bg-orange font-gotham_medium text-white text-sm px-4 py-2 inline-block rounded-md transition-all duration-300 hover:bg-green_dark;
+                }
+
+                button[type="submit"] {
+                    /* @apply bg-green_light text-white rounded-lg border-green_light border-2 hover:bg-white hover:text-green_light transition-all duration-300 px-8 h-9; */
+                    @apply bg-orange font-gotham_medium text-white text-sm px-4 py-2 inline-block rounded-md transition-all duration-300 hover:bg-green_dark border-none mb-0 !important;
                 }
 
                 a {
@@ -240,7 +265,7 @@ a {
     }
 
     .tableGrid {
-        @apply grid grid-cols-12 gap-2;
+        @apply grid grid-cols-12 gap-2 w-full;
     }
 
     .tableFlex {
@@ -282,6 +307,9 @@ a {
     .rowGridLower {
         @apply relative w-full rounded-lg bg-white hover:shadow-tbrow transition-all duration-300 px-2 py-2 flex-col justify-center items-start;
     }
+    .rowGridLowerHoriz {
+        @apply relative w-full rounded-lg bg-white hover:shadow-tbrow transition-all duration-300 px-2 py-2 flex justify-between items-center;
+    }
 
     .tb_waiting {
         @apply w-full !important;
@@ -300,12 +328,20 @@ a {
         }
     }
 
+    .formClientBtn {
+        @apply m-3 !important;
+    }
+
     .acc-content {
         @apply relative w-full border border-red-500 h-0 overflow-hidden transition-all duration-300;
     }
 
     .acc-content.opened {
         @apply h-auto;
+    }
+
+    .notific-success {
+        @apply bg-red-500 !important;
     }
 }
 

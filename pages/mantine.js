@@ -14,7 +14,7 @@ import {
 } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import { ActionIcon } from "@mantine/core";
-import { IconInfoCircle } from "@tabler/icons";
+import { IconInfoCircle, IconCheck } from "@tabler/icons";
 import { useForm } from "@mantine/form";
 
 import { useState, useRef } from "react";
@@ -102,7 +102,9 @@ export default function Mantine() {
             setTimeout(() => {
                 showNotification({
                     message: "Necessário aceitar os termos",
-                    color: "red",
+                    icon: <IconCheck size={18} />,
+                    color: "teal",
+                    // style: { backgroundColor: 'red' },
                 });
             }, 200);
         }
