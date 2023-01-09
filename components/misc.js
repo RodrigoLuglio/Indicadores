@@ -1,4 +1,4 @@
-import { Badge } from '@mantine/core';
+import { Badge, Loader } from '@mantine/core';
 
 export const Tbhr = ({lower}) => {
     const marginY = (lower) ? 'my-1' : 'my-2';
@@ -91,5 +91,16 @@ export const TitleBadge = ({children, textcolor = 'text-[#78a0aa]', bgcolor = 'b
 export const Label = ({children}) => {
     return (
         <span className="text-gray_label text-sm font-gotham_medium" >{children}</span>
+    )
+}
+
+export const Loading = ({color, text, className = ''}) => {
+    return (
+        <div className={`flex items-center justify-start ${className}`}>
+            <Loader color={color} variant="bars" size="sm" />
+            { text && 
+                <span className="loader__text text-[11px] uppercase font-gotham_bold text-green_light ml-2">{text}</span>            
+            }
+        </div>   
     )
 }

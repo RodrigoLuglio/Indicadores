@@ -6,16 +6,18 @@ import { showNotification } from "@mantine/notifications";
 import { IconAlertCircle, IconCheck } from '@tabler/icons';
 
 import ViewBtn from './buttons/viewBtn';
-import { getDepartamentosArrObject, getDepartamentoLabel } from "../services/utils";
+import { getDepartamentosArrObject, getDepartamentoLabel, generatePassword } from "../services/utils";
 import { addUpEmployees, deleteEmployee } from "../services/clientes";
+import { notifyClientRegister } from "../services/email";
 import DeleteBtn from "../components/buttons/deleteBtn";
 import AdduserBtn from "../components/buttons/adduserBtn";
-import { AvatarCompany, Tbhr, TitleBadge, DevBadge, Label } from './misc';
+import { AvatarCompany, Tbhr, TitleBadge, DevBadge, Label, Loading } from './misc';
 
 
 const ClientRowList = ({client, jwt, employees}) => {
     const [opened, setOpened] = useState(false);
     const [employeeslist, setEmployeeslist] = useState(employees.filter( employee => employee.organizacao?.id === client.organizacao?.id));
+    const [showLoadingEmpl, setShowLoadingEmpl] = useState(false);
     
     const removeFormLine = (index) => {
         subClienteForm.removeListItem('employees', index);
@@ -39,15 +41,31 @@ const ClientRowList = ({client, jwt, employees}) => {
             }
         }
     });
+
+    const notifyEmployees = async(employees) => {
+        employees.map(async (emp) => {
+            console.log('notifyEmployees:  ', emp)
+            const notify = await notifyClientRegister(emp);
+        });
+    }
     
     const subClienteSubmit = subClienteForm.onSubmit(
         async (values, _event) =>  {
+            setShowLoadingEmpl(true);
             console.log('-------------- [INICIO] subClienteSubmit -------------')
             console.log('subClienteSubmit values: ', values);
             const val = subClienteForm.validate();
-            const resAddEmployee = await addUpEmployees(jwt, values);;
+            values.employees.map((value, item) => {
+                const password = generatePassword(12);
+                value.password = password;
+                return password;
+            })
+
+            // console.log('passwords', passwords)
+            console.log('subClienteSubmit values after password: ', values);
+            const resAddEmployee = await addUpEmployees(jwt, values);
             // TODO: Não funcionou sem o setTimeout, confirmar se não existe alguma solução sem o setTimeout
-            setTimeout(() => {
+            setTimeout( async () => {
                 if(resAddEmployee.length === values.employees.length){
                     resAddEmployee.map((emp) => {
                         console.log('######## entrouu #######');
@@ -60,7 +78,10 @@ const ClientRowList = ({client, jwt, employees}) => {
                             autoClose: 6000,
                         });
                         setEmployeeslist( prevState => [...prevState, emp] );
+                        //envia o email
                     })
+                    notifyEmployees(values.employees);
+                    setShowLoadingEmpl(false);
                     subClienteForm.reset();
                 }
             }, 400);
@@ -190,12 +211,15 @@ const ClientRowList = ({client, jwt, employees}) => {
                                 )
                             })}
                             <button onClick={() => subClienteForm.insertListItem('employees', { organizacao: client.organizacao?.id , nome: '', email: '', departamento: '', key: randomId()}) } className="flex justify-start items-center">
-                                <AdduserBtn /> <div className="ml-2 text-blue1 font-gotham_bold uppercase text-xs text-left leading-none">Adicionar<br />funcionário</div>
+                                <AdduserBtn /> <div className="ml-2 text-blue1 font-gotham_bold uppercase text-xs text-left leading-none">Adicionar +<br />funcionário</div>
                             </button>
                         </div>
 
                         <div className="flex relative justify-end w-full bg-green_input">
-                            <Button type="submit" className='formClientBtn'>Registrar funcionário</Button>
+                            {  !showLoadingEmpl 
+                                ? <Button type="submit" className='formClientBtn'>Registrar funcionário</Button>
+                                : <Loading color="cyan" text="registrando usuário...aguarde" className="p-4" /> 
+                            }
                         </div>
                     </div>
                 </form>

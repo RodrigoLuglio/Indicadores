@@ -106,7 +106,7 @@ export async function addUpCliente(jwt, dados) {
 
 export async function addUpEmployees(jwt, dados) {
     console.log('## ----- [INICIO] addUpEmployees -------');
-    // console.log('addUpEmployees dados: ', dados);
+    console.log('addUpEmployees dados: ', dados);
     // console.log('dados.length', dados.employees.length);
 
     let addedUsers = [];
@@ -114,8 +114,9 @@ export async function addUpEmployees(jwt, dados) {
         item.role = 5;
         item.organizacao = item.organizacao;
         item.departamento = item.departamento;
-        const password = generatePassword(12);
-        const formatData = formatEmployeeObject(password, item);
+        item.password = item.password;
+        // const password = generatePassword(12);
+        const formatData = formatEmployeeObject(item);
 
         try {
             const { data } = await axios.post(`${strapiUrl}/api/users`, 
@@ -141,10 +142,10 @@ export async function addUpEmployees(jwt, dados) {
     return addedUsers;
 }
 
-function formatEmployeeObject(password, dados) {
+function formatEmployeeObject(dados) {
     const formatData = {
         username: slugify(dados?.nome) + generatePassword(4),
-        password: password,
+        password: dados.password,
         role: dados.role,
         email: dados.email,
         name: dados.nome
