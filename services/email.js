@@ -1,26 +1,31 @@
 import axios from "axios";
 
-const ENVIRONMENT = (process.env.NODE_ENV == 'development')
-        ? process.env.NEXTAUTH_URL
-        : process.env.STRAPI_URL;
-const API = ENVIRONMENT + '/api';
-const URI = 'notifications/';
+// const API = 'https://api.rlabs.com.br'
+const API = 'http://localhost:3000/api';
 
-export async function notifyClientRegister() {
+const URI = '/notifications/';
 
-    // await axios
-    //     .post(API + URI + 'notifyclient', {
-    //         to: "iurynadin@gmail.com",
-    //         subject: "teste de subject",
-    //         html: "<h1>Welcome!</h1><p>This is a test HTML email.</p>",
-    //     })
-    //     .then(function (response) {
-    //         console.log('response from notifyClientRegister', response)
-    //         return response
-    //     })
-    //     .catch(function (error) {
-    //         console.log('error from notifyClientRegister', error)
-    //         return error
-    //     });
+export async function notifyClientRegister(values) {
+
+    // const { nome, email, empresa } = values;
+    console.log('notifyClientRegister values:', values);
+
+    await axios
+        .post(API + URI + 'notifyclient', {
+            // to: values.email,
+            to: "iurynadin@gmail.com",
+            subject: "Assunto do Email sem headers",
+            html: `<h1>Bem vindo!</h1>
+            <p>Email: ${values.email} <br>Senha: <b>${values.password}</b></p>`,
+            
+        })
+        .then(function (response) {
+            console.log('response from notifyClientRegister', response)
+            return response
+        })
+        .catch(function (error) {
+            console.log('error from notifyClientRegister', error)
+            return error
+        });
 
 }

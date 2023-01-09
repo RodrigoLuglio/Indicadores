@@ -1,7 +1,9 @@
 import Head from "next/head";
 import { checkUserRole } from "../../services/auth";
-import { getUsersByRole, addUpCliente, getEmployees } from "../../services/clientes";
 import { getSession } from "next-auth/react";
+import { notifyClientRegister } from "../../services/email";
+import { getUsersByRole, addUpCliente, getEmployees } from "../../services/clientes";
+import { generatePassword } from "../../services/utils";
 
 import Layout from "../../layouts/Admin";
 import HelloBar from "../../components/helloBar";
@@ -36,27 +38,34 @@ export default function Clientes({ user, clientes, employees, jwt }) {
         },
     });
 
-    //for do cliente master
+    //form do cliente master
     const clienteSubmit =  clienteForm.onSubmit(
         async (values) =>  {
             values.role = 4; //CAdmin
+            values.password = generatePassword(12);
+            
             const res = await addUpCliente(jwt, values);
             console.log('res ::: ', res);
-            if(res.status == 400){
-                setShowError(res.message);
-            }else{
-                setClientlist( prevState => {
-                    return [ ...prevState, res ]
-                });
-                showNotification({
-                    title: "Sucesso",
-                    message: "Cliente cadastrado!",
-                    icon: <IconCheck size={18} />,
-                    color: 'teal',
-                    autoClose: 5000,
-                });
-                setShowError(false);
-            }
+            
+            const notify = await notifyClientRegister(values);
+            console.log('notify', notify)
+
+
+            // if(res.status == 400){
+            //     setShowError(res.message);
+            // }else{
+            //     setClientlist( prevState => {
+            //         return [ ...prevState, res ]
+            //     });
+            //     showNotification({
+            //         title: "Sucesso",
+            //         message: "Cliente cadastrado!",
+            //         icon: <IconCheck size={18} />,
+            //         color: 'teal',
+            //         autoClose: 5000,
+            //     });
+            //     setShowError(false);
+            // }
         },
         (errors) => console.log(errors)
     );

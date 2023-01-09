@@ -42,11 +42,11 @@ export async function getEmployees(jwt) {
 
 // reponsavel p adicionar usuário CAdmin (addUpCjiente)
 export async function addUser (jwt, dados) {
-    const password = generatePassword(12);
+    // const password = generatePassword(12);
     console.log('dados', dados);
     const formatData = {
         username: slugify(dados?.nome) + generatePassword(4),
-        password: password,
+        password: dados.password,
         role: dados.role,
         email: dados.email,
         name: dados.nome
