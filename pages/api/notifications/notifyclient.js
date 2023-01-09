@@ -1,41 +1,33 @@
-import axios from "axios";
-import { getSession } from "next-auth/react";
-
-const API = 'https://api.rlabs.com.br/api/email/';
+import nodemailer from "nodemailer";
+const hbs = require('nodemailer-handlebars')
+import { hbsConfig, gmailTransporter } from "../../../services/utils";
 
 export default async function handler(req, res) {
+    let transporter = nodemailer.createTransport( gmailTransporter );
+    transporter.use('compile', hbs (hbsConfig))
 
-    const { to, subject, html } = req.body;
-    const session = await getSession({ req });
+    const { to, subject, password, useremail, nome } = req.body;
 
-    // res.status(200).json({ 
-    //     session: session,
-    //     jwt: session.jwt,
-    //     to,
-    //     subject,
-    //     html
-    // });
-
-    await axios
-        .post(API, {
-            to,
+    const mailOptions = {
+        from: `Presence Indicadores<presenceindicadores@gmail.com>`,
+        to: 'iurynadin@gmail.com',
+        replyTo: `presenceindicadores@gmail.com`,
+        subject,
+        template: 'registerClient',
+        context: {
             subject,
-            html,
-        },{
-            headers: {
-                Authorization: `Bearer ${session.jwt}`,
-            }
-        },)
-        .then(function (response) {
-            console.log('response from notifyclient', response)
-            res.status(200).json({ resposta: response });
-            return response;
-        })
-        .catch(function (error) {
-            // console.log('error from notifyclient', error)
-            // console.log('## ERROR:', error.response.data.error)
-            res.status(200).json({ erro: error });
-        });
+            password,
+            useremail,
+            nome
+        },
+    }
 
-    
+    transporter.sendMail(mailOptions, (err, data) => {
+        if (err) {
+            console.log('error is ' + err)
+            res.status(500).json({ err })
+        }
+        res.status(200).json({ data, success: true })
+        return data;
+    })
 }

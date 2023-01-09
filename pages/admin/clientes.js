@@ -9,7 +9,7 @@ import Layout from "../../layouts/Admin";
 import HelloBar from "../../components/helloBar";
 
 import { useState, useEffect, createContext } from "react";
-import { Select, TextInput, Button, Group, Alert } from "@mantine/core";
+import { TextInput, Button, Group, Alert } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import { IconAlertCircle, IconCheck } from '@tabler/icons';
@@ -44,12 +44,11 @@ export default function Clientes({ user, clientes, employees, jwt }) {
             values.role = 4; //CAdmin
             values.password = generatePassword(12);
             
-            const res = await addUpCliente(jwt, values);
-            console.log('res ::: ', res);
+            // const res = await addUpCliente(jwt, values);
+            // console.log('res ::: ', res);
             
             const notify = await notifyClientRegister(values);
             console.log('notify', notify)
-
 
             // if(res.status == 400){
             //     setShowError(res.message);
