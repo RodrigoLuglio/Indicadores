@@ -80,7 +80,7 @@ export const DevBadge = ({children, color = 'cyan'}) => {
     }
 }
 
-export const TitleBadge = ({children, textcolor = 'text-[#78a0aa]', bgcolor = 'bg-green_input'}) => {
+export const TitleBadge = ({children, textcolor = 'text-[#638d98]', bgcolor = 'bg-green_input'}) => {
     return (
         <Badge variant="filled" size='sm' className={`${textcolor} ${bgcolor} mb-1`}>
             {children}
