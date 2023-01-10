@@ -1,5 +1,6 @@
 import "../styles/globals.css";
-import "handsontable/dist/handsontable.full.min.css";
+import 'react-tabulator/lib/styles.css'; // required styles
+import 'react-tabulator/lib/css/tabulator.min.css'; // theme
 
 import { useState } from "react";
 import { SessionProvider } from "next-auth/react";

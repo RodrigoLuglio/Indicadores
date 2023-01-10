@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Tbhr, FullCard, StatusBall } from "./misc";
 import ViewBtn from "./buttons/viewBtn";
 import {
@@ -17,7 +17,8 @@ import { useForm } from "@mantine/form";
 import { randomId } from "@mantine/hooks";
 import { getStatusColor } from "../services/utils";
 
-import HotTable from "../components/HotTable";
+import { ReactTabulator } from "react-tabulator";
+import DateEditor from "react-tabulator/lib/editors/DateEditor";
 
 export const IndicSectionHead = ({ title }) => {
     return (
@@ -39,6 +40,8 @@ export const IndicSectionHead = ({ title }) => {
 export const IndicSectionItem = ({ status, indicador, salvar, atualizar }) => {
     const [opened, setOpened] = useState(false);
 
+    var tableRef = useRef(null);
+
     const form = useForm({
         initialValues: {
             respostas: [],
@@ -57,6 +60,7 @@ export const IndicSectionItem = ({ status, indicador, salvar, atualizar }) => {
                             );
                         }
                     );
+
                     if (res.length > 0) {
                         campo.attributes.resposta = res[0];
                         form.insertListItem("respostas", {
@@ -69,6 +73,8 @@ export const IndicSectionItem = ({ status, indicador, salvar, atualizar }) => {
                                 campo.attributes.texto,
                             resposta:
                                 campo.attributes.resposta.attributes.resposta,
+                            tabela: campo.attributes.resposta.attributes.tabela,
+                            config: campo.attributes.config,
                             key: randomId(),
                         });
                     } else {
@@ -81,6 +87,8 @@ export const IndicSectionItem = ({ status, indicador, salvar, atualizar }) => {
                                 ". " +
                                 campo.attributes.texto,
                             resposta: "",
+                            tabela: [],
+                            config: campo.attributes.config,
                             key: randomId(),
                         });
                     }
@@ -104,6 +112,13 @@ export const IndicSectionItem = ({ status, indicador, salvar, atualizar }) => {
         </Tooltip>
     );
 
+    const tableAddRow = () => {
+        console.log("Table REF -> ", tableRef);
+        var table = tableRef.current;
+        table.addRow({});
+        table.redraw();
+    };
+
     const fields = form.values.respostas.map((item, index) => {
         if (item.tipo == "nenhum") {
             return (
@@ -112,6 +127,27 @@ export const IndicSectionItem = ({ status, indicador, salvar, atualizar }) => {
                     key={item.key}
                 >
                     {item.label}
+                </div>
+            );
+        } else if (item.tipo == "tabela") {
+            return (
+                <div key={item.key} className="w-full">
+                    <div className="w-full font-gotham_medium text-sm pl-[6px] leading-[1.35] text-[#596983] mt-5 mb-0">
+                        {item.label}
+                    </div>
+                    <ReactTabulator
+                        className="w-full"
+                        onRef={(ref) => (tableRef.current = ref.current)}
+                        data={item.tabela}
+                        columns={item.config}
+                        layout={"fitDataStretch"}
+                    />
+                    <Button
+                        className="bg-green_light text-white rounded-lg border-green_light border-2 hover:bg-white hover:text-green_light transition-all duration-300"
+                        onClick={tableAddRow}
+                    >
+                        +
+                    </Button>
                 </div>
             );
         } else {
@@ -136,6 +172,12 @@ export const IndicSectionItem = ({ status, indicador, salvar, atualizar }) => {
     const handleSubmit = async (values) => {
         values.respostas.forEach(async (resposta) => {
             resposta.indicador = indicador.id;
+            if (resposta.tipo == "tabela") {
+                const table = tableRef.current;
+                const dadosTabela = table.getData();
+                resposta.tabela = dadosTabela;
+                console.log("Resposta TABELA -> ", resposta);
+            }
             await salvar(resposta);
         });
         await atualizar();

@@ -12,8 +12,18 @@ import TipTap from "../../components/tiptap";
 
 import { useState, useEffect } from "react";
 import { getToken } from "next-auth/jwt";
-import { Select, TextInput, Button, Group, Collapse } from "@mantine/core";
+import {
+    Select,
+    TextInput,
+    Button,
+    Group,
+    Collapse,
+    Switch,
+    ActionIcon,
+} from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { IconTrash } from "@tabler/icons";
+import { randomId } from "@mantine/hooks";
 
 import { getNormas, addUpItem, deleteItem } from "../../services/normas";
 
@@ -75,15 +85,40 @@ export default function Indicadores({ user, normaData, padroesSelectData, jwt })
             texto: "",
             tipo: "",
             conteudo: "",
+            tabela: [{ nome: "", soma: false, key: randomId() }],
         },
 
         validate: {},
     });
 
+<<<<<<< HEAD
+    const tabelaFields = camposForm.values.tabela.map((item, index) => (
+        <Group key={item.key} mt="xs">
+            <TextInput
+                withAsterisk
+                sx={{ flex: 1 }}
+                {...camposForm.getInputProps(`tabela.${index}.nome`)}
+            />
+            <Switch
+                label="Somatória"
+                {...camposForm.getInputProps(`tabela.${index}.soma`, {
+                    type: "checkbox",
+                })}
+            />
+            <ActionIcon
+                color="red"
+                onClick={() => camposForm.removeListItem("tabela", index)}
+            >
+                <IconTrash size={16} />
+            </ActionIcon>
+        </Group>
+    ));
+=======
     const breads = [
         { title: 'Admin', href: '/admin' },
         { title: 'Indicadores', href: '/admin/indicadores' },
     ];
+>>>>>>> 70ecc28e6d56859690a93ac1b85354c4e84f4eb9
 
     const updatePadroesData = async () => {
         const padroesSelectDados = [];
@@ -384,6 +419,7 @@ export default function Indicadores({ user, normaData, padroesSelectData, jwt })
                 texto: dadosCampo[0].attributes.texto,
                 tipo: dadosCampo[0].attributes.tipo,
                 conteudo: dadosCampo[0].attributes.conteudo.data.id,
+                config: dadosCampo[0].attributes.config,
             };
             camposForm.setValues(campoSelecionado);
         } else {
@@ -477,7 +513,8 @@ export default function Indicadores({ user, normaData, padroesSelectData, jwt })
                     numero: campo.attributes.numero,
                     value: campo.id,
                     texto: campo.attributes.texto,
-                    tipo: campo.attributes.campo,
+                    tipo: campo.attributes.tipo,
+                    config: campo.attributes.config,
                     label: `${campo.attributes.numero}. ${campo.attributes.texto}`,
                 });
             });
