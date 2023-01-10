@@ -7,7 +7,8 @@ import HelloBar from "../../components/helloBar";
 import EditBtn from "../../components/buttons/editBtn";
 import AddBtn from "../../components/buttons/addBtn";
 import { BlockTitle, SubBlockTitle } from "../../components/titles";
-import { Tbhr, TitleBadge} from "../../components/misc";
+import { Tbhr, TitleBadge, Loading} from "../../components/misc";
+import TipTap from "../../components/tiptap";
 
 import { useState, useEffect } from "react";
 import { getToken } from "next-auth/jwt";
@@ -30,6 +31,11 @@ export default function Indicadores({ user, normaData, padroesSelectData, jwt })
     const [secaoOpen, setSecaoOpen] = useState(false);
     const [conteudoOpen, setConteudoOpen] = useState(false);
     const [campoOpen, setCampoOpen] = useState(false);
+    const [isLoadingPadrao, setIsLoadingPadrao] = useState(false);
+    const [isLoadingSecao, setIsLoadingSecao] = useState(false);
+    const [isLoadingConteudo, setIsLoadingConteudo] = useState(false);
+    const [description, setDescription] = useState("");
+
     
     const padroesForm = useForm({
         initialValues: {
@@ -186,6 +192,7 @@ export default function Indicadores({ user, normaData, padroesSelectData, jwt })
 
     const padroesSubmit = padroesForm.onSubmit(
         async (values) => {
+            setIsLoadingPadrao(true);
             // Norma GRI "hardcoded" na criação e edição de padrões
             if (values.id == "") {
                 values.norma = 1;
@@ -194,31 +201,39 @@ export default function Indicadores({ user, normaData, padroesSelectData, jwt })
             const res = await addUpItem(jwt, collection, values);
             await updatePadroesData();
             setPadraoOpen(false);
+            setIsLoadingPadrao(false);
         },
         (errors) => console.log(errors)
     );
 
     const secoesSubmit = secoesForm.onSubmit(
         async (values) => {
+            setIsLoadingSecao(true);
             if (values.id == "") {
                 values.padrao = selectedPadrao;
             }
             const collection = "secoes";
             const res = await addUpItem(jwt, collection, values);
             await updateSecoesData();
+            setIsLoadingSecao(false);
             setSecaoOpen(false);
         },
         (errors) => console.log(errors)
     );
     const conteudosSubmit = conteudosForm.onSubmit(
         async (values) => {
+            setIsLoadingConteudo(true);
             if (values.id == "") {
                 values.secao = selectedSecao;
             }
+            values.descricao = description;
+            console.log(values)
             const collection = "conteudos";
             const res = await addUpItem(jwt, collection, values);
             await updateConteudosData();
+            setIsLoadingConteudo(false);
             setConteudoOpen(false);
+            setDescription("");
         },
         (errors) => console.log(errors)
     );
@@ -327,6 +342,12 @@ export default function Indicadores({ user, normaData, padroesSelectData, jwt })
                 secao: dadosConteudo[0].attributes.secao.data.id,
             };
             conteudosForm.setValues(conteudoSelecionado);
+            console.log('conteudoSelecionado.descricao : ', conteudoSelecionado.descricao)
+            if(conteudoSelecionado.descricao) {
+                console.log('chama o setDescription');
+                setDescription(conteudoSelecionado.descricao);
+            }
+            
         } else {
             conteudosForm.reset();
         }
@@ -462,6 +483,7 @@ export default function Indicadores({ user, normaData, padroesSelectData, jwt })
             });
             setCamposSelect(campoSelectDados);
         }
+
     }, [selectedConteudo]);
     useEffect(() => {
         if (selectedCampo == undefined) {
@@ -533,7 +555,10 @@ export default function Indicadores({ user, normaData, padroesSelectData, jwt })
                                 </div>
 
                                 <div className="flex relative justify-end w-full bg-green_input">
-                                    <Button type="submit" className='formClientBtn'>Salvar</Button>
+                                    {  !isLoadingPadrao 
+                                        ? <Button type="submit" className='formClientBtn'>Salvar</Button>
+                                        : <Loading color="cyan" text="registrando padrão...aguarde" className="p-4" /> 
+                                    }
                                 </div>
                             </form>
                         </div>
@@ -588,7 +613,10 @@ export default function Indicadores({ user, normaData, padroesSelectData, jwt })
                                     </div>
                                 </div>
                                 <div className="flex relative justify-end w-full bg-green_input">
-                                    <Button type="submit" className='formClientBtn'>Salvar</Button>
+                                    {  !isLoadingSecao 
+                                        ? <Button type="submit" className='formClientBtn'>Salvar</Button>
+                                        : <Loading color="cyan" text="registrando seção...aguarde" className="p-4" /> 
+                                    }
                                 </div>
                             </form>
                         </div>
@@ -640,20 +668,24 @@ export default function Indicadores({ user, normaData, padroesSelectData, jwt })
                                                 {...conteudosForm.getInputProps("nome")}
                                             />
                                         </div>
-                                    </div>
+                                    </div>  
 
-                                    
-                                    <TextInput
+                                    <TipTap setDescription={setDescription} description={description} />
+
+                                    {/* <TextInput
                                         withAsterisk
                                         label="Descrição"
                                         placeholder="Descrição"
                                         {...conteudosForm.getInputProps(
                                             "descricao"
                                         )}
-                                    />
+                                    /> */}
                                 </div>
                                 <div className="flex relative justify-end w-full bg-green_input">
-                                    <Button type="submit" className='formClientBtn'>Salvar</Button>
+                                    {  !isLoadingConteudo
+                                        ? <Button type="submit" className='formClientBtn'>Salvar</Button>
+                                        : <Loading color="cyan" text="registrando conteúdo...aguarde" className="p-4" /> 
+                                    }
                                 </div>
                             </form>
                         </div>
