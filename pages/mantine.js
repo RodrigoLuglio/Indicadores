@@ -19,50 +19,8 @@ import { useForm } from "@mantine/form";
 
 import { useState, useRef } from "react";
 
-import HotTable from "../components/HotTable";
 
 export default function Mantine() {
-    const hotRef = useRef(null);
-    // you can reference the Handsontable instance via hotRef.current.hotInstance
-    console.log(hotRef);
-
-    const DATA = [
-        ["", "Tesla", "Mercedes", "Toyota", "Volvo"],
-        ["2019", 10, 11, 12, 13],
-        ["2020", 20, 11, 14, 13],
-        ["2021", 30, 15, 12, 13],
-    ];
-
-    const initialValues = [
-        [
-            { value: "react", label: "React" },
-            { value: "ng", label: "Angular" },
-            { value: "next", label: "Next.js" },
-            { value: "blitz", label: "Blitz.js" },
-            { value: "gatsby", label: "Gatsby.js" },
-            { value: "vue", label: "Vue" },
-            { value: "jq", label: "jQuery" },
-        ],
-        [
-            { value: "sv", label: "Svelte" },
-            { value: "rw", label: "Redwood" },
-            { value: "np", label: "NumPy" },
-            { value: "dj", label: "Django" },
-            { value: "fl", label: "Flask" },
-        ],
-    ];
-
-    const [data1, setData1] = useState(initialValues);
-
-    const [data, setData] = useState(DATA);
-    const onBeforeHotChange = (changes, source) => {
-        const newData = data.slice(0);
-        changes.forEach((change) => {
-            newData[change[0]][change[1]] = change[3];
-        });
-        setData(newData);
-    };
-
     const rightSection = (
         <Tooltip
             label="Teste de label tooltip"
@@ -133,14 +91,6 @@ export default function Mantine() {
                         {...form.getInputProps("termsOfService", {
                             type: "checkbox",
                         })}
-                    />
-
-                    <HotTable
-                        ref={hotRef}
-                        licenseKey="non-commercial-and-evaluation"
-                        data={data}
-                        onBeforeHotChange={onBeforeHotChange}
-                        // you can add options here (https://handsontable.com/docs/8.2.0/Options.html)
                     />
 
                     <Group position="right" mt="md">

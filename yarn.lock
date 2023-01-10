@@ -800,12 +800,37 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/pikaday@npm:1.7.4":
-  version: 1.7.4
-  resolution: "@types/pikaday@npm:1.7.4"
+"@types/prop-types@npm:*":
+  version: 15.7.5
+  resolution: "@types/prop-types@npm:15.7.5"
+  checksum: 5b43b8b15415e1f298243165f1d44390403bb2bd42e662bca3b5b5633fdd39c938e91b7fce3a9483699db0f7a715d08cef220c121f723a634972fdf596aec980
+  languageName: node
+  linkType: hard
+
+"@types/react-tag-autocomplete@npm:^5.6.0":
+  version: 5.12.3
+  resolution: "@types/react-tag-autocomplete@npm:5.12.3"
   dependencies:
-    moment: ">=2.14.0"
-  checksum: 9c959b918902bab69f5667675f93e4bf680f33c3d7de1e8040d7bbc717d5c01e1362040642bcdaaaea237b0ecfdcb8788964269e2f27e6731cb37c9c5ec0dc9d
+    "@types/react": "*"
+  checksum: 659972a0389688d656f184b29200dd1225a4738225f636213a1b08d6a713a78f7111a630b0f05d2cb195728f679cc4ba53d1aba49760e1ad7c9912e8522d8c86
+  languageName: node
+  linkType: hard
+
+"@types/react@npm:*":
+  version: 18.0.26
+  resolution: "@types/react@npm:18.0.26"
+  dependencies:
+    "@types/prop-types": "*"
+    "@types/scheduler": "*"
+    csstype: ^3.0.2
+  checksum: b62f0ea3cdfa68e106391728325057ad36f1bde7ba2dfae029472c47e01e482bc77c6ba4f1dad59f3f04ee81cb597618ff7c30a33c157c0a20462b6dd6aa2d4d
+  languageName: node
+  linkType: hard
+
+"@types/scheduler@npm:*":
+  version: 0.16.2
+  resolution: "@types/scheduler@npm:0.16.2"
+  checksum: b6b4dcfeae6deba2e06a70941860fb1435730576d3689225a421280b7742318d1548b3d22c1f66ab68e414f346a9542f29240bc955b6332c5b11e561077583bc
   languageName: node
   linkType: hard
 
@@ -1195,13 +1220,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bignumber.js@npm:^8.0.1":
-  version: 8.1.1
-  resolution: "bignumber.js@npm:8.1.1"
-  checksum: 71544348507cd16c2c152699a8e5146964d9cf4f46108075bcd16a964dffb3963256259fc6ffc9753b4d33dfd0cf863a6b564103a3a20e10002f12a1902e8075
-  languageName: node
-  linkType: hard
-
 "binary-extensions@npm:^2.0.0":
   version: 2.2.0
   resolution: "binary-extensions@npm:2.2.0"
@@ -1336,15 +1354,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chevrotain@npm:^6.5.0":
-  version: 6.5.0
-  resolution: "chevrotain@npm:6.5.0"
-  dependencies:
-    regexp-to-ast: 0.4.0
-  checksum: ce03cf3874ae1fd91bb57de753ea313442c7d1be04f59ab126c237062b51f5cb3204e9bdbb1b469973c96c1ce0850e83f909bee14a23bb88a0dbbd964e1c2a9e
-  languageName: node
-  linkType: hard
-
 "chokidar@npm:^3.5.3":
   version: 3.5.3
   resolution: "chokidar@npm:3.5.3"
@@ -1474,13 +1483,6 @@ __metadata:
   version: 3.27.1
   resolution: "core-js-pure@npm:3.27.1"
   checksum: 571ff8ffc00cba7c1937e70b502a382317d450ef3a38835b0dc4a6a9645ce9853c10a90f71a2027901fb52690a7ba702396f29e125d1b9d6ae3e277db1bcdf57
-  languageName: node
-  linkType: hard
-
-"core-js@npm:^3.0.0":
-  version: 3.27.1
-  resolution: "core-js@npm:3.27.1"
-  checksum: d50b5f88aea4302512ad9446c18e90f4d35dea1e6d8d3f87337690677061565ff11a670f1e0c87de57aa6074375fbb25ed5784076c040d3c4de8b4bce7d2ebeb
   languageName: node
   linkType: hard
 
@@ -1718,13 +1720,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dompurify@npm:^2.1.1":
-  version: 2.4.1
-  resolution: "dompurify@npm:2.4.1"
-  checksum: 1169177465b3cbb25a44322937fba549f6c4e1a91b83245d144471be26619c835cccf0f8e20aa78c25ac11a06efd17cc1b9db9cacadceb78a4c08a1029eafee5
-  languageName: node
-  linkType: hard
-
 "domutils@npm:^2.8.0":
   version: 2.8.0
   resolution: "domutils@npm:2.8.0"
@@ -1733,6 +1728,13 @@ __metadata:
     domelementtype: ^2.2.0
     domhandler: ^4.2.0
   checksum: abf7434315283e9aadc2a24bac0e00eab07ae4313b40cc239f89d84d7315ebdfd2fb1b5bf750a96bc1b4403d7237c7b2ebf60459be394d625ead4ca89b934391
+  languageName: node
+  linkType: hard
+
+"dotenv@npm:^8.2.0":
+  version: 8.6.0
+  resolution: "dotenv@npm:8.6.0"
+  checksum: 38e902c80b0666ab59e9310a3d24ed237029a7ce34d976796349765ac96b8d769f6df19090f1f471b77a25ca391971efde8a1ea63bb83111bd8bec8e5cc9b2cd
   languageName: node
   linkType: hard
 
@@ -1862,6 +1864,13 @@ __metadata:
     is-date-object: ^1.0.1
     is-symbol: ^1.0.2
   checksum: 4ead6671a2c1402619bdd77f3503991232ca15e17e46222b0a41a5d81aebc8740a77822f5b3c965008e631153e9ef0580540007744521e72de8e33599fca2eed
+  languageName: node
+  linkType: hard
+
+"es6-promise@npm:^4.2.8":
+  version: 4.2.8
+  resolution: "es6-promise@npm:4.2.8"
+  checksum: 95614a88873611cb9165a85d36afa7268af5c03a378b35ca7bda9508e1d4f1f6f19a788d4bc755b3fd37c8ebba40782018e02034564ff24c9d6fa37e959ad57d
   languageName: node
   linkType: hard
 
@@ -2299,7 +2308,6 @@ __metadata:
     dayjs: ^1.11.6
     eslint: 8.26.0
     eslint-config-next: 13.0.0
-    handsontable: ^12.3.0
     moment: ^2.29.4
     next: 13.0.0
     next-auth: ^4.15.0
@@ -2309,6 +2317,7 @@ __metadata:
     react: 18.2.0
     react-dom: 18.2.0
     react-dropdown-tree-select: ^2.7.1
+    react-tabulator: ^0.18.1
     tabler-icons-react: ^1.55.0
     tailwind-scrollbar: ^2.0.1
     tailwindcss: ^3.2.1
@@ -2518,24 +2527,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"handsontable@npm:^12.3.0":
-  version: 12.3.0
-  resolution: "handsontable@npm:12.3.0"
-  dependencies:
-    "@types/pikaday": 1.7.4
-    core-js: ^3.0.0
-    dompurify: ^2.1.1
-    hyperformula: ^2.0.0
-    moment: 2.29.4
-    numbro: 2.1.2
-    pikaday: 1.8.2
-  dependenciesMeta:
-    hyperformula:
-      optional: true
-  checksum: 3afd9862b372a9f211ae9894a525dd6f65a2507eee7287a8d116584f45eab3ea1fbef3490ab589dbd0a53e497689459bec7b017dc2d9ec2b58ea0c8a6748191d
-  languageName: node
-  linkType: hard
-
 "has-bigints@npm:^1.0.1, has-bigints@npm:^1.0.2":
   version: 1.0.2
   resolution: "has-bigints@npm:1.0.2"
@@ -2604,6 +2595,13 @@ __metadata:
   dependencies:
     react-is: ^16.7.0
   checksum: b1538270429b13901ee586aa44f4cc3ecd8831c061d06cb8322e50ea17b3f5ce4d0e2e66394761e6c8e152cd8c34fb3b4b690116c6ce2bd45b18c746516cb9e8
+  languageName: node
+  linkType: hard
+
+"html-attributes@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "html-attributes@npm:1.1.0"
+  checksum: 0c242d637e862897f07d5088dc79ecd0702418e1861167e6c386ef7485f47ddcc8441c5264f65560fb6ba121c3388a2221a9c873b092b21f03f7f9304bd84c70
   languageName: node
   linkType: hard
 
@@ -2692,17 +2690,6 @@ __metadata:
   dependencies:
     ms: ^2.0.0
   checksum: 9c7a74a2827f9294c009266c82031030eae811ca87b0da3dceb8d6071b9bde22c9f3daef0469c3c533cc67a97d8a167cd9fc0389350e5f415f61a79b171ded16
-  languageName: node
-  linkType: hard
-
-"hyperformula@npm:^2.0.0":
-  version: 2.3.0
-  resolution: "hyperformula@npm:2.3.0"
-  dependencies:
-    chevrotain: ^6.5.0
-    tiny-emitter: ^2.1.0
-    unorm: ^1.6.0
-  checksum: 1011921a3f9978f6fbeac821c241a7fb8b6b1b9e8e7809a122f46718e7ce0cd5446eef4a9df9ff341e5d8efe8eb8bf7fbc16855e72ca51efc7f2dcada619dd1b
   languageName: node
   linkType: hard
 
@@ -3112,6 +3099,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lodash.isplainobject@npm:^4.0.6":
+  version: 4.0.6
+  resolution: "lodash.isplainobject@npm:4.0.6"
+  checksum: 29c6351f281e0d9a1d58f1a4c8f4400924b4c79f18dfc4613624d7d54784df07efaff97c1ff2659f3e085ecf4fff493300adc4837553104cef2634110b0d5337
+  languageName: node
+  linkType: hard
+
 "lodash.merge@npm:^4.6.2":
   version: 4.6.2
   resolution: "lodash.merge@npm:4.6.2"
@@ -3316,7 +3310,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"moment@npm:2.29.4, moment@npm:>=2.14.0, moment@npm:^2.29.4":
+"moment@npm:^2.29.4":
   version: 2.29.4
   resolution: "moment@npm:2.29.4"
   checksum: 0ec3f9c2bcba38dc2451b1daed5daded747f17610b92427bebe1d08d48d8b7bdd8d9197500b072d14e326dd0ccf3e326b9e3d07c5895d3d49e39b6803b76e80e
@@ -3532,15 +3526,6 @@ __metadata:
     gauge: ^4.0.3
     set-blocking: ^2.0.0
   checksum: ae238cd264a1c3f22091cdd9e2b106f684297d3c184f1146984ecbe18aaa86343953f26b9520dedd1b1372bc0316905b736c1932d778dbeb1fcf5a1001390e2a
-  languageName: node
-  linkType: hard
-
-"numbro@npm:2.1.2":
-  version: 2.1.2
-  resolution: "numbro@npm:2.1.2"
-  dependencies:
-    bignumber.js: ^8.0.1
-  checksum: b7d7e53503e2fad3fb530f0b5179c8c1ae7cc9ec5604b7dd290636abe5162c43db82a76b853cbc8d9d9c74856ae31b9f1d4359ec6c3c2b9a30c2be55f5c309a8
   languageName: node
   linkType: hard
 
@@ -3773,6 +3758,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"pick-react-known-prop@npm:^0.1.5":
+  version: 0.1.5
+  resolution: "pick-react-known-prop@npm:0.1.5"
+  dependencies:
+    html-attributes: ^1.1.0
+    lodash.isplainobject: ^4.0.6
+    svg-attributes: ^1.0.0
+  checksum: a4d37bd02d9018c205f6dcfe91ae569b7df6bda52882f53abef3e36350a55511796e82cb094a1f449fed61ee97dfe2e10c51eae181c0e9c3a79a83c37812d33d
+  languageName: node
+  linkType: hard
+
 "picocolors@npm:^1.0.0":
   version: 1.0.0
   resolution: "picocolors@npm:1.0.0"
@@ -3791,13 +3787,6 @@ __metadata:
   version: 2.3.0
   resolution: "pify@npm:2.3.0"
   checksum: 9503aaeaf4577acc58642ad1d25c45c6d90288596238fb68f82811c08104c800e5a7870398e9f015d82b44ecbcbef3dc3d4251a1cbb582f6e5959fe09884b2ba
-  languageName: node
-  linkType: hard
-
-"pikaday@npm:1.8.2":
-  version: 1.8.2
-  resolution: "pikaday@npm:1.8.2"
-  checksum: 579e9397f4f40cf98879b41dcc958d2a055aac213e9c3a5cee3e81585e72d4c925facbd9942453a873053ca957407d9ed0cbd226c165fd59cab5b780b7db718a
   languageName: node
   linkType: hard
 
@@ -4058,6 +4047,34 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-tabulator@npm:^0.18.1":
+  version: 0.18.1
+  resolution: "react-tabulator@npm:0.18.1"
+  dependencies:
+    "@types/react-tag-autocomplete": ^5.6.0
+    dotenv: ^8.2.0
+    es6-promise: ^4.2.8
+    pick-react-known-prop: ^0.1.5
+    react-tag-autocomplete: ^5.7.1
+    tabulator-tables: 5.0.10
+  peerDependencies:
+    react: ">=15.6.2 || ^16.0.0 || ^17.0.0"
+    react-dom: ">=15.6.2 || ^16.0.0 || ^17.0.0"
+  checksum: 6b6409c437a130e8f50c72f9c8fdbd5832259c81ebca59f29dcf14b69509b995c9cb271b18341d8ef15e34e42a92a4b20a6397711a8576e301463df96212bbd0
+  languageName: node
+  linkType: hard
+
+"react-tag-autocomplete@npm:^5.7.1":
+  version: 5.13.1
+  resolution: "react-tag-autocomplete@npm:5.13.1"
+  peerDependencies:
+    prop-types: ^15.0.0
+    react: ^15.0.0 || ^16.0.0
+    react-dom: ^15.0.0 || ^16.0.0
+  checksum: 5f68cafd2dac782590009b7be0e19e841e1728319ab9317e91a1b833bb7be95a24a61752f585c3b61f9291403e508f7cbcb196791698ecb1dff6e93f973b1c4e
+  languageName: node
+  linkType: hard
+
 "react-textarea-autosize@npm:8.3.4":
   version: 8.3.4
   resolution: "react-textarea-autosize@npm:8.3.4"
@@ -4155,13 +4172,6 @@ __metadata:
   version: 0.13.11
   resolution: "regenerator-runtime@npm:0.13.11"
   checksum: 27481628d22a1c4e3ff551096a683b424242a216fee44685467307f14d58020af1e19660bf2e26064de946bad7eff28950eae9f8209d55723e2d9351e632bbb4
-  languageName: node
-  linkType: hard
-
-"regexp-to-ast@npm:0.4.0":
-  version: 0.4.0
-  resolution: "regexp-to-ast@npm:0.4.0"
-  checksum: 0f42d802b6259dcd442f79460d8764aa39165323098a6346aded67957816eb2d007ab09e6c674448425df8f721692258c87b51b1ce75c5df23b390dbb36056c0
   languageName: node
   linkType: hard
 
@@ -4599,12 +4609,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"svg-attributes@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "svg-attributes@npm:1.0.0"
+  checksum: d28154007f0ca8dd33dfd8cd6aab99a98915e7a8b8ad5bf3deda5c4d0d58b971cb443f2eacb191eee70abe61f34b78e513a1a994e073bf550c08b25175bb3b72
+  languageName: node
+  linkType: hard
+
 "tabler-icons-react@npm:^1.55.0":
   version: 1.56.0
   resolution: "tabler-icons-react@npm:1.56.0"
   peerDependencies:
     react: ">= 16.8.0"
   checksum: 0b058055826fe478afa5c72641bb5207b6332b177d6ed7f505ebaad632cf33a63f0a3bf87af103af2b65bb0fc7b76f056ef03328fea7fa0c7378e30a82c3212b
+  languageName: node
+  linkType: hard
+
+"tabulator-tables@npm:5.0.10":
+  version: 5.0.10
+  resolution: "tabulator-tables@npm:5.0.10"
+  checksum: 9ba3b7fdb0b280b2343c8be2929cd9bc937a4514d01d1f5a9076da122e048fe4f88200ed38ec05d5bd4d59ed8939a255dd5dd36f6c6b453ae06b5b989663355b
   languageName: node
   linkType: hard
 
@@ -4688,13 +4712,6 @@ __metadata:
   version: 2.3.8
   resolution: "through@npm:2.3.8"
   checksum: a38c3e059853c494af95d50c072b83f8b676a9ba2818dcc5b108ef252230735c54e0185437618596c790bbba8fcdaef5b290405981ffa09dce67b1f1bf190cbd
-  languageName: node
-  linkType: hard
-
-"tiny-emitter@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "tiny-emitter@npm:2.1.0"
-  checksum: fbcfb5145751a0e3b109507a828eb6d6d4501352ab7bb33eccef46e22e9d9ad3953158870a6966a59e57ab7c3f9cfac7cab8521db4de6a5e757012f4677df2dd
   languageName: node
   linkType: hard
 
@@ -4794,13 +4811,6 @@ __metadata:
   dependencies:
     imurmurhash: ^0.1.4
   checksum: 49f8d915ba7f0101801b922062ee46b7953256c93ceca74303bd8e6413ae10aa7e8216556b54dc5382895e8221d04f1efaf75f945c2e4a515b4139f77aa6640c
-  languageName: node
-  linkType: hard
-
-"unorm@npm:^1.6.0":
-  version: 1.6.0
-  resolution: "unorm@npm:1.6.0"
-  checksum: 9a86546256a45f855b6cfe719086785d6aada94f63778cecdecece8d814ac26af76cb6da70130da0a08b8803bbf0986e56c7ec4249038198f3de02607fffd811
   languageName: node
   linkType: hard
 
