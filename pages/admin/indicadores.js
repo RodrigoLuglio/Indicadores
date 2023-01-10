@@ -4,6 +4,8 @@ import { getSession } from "next-auth/react";
 
 import Layout from "../../layouts/Admin";
 import HelloBar from "../../components/helloBar";
+import EditBtn from "../../components/buttons/editBtn";
+import AddBtn from "../../components/buttons/addBtn";
 import { BlockTitle, SubBlockTitle } from "../../components/titles";
 import { Tbhr, TitleBadge} from "../../components/misc";
 
@@ -492,18 +494,8 @@ export default function Indicadores({ user, normaData, padroesSelectData, jwt })
                             value={selectedPadrao}
                             onChange={setSelectedPadrao}
                         />
-                        <Button
-                            className="bg-green_light text-white rounded-lg border-green_light border-2 hover:bg-white hover:text-green_light transition-all duration-300 "
-                            onClick={novoPadrao}
-                        >
-                            +
-                        </Button>
-                        <Button
-                            className="bg-green_light text-white rounded-lg border-green_light border-2 hover:bg-white hover:text-green_light transition-all duration-300 "
-                            onClick={editPadrao}
-                        >
-                            E
-                        </Button>
+                        <div onClick={novoPadrao}><AddBtn  /></div>
+                        <div onClick={editPadrao}><EditBtn  /></div>
                     </div>
 
                     <Collapse in={padraoOpen}>
@@ -526,8 +518,7 @@ export default function Indicadores({ user, normaData, padroesSelectData, jwt })
                                         <div className="col-span-12 md:col-span-2 2xl:col-span-1">
                                             <TextInput
                                                 withAsterisk
-                                                label="Número"
-                                                placeholder="Número"
+                                                label="Nº"
                                                 {...padroesForm.getInputProps("numero")}
                                             />
                                         </div>
@@ -535,7 +526,6 @@ export default function Indicadores({ user, normaData, padroesSelectData, jwt })
                                             <TextInput
                                                 withAsterisk
                                                 label="Nome"
-                                                placeholder="Nome"
                                                 {...padroesForm.getInputProps("nome")}
                                             />
                                         </div>
@@ -556,23 +546,13 @@ export default function Indicadores({ user, normaData, padroesSelectData, jwt })
                             className="flex-grow"
                             searchable
                             clearable
-                            placeholder="Selecione uma seção"
+                            placeholder="Selecione uma seção ou clique no + para adicionar uma nova"
                             data={secoesSelect}
                             value={selectedSecao}
                             onChange={setSelectedSecao}
                         />
-                        <Button
-                            className="bg-green_light text-white rounded-lg border-green_light border-2 hover:bg-white hover:text-green_light transition-all duration-300 "
-                            onClick={novaSecao}
-                        >
-                            +
-                        </Button>
-                        <Button
-                            className="bg-green_light text-white rounded-lg border-green_light border-2 hover:bg-white hover:text-green_light transition-all duration-300 "
-                            onClick={editSecao}
-                        >
-                            E
-                        </Button>
+                        <div onClick={novaSecao}><AddBtn  /></div>
+                        <div onClick={editSecao}><EditBtn  /></div>
                     </div>
 
                     <Collapse in={secaoOpen}>
@@ -594,17 +574,14 @@ export default function Indicadores({ user, normaData, padroesSelectData, jwt })
                                         <div className="col-span-12 md:col-span-2 2xl:col-span-1">
                                             <TextInput
                                                 withAsterisk
-                                                label="Número"
-                                                placeholder="Número"
+                                                label="Nº"
                                                 {...secoesForm.getInputProps("numero")}
                                             />
-
                                         </div>
                                         <div className="col-span-12 md:col-span-10 2xl:col-span-11">
                                             <TextInput
                                                 withAsterisk
                                                 label="Nome"
-                                                placeholder="Nome"
                                                 {...secoesForm.getInputProps("nome")}
                                             />
                                         </div>
@@ -624,23 +601,13 @@ export default function Indicadores({ user, normaData, padroesSelectData, jwt })
                             className="flex-grow"
                             searchable
                             clearable
-                            placeholder="Selecione uma seção"
+                            placeholder="Selecione um conteúdo ou clique no + para adicionar um novo"
                             data={conteudosSelect}
                             value={selectedConteudo}
                             onChange={setSelectedConteudo}
                         />
-                        <Button
-                            className="bg-green_light text-white rounded-lg border-green_light border-2 hover:bg-white hover:text-green_light transition-all duration-300 "
-                            onClick={novoConteudo}
-                        >
-                            +
-                        </Button>
-                        <Button
-                            className="bg-green_light text-white rounded-lg border-green_light border-2 hover:bg-white hover:text-green_light transition-all duration-300 "
-                            onClick={editConteudo}
-                        >
-                            E
-                        </Button>
+                        <div onClick={novoConteudo}><AddBtn  /></div>
+                        <div onClick={editConteudo}><EditBtn  /></div>
                     </div>
                     <Collapse in={conteudoOpen}>
                         <div className="light-wrapper -translate-y-4">
@@ -657,18 +624,25 @@ export default function Indicadores({ user, normaData, padroesSelectData, jwt })
                                             {...conteudosForm.getInputProps("secao")}
                                         />
                                     </div>
-                                    <TextInput
-                                        withAsterisk
-                                        label="Número"
-                                        placeholder="Número"
-                                        {...conteudosForm.getInputProps("numero")}
-                                    />
-                                    <TextInput
-                                        withAsterisk
-                                        label="Nome"
-                                        placeholder="Nome"
-                                        {...conteudosForm.getInputProps("nome")}
-                                    />
+
+                                    <div className="grid grid-cols-12 gap-x-4">
+                                        <div className="col-span-12 md:col-span-2 2xl:col-span-1">
+                                            <TextInput
+                                                withAsterisk
+                                                label="Nº"
+                                                {...conteudosForm.getInputProps("numero")}
+                                            />
+                                        </div>
+                                        <div className="col-span-12 md:col-span-10 2xl:col-span-11">
+                                            <TextInput
+                                                withAsterisk
+                                                label="Nome"
+                                                {...conteudosForm.getInputProps("nome")}
+                                            />
+                                        </div>
+                                    </div>
+
+                                    
                                     <TextInput
                                         withAsterisk
                                         label="Descrição"
@@ -693,23 +667,13 @@ export default function Indicadores({ user, normaData, padroesSelectData, jwt })
                             className="flex-grow"
                             searchable
                             clearable
-                            placeholder="Selecione uma campo"
+                            placeholder="Selecione um campo ou clique no + para adicionar um novo"
                             data={camposSelect}
                             value={selectedCampo}
                             onChange={setSelectedCampo}
                         />
-                        <Button
-                            className="bg-green_light text-white rounded-lg border-green_light border-2 hover:bg-white hover:text-green_light transition-all duration-300 "
-                            onClick={novoCampo}
-                        >
-                            +
-                        </Button>
-                        <Button
-                            className="bg-green_light text-white rounded-lg border-green_light border-2 hover:bg-white hover:text-green_light transition-all duration-300 "
-                            onClick={editCampo}
-                        >
-                            E
-                        </Button>
+                        <div onClick={novoCampo}><AddBtn  /></div>
+                        <div onClick={editCampo}><EditBtn  /></div>
                     </div>
                     <Collapse in={campoOpen}>
                         <div className="light-wrapper -translate-y-4">
@@ -726,18 +690,25 @@ export default function Indicadores({ user, normaData, padroesSelectData, jwt })
                                             {...camposForm.getInputProps("conteudo")}
                                         />
                                     </div>
-                                    <TextInput
-                                        withAsterisk
-                                        label="Número"
-                                        placeholder="Número"
-                                        {...camposForm.getInputProps("numero")}
-                                    />
-                                    <TextInput
-                                        withAsterisk
-                                        label="Texto"
-                                        placeholder="Texto"
-                                        {...camposForm.getInputProps("texto")}
-                                    />
+
+                                    <div className="grid grid-cols-12 gap-x-4">
+                                        <div className="col-span-12 md:col-span-2 2xl:col-span-1">
+                                            <TextInput
+                                                withAsterisk
+                                                label="Nº"
+                                                {...camposForm.getInputProps("numero")}
+                                            />
+                                        </div>
+                                        <div className="col-span-12 md:col-span-10 2xl:col-span-11">
+                                            <TextInput
+                                                withAsterisk
+                                                label="Texto"
+                                                placeholder="Texto"
+                                                {...camposForm.getInputProps("texto")}
+                                            />
+                                        </div>
+                                    </div>
+                                    
                                     <Select
                                         withAsterisk
                                         label="Tipo"
