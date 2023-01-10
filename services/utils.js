@@ -1,3 +1,6 @@
+// import nodemailer from "nodemailer";
+var path = require('path');
+
 export const getStatusColor = (term, status) => {
     var color;
     switch (status.toLowerCase()) {
@@ -128,3 +131,21 @@ export const getDepartamentosArrObject = () => {
 
 
 export const getDepartamentoLabel = (deparatamentoId) => getDepartamentosArrObject().filter(dep => dep.value == deparatamentoId)[0].label
+
+export const gmailTransporter = {
+    service: 'gmail',
+    auth: {
+        user: 'presenceindicadores@gmail.com',
+        pass: 'cxranpspwymmbekt'
+    }
+}
+
+export const hbsConfig = {
+    viewEngine: {
+        layoutsDir: path.resolve('./templates/'),
+        partialsDir: path.resolve('./templates/'),
+        defaultLayout: false,
+    },
+    viewPath: path.resolve('./templates/'),
+    extName: '.handlebars'
+}

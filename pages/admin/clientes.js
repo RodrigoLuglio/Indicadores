@@ -1,25 +1,28 @@
 import Head from "next/head";
 import { checkUserRole } from "../../services/auth";
-import { getUsersByRole, addUpCliente, getEmployees } from "../../services/clientes";
 import { getSession } from "next-auth/react";
+import { notifyClientRegister } from "../../services/email";
+import { getUsersByRole, addUpCliente, getEmployees } from "../../services/clientes";
+import { generatePassword } from "../../services/utils";
 
 import Layout from "../../layouts/Admin";
 import HelloBar from "../../components/helloBar";
 
 import { useState, useEffect, createContext } from "react";
-import { Select, TextInput, Button, Group, Alert } from "@mantine/core";
+import { TextInput, Button, Group, Alert } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import { IconAlertCircle, IconCheck } from '@tabler/icons';
 
 import { BlockTitle } from "../../components/titles";
-import { Tbhr } from "../../components/misc";
+import { Tbhr, Loading} from "../../components/misc";
 import ClientRowList from "../../components/clientRowList"
 
 // const ClientContext = createContext('light');
 export default function Clientes({ user, clientes, employees, jwt }) {
 
     const [showError, setShowError] = useState(false);
+    const [showLoading, setShowLoading] = useState(false);
     const [clientlist, setClientlist] = useState(clientes);
     
 
@@ -36,15 +39,24 @@ export default function Clientes({ user, clientes, employees, jwt }) {
         },
     });
 
-    //for do cliente master
+    //form do cliente master
     const clienteSubmit =  clienteForm.onSubmit(
         async (values) =>  {
+            setShowLoading(true);
             values.role = 4; //CAdmin
+            values.password = generatePassword(12);
+            
             const res = await addUpCliente(jwt, values);
             console.log('res ::: ', res);
+            
+            const notify = await notifyClientRegister(values);
+            console.log('notify', notify)
+
             if(res.status == 400){
                 setShowError(res.message);
+                setShowLoading(false);
             }else{
+                setShowLoading(false);
                 setClientlist( prevState => {
                     return [ ...prevState, res ]
                 });
@@ -56,6 +68,7 @@ export default function Clientes({ user, clientes, employees, jwt }) {
                     autoClose: 5000,
                 });
                 setShowError(false);
+                clienteForm.reset();
             }
         },
         (errors) => console.log(errors)
@@ -110,7 +123,12 @@ export default function Clientes({ user, clientes, employees, jwt }) {
                     </div>
 
                     <Group position="right" mt="md">
-                        <Button type="submit">Registrar Usuário</Button>
+                        { !showLoading && 
+                            <Button type="submit">Registrar Usuário</Button>
+                        }
+                        { showLoading && 
+                            <Loading color="cyan" text="registrando usuário...aguarde" />                    
+                        }
                     </Group>
 
                     { showError && 

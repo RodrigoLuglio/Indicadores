@@ -343,6 +343,10 @@ a {
     .notific-success {
         @apply bg-red-500 !important;
     }
+
+    .light-wrapper{
+        @apply mt-0 mr-1 ml-1 mb-0 bg-[#edf8fb] rounded-md overflow-hidden mx-auto relative;
+    }
 }
 
 

@@ -3,6 +3,11 @@ import { checkUserRole } from "../../services/auth";
 import { getSession } from "next-auth/react";
 
 import Layout from "../../layouts/Admin";
+import HelloBar from "../../components/helloBar";
+import EditBtn from "../../components/buttons/editBtn";
+import AddBtn from "../../components/buttons/addBtn";
+import { BlockTitle, SubBlockTitle } from "../../components/titles";
+import { Tbhr, TitleBadge} from "../../components/misc";
 
 import { useState, useEffect } from "react";
 import { getToken } from "next-auth/jwt";
@@ -21,7 +26,7 @@ import { randomId } from "@mantine/hooks";
 
 import { getNormas, addUpItem, deleteItem } from "../../services/normas";
 
-export default function Indicadores({ normaData, padroesSelectData, jwt }) {
+export default function Indicadores({ user, normaData, padroesSelectData, jwt }) {
     const [norma, setNorma] = useState(normaData);
     const [padroesSelect, setPadroesSelect] = useState(padroesSelectData);
     const [secoesSelect, setSecoesSelect] = useState([]);
@@ -35,6 +40,7 @@ export default function Indicadores({ normaData, padroesSelectData, jwt }) {
     const [secaoOpen, setSecaoOpen] = useState(false);
     const [conteudoOpen, setConteudoOpen] = useState(false);
     const [campoOpen, setCampoOpen] = useState(false);
+    
     const padroesForm = useForm({
         initialValues: {
             id: "",
@@ -79,6 +85,7 @@ export default function Indicadores({ normaData, padroesSelectData, jwt }) {
         validate: {},
     });
 
+<<<<<<< HEAD
     const tabelaFields = camposForm.values.tabela.map((item, index) => (
         <Group key={item.key} mt="xs">
             <TextInput
@@ -100,6 +107,12 @@ export default function Indicadores({ normaData, padroesSelectData, jwt }) {
             </ActionIcon>
         </Group>
     ));
+=======
+    const breads = [
+        { title: 'Admin', href: '/admin' },
+        { title: 'Indicadores', href: '/admin/indicadores' },
+    ];
+>>>>>>> 70ecc28e6d56859690a93ac1b85354c4e84f4eb9
 
     const updatePadroesData = async () => {
         const padroesSelectDados = [];
@@ -499,267 +512,257 @@ export default function Indicadores({ normaData, padroesSelectData, jwt }) {
                 <title>Presence - Indicadores</title>
             </Head>
             <section>
-                <h1>Normas e indicadores</h1>
-                <div className="">
-                    <h2>Padrões</h2>
+
+                <HelloBar user={user} breadcrumbs={breads} />
+
+                <br /><br />
+                <BlockTitle>Gerenciamento de Normas e Indicadores</BlockTitle>
+                <Tbhr />
+
+                <div className="mt-10">
+                    <SubBlockTitle>Padrões</SubBlockTitle>
                     <div className="flex flex-row space-x-4">
                         <Select
                             className="flex-grow"
                             searchable
                             clearable
-                            placeholder="Selecione um padrão"
+                            placeholder="Selecione um padrão ou clique no + para adicionar um novo"
                             data={padroesSelect}
                             value={selectedPadrao}
                             onChange={setSelectedPadrao}
                         />
-                        <Button
-                            className="bg-green_light text-white rounded-lg border-green_light border-2 hover:bg-white hover:text-green_light transition-all duration-300 "
-                            onClick={novoPadrao}
-                        >
-                            +
-                        </Button>
-                        <Button
-                            className="bg-green_light text-white rounded-lg border-green_light border-2 hover:bg-white hover:text-green_light transition-all duration-300 "
-                            onClick={editPadrao}
-                        >
-                            E
-                        </Button>
+                        <div onClick={novoPadrao}><AddBtn  /></div>
+                        <div onClick={editPadrao}><EditBtn  /></div>
                     </div>
 
                     <Collapse in={padraoOpen}>
-                        <div className="">
-                            <h3>Adicionar ou editar Padrões</h3>
+                        <div className="light-wrapper -translate-y-4">
                             <form onSubmit={padroesSubmit}>
-                                <TextInput
-                                    hidden
-                                    {...padroesForm.getInputProps("id")}
-                                />
-                                <TextInput
-                                    hidden
-                                    {...padroesForm.getInputProps("norma")}
-                                />
-                                <TextInput
-                                    withAsterisk
-                                    label="Número"
-                                    placeholder="Número"
-                                    {...padroesForm.getInputProps("numero")}
-                                />
-                                <TextInput
-                                    withAsterisk
-                                    label="Nome"
-                                    placeholder="Nome"
-                                    {...padroesForm.getInputProps("nome")}
-                                />
+                                <div className="p-6 pb-4">
+                                    <TitleBadge>Adicionar ou editar Padrões</TitleBadge>
+                                    <div className="absolute">
+                                        <TextInput
+                                            hidden
+                                            {...padroesForm.getInputProps("id")}
+                                        />
+                                        <TextInput
+                                            hidden
+                                            {...padroesForm.getInputProps("norma")}
+                                        />
+                                    </div>
 
-                                <Group position="right" mt="md">
-                                    <Button type="submit">Salvar</Button>
-                                </Group>
+                                    <div className="grid grid-cols-12 gap-x-4">
+                                        <div className="col-span-12 md:col-span-2 2xl:col-span-1">
+                                            <TextInput
+                                                withAsterisk
+                                                label="Nº"
+                                                {...padroesForm.getInputProps("numero")}
+                                            />
+                                        </div>
+                                        <div className="col-span-12 md:col-span-10 2xl:col-span-11">
+                                            <TextInput
+                                                withAsterisk
+                                                label="Nome"
+                                                {...padroesForm.getInputProps("nome")}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="flex relative justify-end w-full bg-green_input">
+                                    <Button type="submit" className='formClientBtn'>Salvar</Button>
+                                </div>
                             </form>
                         </div>
                     </Collapse>
                 </div>
                 <div className="">
-                    <h2>Seções</h2>
+                    <SubBlockTitle>Seções</SubBlockTitle>
                     <div className="flex flex-row space-x-4">
                         <Select
                             className="flex-grow"
                             searchable
                             clearable
-                            placeholder="Selecione uma seção"
+                            placeholder="Selecione uma seção ou clique no + para adicionar uma nova"
                             data={secoesSelect}
                             value={selectedSecao}
                             onChange={setSelectedSecao}
                         />
-                        <Button
-                            className="bg-green_light text-white rounded-lg border-green_light border-2 hover:bg-white hover:text-green_light transition-all duration-300 "
-                            onClick={novaSecao}
-                        >
-                            +
-                        </Button>
-                        <Button
-                            className="bg-green_light text-white rounded-lg border-green_light border-2 hover:bg-white hover:text-green_light transition-all duration-300 "
-                            onClick={editSecao}
-                        >
-                            E
-                        </Button>
+                        <div onClick={novaSecao}><AddBtn  /></div>
+                        <div onClick={editSecao}><EditBtn  /></div>
                     </div>
 
                     <Collapse in={secaoOpen}>
-                        <div className="">
-                            <h3>Adicionar ou editar Seção</h3>
+                        <div className="light-wrapper -translate-y-4">
                             <form onSubmit={secoesSubmit}>
-                                <TextInput
-                                    hidden
-                                    {...secoesForm.getInputProps("id")}
-                                />
-                                <TextInput
-                                    hidden
-                                    {...secoesForm.getInputProps("padrao")}
-                                />
-                                <TextInput
-                                    withAsterisk
-                                    label="Número"
-                                    placeholder="Número"
-                                    {...secoesForm.getInputProps("numero")}
-                                />
-                                <TextInput
-                                    withAsterisk
-                                    label="Nome"
-                                    placeholder="Nome"
-                                    {...secoesForm.getInputProps("nome")}
-                                />
-
-                                <Group position="right" mt="md">
-                                    <Button type="submit">Salvar</Button>
-                                </Group>
+                                <div className="p-6 pb-4">
+                                    <TitleBadge>Adicionar ou editar Seção</TitleBadge>
+                                    <div className="absolute">
+                                        <TextInput
+                                            hidden
+                                            {...secoesForm.getInputProps("id")}
+                                        />
+                                        <TextInput
+                                            hidden
+                                            {...secoesForm.getInputProps("padrao")}
+                                        />
+                                    </div>
+                                    <div className="grid grid-cols-12 gap-x-4">
+                                        <div className="col-span-12 md:col-span-2 2xl:col-span-1">
+                                            <TextInput
+                                                withAsterisk
+                                                label="Nº"
+                                                {...secoesForm.getInputProps("numero")}
+                                            />
+                                        </div>
+                                        <div className="col-span-12 md:col-span-10 2xl:col-span-11">
+                                            <TextInput
+                                                withAsterisk
+                                                label="Nome"
+                                                {...secoesForm.getInputProps("nome")}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="flex relative justify-end w-full bg-green_input">
+                                    <Button type="submit" className='formClientBtn'>Salvar</Button>
+                                </div>
                             </form>
                         </div>
                     </Collapse>
                 </div>
                 <div className="">
-                    <h2>Conteúdos</h2>
+                    <SubBlockTitle>Conteúdos</SubBlockTitle>
                     <div className="flex flex-row space-x-4">
                         <Select
                             className="flex-grow"
                             searchable
                             clearable
-                            placeholder="Selecione uma seção"
+                            placeholder="Selecione um conteúdo ou clique no + para adicionar um novo"
                             data={conteudosSelect}
                             value={selectedConteudo}
                             onChange={setSelectedConteudo}
                         />
-                        <Button
-                            className="bg-green_light text-white rounded-lg border-green_light border-2 hover:bg-white hover:text-green_light transition-all duration-300 "
-                            onClick={novoConteudo}
-                        >
-                            +
-                        </Button>
-                        <Button
-                            className="bg-green_light text-white rounded-lg border-green_light border-2 hover:bg-white hover:text-green_light transition-all duration-300 "
-                            onClick={editConteudo}
-                        >
-                            E
-                        </Button>
+                        <div onClick={novoConteudo}><AddBtn  /></div>
+                        <div onClick={editConteudo}><EditBtn  /></div>
                     </div>
                     <Collapse in={conteudoOpen}>
-                        <div className="">
-                            <h3>Adicionar ou editar Conteúdo</h3>
+                        <div className="light-wrapper -translate-y-4">
                             <form onSubmit={conteudosSubmit}>
-                                <TextInput
-                                    hidden
-                                    {...conteudosForm.getInputProps("id")}
-                                />
-                                <TextInput
-                                    hidden
-                                    {...conteudosForm.getInputProps("secao")}
-                                />
-                                <TextInput
-                                    withAsterisk
-                                    label="Número"
-                                    placeholder="Número"
-                                    {...conteudosForm.getInputProps("numero")}
-                                />
-                                <TextInput
-                                    withAsterisk
-                                    label="Nome"
-                                    placeholder="Nome"
-                                    {...conteudosForm.getInputProps("nome")}
-                                />
-                                <TextInput
-                                    withAsterisk
-                                    label="Descrição"
-                                    placeholder="Descrição"
-                                    {...conteudosForm.getInputProps(
-                                        "descricao"
-                                    )}
-                                />
-                                <Group position="right" mt="md">
-                                    <Button type="submit">Salvar</Button>
-                                </Group>
+                                <div className="p-6 pb-4">
+                                    <TitleBadge>Adicionar ou editar Conteúdo</TitleBadge>
+                                    <div className="absolute">
+                                        <TextInput
+                                            hidden
+                                            {...conteudosForm.getInputProps("id")}
+                                        />
+                                        <TextInput
+                                            hidden
+                                            {...conteudosForm.getInputProps("secao")}
+                                        />
+                                    </div>
+
+                                    <div className="grid grid-cols-12 gap-x-4">
+                                        <div className="col-span-12 md:col-span-2 2xl:col-span-1">
+                                            <TextInput
+                                                withAsterisk
+                                                label="Nº"
+                                                {...conteudosForm.getInputProps("numero")}
+                                            />
+                                        </div>
+                                        <div className="col-span-12 md:col-span-10 2xl:col-span-11">
+                                            <TextInput
+                                                withAsterisk
+                                                label="Nome"
+                                                {...conteudosForm.getInputProps("nome")}
+                                            />
+                                        </div>
+                                    </div>
+
+                                    
+                                    <TextInput
+                                        withAsterisk
+                                        label="Descrição"
+                                        placeholder="Descrição"
+                                        {...conteudosForm.getInputProps(
+                                            "descricao"
+                                        )}
+                                    />
+                                </div>
+                                <div className="flex relative justify-end w-full bg-green_input">
+                                    <Button type="submit" className='formClientBtn'>Salvar</Button>
+                                </div>
                             </form>
                         </div>
                     </Collapse>
                 </div>
 
                 <div className="">
-                    <h2>Campos</h2>
+                    <SubBlockTitle>Campos</SubBlockTitle>
                     <div className="flex flex-row space-x-4">
                         <Select
                             className="flex-grow"
                             searchable
                             clearable
-                            placeholder="Selecione uma campo"
+                            placeholder="Selecione um campo ou clique no + para adicionar um novo"
                             data={camposSelect}
                             value={selectedCampo}
                             onChange={setSelectedCampo}
                         />
-                        <Button
-                            className="bg-green_light text-white rounded-lg border-green_light border-2 hover:bg-white hover:text-green_light transition-all duration-300 "
-                            onClick={novoCampo}
-                        >
-                            +
-                        </Button>
-                        <Button
-                            className="bg-green_light text-white rounded-lg border-green_light border-2 hover:bg-white hover:text-green_light transition-all duration-300 "
-                            onClick={editCampo}
-                        >
-                            E
-                        </Button>
+                        <div onClick={novoCampo}><AddBtn  /></div>
+                        <div onClick={editCampo}><EditBtn  /></div>
                     </div>
                     <Collapse in={campoOpen}>
-                        <div className="">
-                            <h3>Adicionar ou editar Campo</h3>
+                        <div className="light-wrapper -translate-y-4">
                             <form onSubmit={camposSubmit}>
-                                <TextInput
-                                    hidden
-                                    {...camposForm.getInputProps("id")}
-                                />
-                                <TextInput
-                                    hidden
-                                    {...camposForm.getInputProps("conteudo")}
-                                />
-                                <TextInput
-                                    withAsterisk
-                                    label="Número"
-                                    placeholder="Número"
-                                    {...camposForm.getInputProps("numero")}
-                                />
-                                <TextInput
-                                    withAsterisk
-                                    label="Texto"
-                                    placeholder="Texto"
-                                    {...camposForm.getInputProps("texto")}
-                                />
-                                <Select
-                                    withAsterisk
-                                    label="Tipo"
-                                    placeholder="Selecione o tipo"
-                                    data={[
-                                        { value: "nenhum", label: "Nenhum" },
-                                        { value: "numero", label: "Numérico" },
-                                        { value: "texto", label: "Texto" },
-                                        { value: "tabela", label: "Tabela" },
-                                    ]}
-                                    {...camposForm.getInputProps("tipo")}
-                                />
-                                <h3>Colunas: </h3>
-                                <Button
-                                    className="bg-green_light text-white rounded-lg border-green_light border-2 hover:bg-white hover:text-green_light transition-all duration-300 "
-                                    onClick={() =>
-                                        camposForm.insertListItem("tabela", {
-                                            nome: "",
-                                            soma: false,
-                                            key: randomId(),
-                                        })
-                                    }
-                                >
-                                    +
-                                </Button>
-                                <Group>{tabelaFields}</Group>
+                                <div className="p-6 pb-4">
+                                    <TitleBadge>Adicionar ou editar Campo</TitleBadge>
+                                    <div className="absolute">
+                                        <TextInput
+                                            hidden
+                                            {...camposForm.getInputProps("id")}
+                                        />
+                                        <TextInput
+                                            hidden
+                                            {...camposForm.getInputProps("conteudo")}
+                                        />
+                                    </div>
 
-                                <Group position="right" mt="md">
-                                    <Button type="submit">Salvar</Button>
-                                </Group>
+                                    <div className="grid grid-cols-12 gap-x-4">
+                                        <div className="col-span-12 md:col-span-2 2xl:col-span-1">
+                                            <TextInput
+                                                withAsterisk
+                                                label="Nº"
+                                                {...camposForm.getInputProps("numero")}
+                                            />
+                                        </div>
+                                        <div className="col-span-12 md:col-span-10 2xl:col-span-11">
+                                            <TextInput
+                                                withAsterisk
+                                                label="Texto"
+                                                placeholder="Texto"
+                                                {...camposForm.getInputProps("texto")}
+                                            />
+                                        </div>
+                                    </div>
+                                    
+                                    <Select
+                                        withAsterisk
+                                        label="Tipo"
+                                        placeholder="Selecione o tipo"
+                                        data={[
+                                            { value: "nenhum", label: "Nenhum" },
+                                            { value: "numero", label: "Numérico" },
+                                            { value: "texto", label: "Texto" },
+                                            { value: "tabela", label: "Tabela" },
+                                        ]}
+                                        {...camposForm.getInputProps("tipo")}
+                                    />
+                                </div>
+
+                                <div className="flex relative justify-end w-full bg-green_input">
+                                    <Button type="submit" className='formClientBtn'>Salvar</Button>
+                                </div>
                             </form>
                         </div>
                     </Collapse>
@@ -793,8 +796,11 @@ export async function getServerSideProps(context) {
         });
     });
 
+    console.log('session', session);
+
     return {
         props: {
+            user: session.user,
             jwt: session.jwt,
             normaData: normas.data[0],
             padroesSelectData: padroesSelectData,
