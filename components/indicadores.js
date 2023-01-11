@@ -125,16 +125,13 @@ export const IndicSectionItem = ({ status, indicador, salvar, atualizar }) => {
                 <div
                     className="w-full font-gotham_medium text-sm pl-[6px] leading-[1.35] text-[#596983] mt-5 mb-0"
                     key={item.key}
-                >
-                    {item.label}
-                </div>
+                    dangerouslySetInnerHTML={{__html: item.label}}
+                />
             );
         } else if (item.tipo == "tabela") {
             return (
                 <div key={item.key} className="w-full">
-                    <div className="w-full font-gotham_medium text-sm pl-[6px] leading-[1.35] text-[#596983] mt-5 mb-0">
-                        {item.label}
-                    </div>
+                    <div className="w-full font-gotham_medium text-sm pl-[6px] leading-[1.35] text-[#596983] mt-5 mb-0" dangerouslySetInnerHTML={{__html: item.label}} />
                     <ReactTabulator
                         className="w-full"
                         onRef={(ref) => (tableRef.current = ref.current)}

@@ -91,34 +91,11 @@ export default function Indicadores({ user, normaData, padroesSelectData, jwt })
         validate: {},
     });
 
-<<<<<<< HEAD
-    const tabelaFields = camposForm.values.tabela.map((item, index) => (
-        <Group key={item.key} mt="xs">
-            <TextInput
-                withAsterisk
-                sx={{ flex: 1 }}
-                {...camposForm.getInputProps(`tabela.${index}.nome`)}
-            />
-            <Switch
-                label="Somatória"
-                {...camposForm.getInputProps(`tabela.${index}.soma`, {
-                    type: "checkbox",
-                })}
-            />
-            <ActionIcon
-                color="red"
-                onClick={() => camposForm.removeListItem("tabela", index)}
-            >
-                <IconTrash size={16} />
-            </ActionIcon>
-        </Group>
-    ));
-=======
+    
     const breads = [
         { title: 'Admin', href: '/admin' },
         { title: 'Indicadores', href: '/admin/indicadores' },
     ];
->>>>>>> 70ecc28e6d56859690a93ac1b85354c4e84f4eb9
 
     const updatePadroesData = async () => {
         const padroesSelectDados = [];
