@@ -152,24 +152,34 @@ export const IndicSectionItem = ({ status, indicador, salvar, atualizar }) => {
             );
         } else if (item.tipo == "boolean") {
             return (
-                <Checkbox.Group
-                    label={item.label}
-                    description="Excolher uma opção"
-                    withAsterisk
-                >
-                    <Checkbox value="sim" label="Sim" />
-                    <Checkbox value="não" label="Não" />
-                </Checkbox.Group>
+                <div key={item.key}>
+                    <Checkbox.Group
+                        label={item.label}
+                        description="Excolher uma opção"
+                        withAsterisk
+                    >
+                        <Checkbox value="sim" label="Sim" />
+                        <Checkbox value="não" label="Não" />
+                    </Checkbox.Group>
+                </div>
             )
         } else if (item.tipo == "file") {
             return (
-                <FileInput 
-                    value={filevalues} 
-                    onChange={setFilevalues}
-                    label="Enviar arquivos"  
-                    placeholder="Selecione os arquivos" 
-                    multiple 
-                />
+                <div key={item.key}>
+                    <FileInput 
+                        value={filevalues} 
+                        onChange={setFilevalues}
+                        label="Enviar arquivos"  
+                        placeholder="Selecione os arquivos" 
+                        multiple 
+                    />
+                </div>
+            )
+        } else if (item.tipo == "checkbox") {
+            return (
+                <div key={item.key}>
+                    checkbox
+                </div>
             )
         } else {
             return (

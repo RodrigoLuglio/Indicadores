@@ -2,6 +2,9 @@ import Head from "next/head";
 import { checkUserRole } from "../../services/auth";
 import { getSession } from "next-auth/react";
 
+import { showNotification } from "@mantine/notifications";
+import { IconCheck } from '@tabler/icons';
+
 import Layout from "../../layouts/Admin";
 import HelloBar from "../../components/helloBar";
 import EditBtn from "../../components/buttons/editBtn";
@@ -215,6 +218,7 @@ export default function Indicadores({ user, normaData, padroesSelectData, jwt })
             await updatePadroesData();
             setPadraoOpen(false);
             setIsLoadingPadrao(false);
+            showAlert('Padrão registrado!');
         },
         (errors) => console.log(errors)
     );
@@ -230,6 +234,7 @@ export default function Indicadores({ user, normaData, padroesSelectData, jwt })
             await updateSecoesData();
             setIsLoadingSecao(false);
             setSecaoOpen(false);
+            showAlert('Seção registrada!');
         },
         (errors) => console.log(errors)
     );
@@ -247,6 +252,7 @@ export default function Indicadores({ user, normaData, padroesSelectData, jwt })
             setIsLoadingConteudo(false);
             setConteudoOpen(false);
             setDescription("");
+            showAlert('Conteúdo registrado!');
         },
         (errors) => console.log(errors)
     );
@@ -261,6 +267,7 @@ export default function Indicadores({ user, normaData, padroesSelectData, jwt })
             await updateCamposData();
             setIsLoadingCampo(false);
             setCampoOpen(false);
+            showAlert('Campo registrado!');
         },
         (errors) => console.log(errors)
     );
@@ -507,6 +514,17 @@ export default function Indicadores({ user, normaData, padroesSelectData, jwt })
             camposForm.reset();
         }
     }, [selectedCampo]);
+
+
+    const showAlert = (msg) => {
+        showNotification({
+            title: "Sucesso",
+            message: msg,
+            icon: <IconCheck size={18} />,
+            color: 'teal',
+            autoClose: 4000,
+        });
+    }
 
     return (
         <>
@@ -763,10 +781,12 @@ export default function Indicadores({ user, normaData, padroesSelectData, jwt })
                                         label="Tipo"
                                         placeholder="Selecione o tipo"
                                         data={[
+                                            { value: "file", label: "Arquivo" },
+                                            { value: "checkbox", label: "Checkbox" },
                                             { value: "nenhum", label: "Nenhum" },
                                             { value: "numero", label: "Numérico" },
-                                            { value: "texto", label: "Texto" },
                                             { value: "tabela", label: "Tabela" },
+                                            { value: "texto", label: "Texto" },
                                             { value: "boolean", label: "Sim/Não" },
                                         ]}
                                         {...camposForm.getInputProps("tipo")}
