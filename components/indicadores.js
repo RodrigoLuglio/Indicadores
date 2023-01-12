@@ -8,6 +8,7 @@ import {
     Button,
     Collapse,
     TextInput,
+    FileInput,
     Label,
     Tooltip,
     Group,
@@ -42,8 +43,9 @@ export const IndicSectionHead = ({ title }) => {
 export const IndicSectionItem = ({ status, indicador, salvar, atualizar }) => {
     const [opened, setOpened] = useState(false);
 
-    let tableRef = useRef(null);
-    let tableQuadroRef = useRef(null);
+    const [filevalues, setFilevalues] = useState([]);
+
+    var tableRef = useRef(null);
 
     const form = useForm({
         initialValues: {
@@ -205,16 +207,13 @@ export const IndicSectionItem = ({ status, indicador, salvar, atualizar }) => {
                 <div
                     className="w-full font-gotham_medium text-sm pl-[6px] leading-[1.35] text-[#596983] mt-5 mb-0"
                     key={item.key}
-                >
-                    {item.label}
-                </div>
+                    dangerouslySetInnerHTML={{__html: item.label}}
+                />
             );
         } else if (item.tipo == "tabela") {
             return (
                 <div key={item.key} className="w-full">
-                    <div className="w-full font-gotham_medium text-sm pl-[6px] leading-[1.35] text-[#596983] mt-5 mb-0">
-                        {item.label}
-                    </div>
+                    <div className="w-full font-gotham_medium text-sm pl-[6px] leading-[1.35] text-[#596983] mt-5 mb-0" dangerouslySetInnerHTML={{__html: item.label}} />
                     <ReactTabulator
                         className="w-full"
                         onRef={(ref) => (tableRef.current = ref.current)}
@@ -230,6 +229,37 @@ export const IndicSectionItem = ({ status, indicador, salvar, atualizar }) => {
                     </Button>
                 </div>
             );
+        } else if (item.tipo == "boolean") {
+            return (
+                <div key={item.key}>
+                    <Checkbox.Group
+                        label={item.label}
+                        description="Excolher uma opção"
+                        withAsterisk
+                    >
+                        <Checkbox value="sim" label="Sim" />
+                        <Checkbox value="não" label="Não" />
+                    </Checkbox.Group>
+                </div>
+            )
+        } else if (item.tipo == "file") {
+            return (
+                <div key={item.key}>
+                    <FileInput 
+                        value={filevalues} 
+                        onChange={setFilevalues}
+                        label="Enviar arquivos"  
+                        placeholder="Selecione os arquivos" 
+                        multiple 
+                    />
+                </div>
+            )
+        } else if (item.tipo == "checkbox") {
+            return (
+                <div key={item.key}>
+                    checkbox
+                </div>
+            )
         } else {
             return (
                 <div key={item.key}>

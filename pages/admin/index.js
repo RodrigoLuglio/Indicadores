@@ -12,6 +12,7 @@ import ViewBtn from "../../components/buttons/viewBtn";
 import { IconCardClientes, IconCardIndAbertos, IconCardIndFinalizados, IconCardAguardVerificacao, IconGri, GetNormasIcon } from "../../components/icons";
 import { BlockTitle } from "../../components/titles";
 import { Tbhr, StatusBall, AvatarCompany } from "../../components/misc";
+import ClientRowAdmin from "../../components/clientRowAdmin";
 
 
 export default function AdminDashboard({user, countedClients}) {
@@ -38,54 +39,18 @@ export default function AdminDashboard({user, countedClients}) {
                 <StatusCard title="Indicadores aguardando" subTitle="verificação" val="12" bgIcon="bg-green_light" icon={<IconCardAguardVerificacao /> } />
             </section>
 
-            <section className="grid xl:grid-cols-2 gap-8">
-                <div>
+            <section className="grid  gap-8"> {/* xl:grid-cols-2 */}
+                {/* <div>
                     <BlockTitle>Clientes</BlockTitle>
                     <div className="w-full border border-gray-100 h-64 fotn-gotham_medium text-gray3 flex justify-center items-center">espaco para gráfico</div>
-                </div>
+                </div> */}
 
                 <div>
                     <BlockTitle>Últimos Preenchimentos</BlockTitle>
                     <div className="my-4">
-                        <div className="tableGrid">
-                            <div className="col-span-8 tableHead pl-2">Empresa</div>
-                            <div className="col-span-2 tableHead">Indicador</div>
-                            <div className="col-span-2 tableHead">Status</div>
-                        </div>
-                        <Tbhr />
-                        <div className="rowGrid">
-                            <div className="tableGrid">
-                                <div className="col-span-8 flex flex-col justify-center">
-                                    <AvatarCompany company="Empresa XYZ" subinfo="por: Fulana X" logo="https://pbs.twimg.com/profile_images/636661084720500737/_QglFGym_400x400.jpg"  />
-                                </div>
-                                <div className="col-span-2 mx-auto">{<GetNormasIcon norma="gri" />}</div>
-                                <div className="col-span-2 flex justify-center items-center"><StatusBall status="finalizado" /></div>
-                            </div>
-                        </div>
-                        <Tbhr />
-
-                        <div className="rowGrid">
-                            <div className="tableGrid">
-                                <div className="col-span-8 flex flex-col justify-center">
-                                    <AvatarCompany company="Abc Co." subinfo="por: Fulana X" logo="https://i.pinimg.com/736x/12/f4/80/12f4805f90d5abc0997b606844967594.jpg"  />
-                                </div>
-                                <div className="col-span-2 mx-auto">{<GetNormasIcon norma="gri" />}</div>
-                                <div className="col-span-2 flex justify-center items-center"><StatusBall status="verificacao" /></div>
-                            </div>
-                        </div>
-                        <Tbhr />
-
-                        <div className="rowGrid">
-                            <div className="tableGrid">
-                                <div className="col-span-8 flex flex-col justify-center">
-                                    <AvatarCompany company="Empresa XYZ" subinfo="por: Fulana X" logo="https://pbs.twimg.com/profile_images/636661084720500737/_QglFGym_400x400.jpg"  />
-                                </div>
-                                <div className="col-span-2 mx-auto">{<GetNormasIcon norma="gri" />}</div>
-                                <div className="col-span-2 flex justify-center items-center"><StatusBall status="incompleto" /></div>
-                            </div>
-                        </div>
-                        <Tbhr />
-                    
+                        <ClientRowAdmin i='0' status='verificacao' norma='gri' />
+                        <ClientRowAdmin norma='gri' />
+                        <ClientRowAdmin norma='gri' />
                     </div>
                 </div>
             </section>
@@ -167,15 +132,15 @@ export const getServerSideProps = async (context) => {
     if(returnedObj != null) return returnedObj;
 
     const countedClients = await countUserByRole(session.jwt, 4);
-    const avatar = await getUserAvatar(session.jwt, 4);
+    const avatar = await getUserAvatar(session.jwt, session.id);
 
     // console.log(session)
-    console.log(avatar)
+    console.log('avatar', avatar)
 
     return {
         props: {
             user: session.user,
-            countedClients
+            countedClients,
         }
     }
 }

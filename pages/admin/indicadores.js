@@ -2,12 +2,16 @@ import Head from "next/head";
 import { checkUserRole } from "../../services/auth";
 import { getSession } from "next-auth/react";
 
+import { showNotification } from "@mantine/notifications";
+import { IconCheck } from '@tabler/icons';
+
 import Layout from "../../layouts/Admin";
 import HelloBar from "../../components/helloBar";
 import EditBtn from "../../components/buttons/editBtn";
 import AddBtn from "../../components/buttons/addBtn";
 import { BlockTitle, SubBlockTitle } from "../../components/titles";
-import { Tbhr, TitleBadge} from "../../components/misc";
+import { Tbhr, TitleBadge, Loading} from "../../components/misc";
+import TipTap from "../../components/tiptap";
 
 import { useState, useEffect } from "react";
 import { getToken } from "next-auth/jwt";
@@ -40,6 +44,12 @@ export default function Indicadores({ user, normaData, padroesSelectData, jwt })
     const [secaoOpen, setSecaoOpen] = useState(false);
     const [conteudoOpen, setConteudoOpen] = useState(false);
     const [campoOpen, setCampoOpen] = useState(false);
+    const [isLoadingPadrao, setIsLoadingPadrao] = useState(false);
+    const [isLoadingSecao, setIsLoadingSecao] = useState(false);
+    const [isLoadingConteudo, setIsLoadingConteudo] = useState(false);
+    const [isLoadingCampo, setIsLoadingCampo] = useState(false);
+    const [description, setDescription] = useState("");
+
     
     const padroesForm = useForm({
         initialValues: {
@@ -85,34 +95,11 @@ export default function Indicadores({ user, normaData, padroesSelectData, jwt })
         validate: {},
     });
 
-<<<<<<< HEAD
-    const tabelaFields = camposForm.values.tabela.map((item, index) => (
-        <Group key={item.key} mt="xs">
-            <TextInput
-                withAsterisk
-                sx={{ flex: 1 }}
-                {...camposForm.getInputProps(`tabela.${index}.nome`)}
-            />
-            <Switch
-                label="Somatória"
-                {...camposForm.getInputProps(`tabela.${index}.soma`, {
-                    type: "checkbox",
-                })}
-            />
-            <ActionIcon
-                color="red"
-                onClick={() => camposForm.removeListItem("tabela", index)}
-            >
-                <IconTrash size={16} />
-            </ActionIcon>
-        </Group>
-    ));
-=======
+    
     const breads = [
         { title: 'Admin', href: '/admin' },
         { title: 'Indicadores', href: '/admin/indicadores' },
     ];
->>>>>>> 70ecc28e6d56859690a93ac1b85354c4e84f4eb9
 
     const updatePadroesData = async () => {
         const padroesSelectDados = [];
@@ -221,6 +208,7 @@ export default function Indicadores({ user, normaData, padroesSelectData, jwt })
 
     const padroesSubmit = padroesForm.onSubmit(
         async (values) => {
+            setIsLoadingPadrao(true);
             // Norma GRI "hardcoded" na criação e edição de padrões
             if (values.id == "") {
                 values.norma = 1;
@@ -229,43 +217,57 @@ export default function Indicadores({ user, normaData, padroesSelectData, jwt })
             const res = await addUpItem(jwt, collection, values);
             await updatePadroesData();
             setPadraoOpen(false);
+            setIsLoadingPadrao(false);
+            showAlert('Padrão registrado!');
         },
         (errors) => console.log(errors)
     );
 
     const secoesSubmit = secoesForm.onSubmit(
         async (values) => {
+            setIsLoadingSecao(true);
             if (values.id == "") {
                 values.padrao = selectedPadrao;
             }
             const collection = "secoes";
             const res = await addUpItem(jwt, collection, values);
             await updateSecoesData();
+            setIsLoadingSecao(false);
             setSecaoOpen(false);
+            showAlert('Seção registrada!');
         },
         (errors) => console.log(errors)
     );
     const conteudosSubmit = conteudosForm.onSubmit(
         async (values) => {
+            setIsLoadingConteudo(true);
             if (values.id == "") {
                 values.secao = selectedSecao;
             }
+            values.descricao = description;
+            console.log(values)
             const collection = "conteudos";
             const res = await addUpItem(jwt, collection, values);
             await updateConteudosData();
+            setIsLoadingConteudo(false);
             setConteudoOpen(false);
+            setDescription("");
+            showAlert('Conteúdo registrado!');
         },
         (errors) => console.log(errors)
     );
     const camposSubmit = camposForm.onSubmit(
         async (values) => {
+            setIsLoadingCampo(true);
             if (values.id == "") {
                 values.conteudo = selectedConteudo;
             }
             const collection = "campos";
             const res = await addUpItem(jwt, collection, values);
             await updateCamposData();
+            setIsLoadingCampo(false);
             setCampoOpen(false);
+            showAlert('Campo registrado!');
         },
         (errors) => console.log(errors)
     );
@@ -362,6 +364,12 @@ export default function Indicadores({ user, normaData, padroesSelectData, jwt })
                 secao: dadosConteudo[0].attributes.secao.data.id,
             };
             conteudosForm.setValues(conteudoSelecionado);
+            console.log('conteudoSelecionado.descricao : ', conteudoSelecionado.descricao)
+            if(conteudoSelecionado.descricao) {
+                console.log('chama o setDescription');
+                setDescription(conteudoSelecionado.descricao);
+            }
+            
         } else {
             conteudosForm.reset();
         }
@@ -499,12 +507,24 @@ export default function Indicadores({ user, normaData, padroesSelectData, jwt })
             });
             setCamposSelect(campoSelectDados);
         }
+
     }, [selectedConteudo]);
     useEffect(() => {
         if (selectedCampo == undefined) {
             camposForm.reset();
         }
     }, [selectedCampo]);
+
+
+    const showAlert = (msg) => {
+        showNotification({
+            title: "Sucesso",
+            message: msg,
+            icon: <IconCheck size={18} />,
+            color: 'teal',
+            autoClose: 4000,
+        });
+    }
 
     return (
         <>
@@ -570,7 +590,10 @@ export default function Indicadores({ user, normaData, padroesSelectData, jwt })
                                 </div>
 
                                 <div className="flex relative justify-end w-full bg-green_input">
-                                    <Button type="submit" className='formClientBtn'>Salvar</Button>
+                                    {  !isLoadingPadrao 
+                                        ? <Button type="submit" className='formClientBtn'>Salvar</Button>
+                                        : <Loading color="cyan" text="registrando padrão...aguarde" className="p-4" /> 
+                                    }
                                 </div>
                             </form>
                         </div>
@@ -625,7 +648,10 @@ export default function Indicadores({ user, normaData, padroesSelectData, jwt })
                                     </div>
                                 </div>
                                 <div className="flex relative justify-end w-full bg-green_input">
-                                    <Button type="submit" className='formClientBtn'>Salvar</Button>
+                                    {  !isLoadingSecao 
+                                        ? <Button type="submit" className='formClientBtn'>Salvar</Button>
+                                        : <Loading color="cyan" text="registrando seção...aguarde" className="p-4" /> 
+                                    }
                                 </div>
                             </form>
                         </div>
@@ -677,20 +703,24 @@ export default function Indicadores({ user, normaData, padroesSelectData, jwt })
                                                 {...conteudosForm.getInputProps("nome")}
                                             />
                                         </div>
-                                    </div>
+                                    </div>  
 
-                                    
-                                    <TextInput
+                                    <TipTap setDescription={setDescription} description={description} />
+
+                                    {/* <TextInput
                                         withAsterisk
                                         label="Descrição"
                                         placeholder="Descrição"
                                         {...conteudosForm.getInputProps(
                                             "descricao"
                                         )}
-                                    />
+                                    /> */}
                                 </div>
                                 <div className="flex relative justify-end w-full bg-green_input">
-                                    <Button type="submit" className='formClientBtn'>Salvar</Button>
+                                    {  !isLoadingConteudo
+                                        ? <Button type="submit" className='formClientBtn'>Salvar</Button>
+                                        : <Loading color="cyan" text="registrando conteúdo...aguarde" className="p-4" /> 
+                                    }
                                 </div>
                             </form>
                         </div>
@@ -713,7 +743,7 @@ export default function Indicadores({ user, normaData, padroesSelectData, jwt })
                         <div onClick={editCampo}><EditBtn  /></div>
                     </div>
                     <Collapse in={campoOpen}>
-                        <div className="light-wrapper -translate-y-4">
+                        <div className="light-wrapper overflow-visible -translate-y-4">
                             <form onSubmit={camposSubmit}>
                                 <div className="p-6 pb-4">
                                     <TitleBadge>Adicionar ou editar Campo</TitleBadge>
@@ -751,17 +781,23 @@ export default function Indicadores({ user, normaData, padroesSelectData, jwt })
                                         label="Tipo"
                                         placeholder="Selecione o tipo"
                                         data={[
+                                            { value: "file", label: "Arquivo" },
+                                            { value: "checkbox", label: "Checkbox" },
                                             { value: "nenhum", label: "Nenhum" },
                                             { value: "numero", label: "Numérico" },
-                                            { value: "texto", label: "Texto" },
                                             { value: "tabela", label: "Tabela" },
+                                            { value: "texto", label: "Texto" },
+                                            { value: "boolean", label: "Sim/Não" },
                                         ]}
                                         {...camposForm.getInputProps("tipo")}
                                     />
                                 </div>
 
                                 <div className="flex relative justify-end w-full bg-green_input">
-                                    <Button type="submit" className='formClientBtn'>Salvar</Button>
+                                    {  !isLoadingCampo
+                                        ? <Button type="submit" className='formClientBtn'>Salvar</Button>
+                                        : <Loading color="cyan" text="registrando campo...aguarde" className="p-4" /> 
+                                    }
                                 </div>
                             </form>
                         </div>
