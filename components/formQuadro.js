@@ -1,90 +1,85 @@
-import React from "react";
+import { useState, useRef } from "react";
 import { Select, TextInput, Button, Group, ActionIcon } from "@mantine/core";
-import { useForm } from "@mantine/form";
-import { randomId } from "@mantine/hooks";
-import { IconTrash } from "@tabler/icons";
+import { ReactTabulator } from "react-tabulator";
 
-const FormRegioes = ({ quadro, salvaQuadro }) => {
-    const regioesForm = useForm({
-        initialValues: {
-            regioes: [
-                {
-                    id: "",
-                    tipo: "",
-                    regiao: "",
-                    feminino: "",
-                    masculino: "",
-                    outro: "",
-                    ni: "",
-                    total: "",
-                    key: randomId(),
-                },
-            ],
-        },
+const FormRegioes = ({ indicador }) => {
+    const tableRef = useRef(null);
 
-        validate: {},
-    });
+    console.log("Indicador -> ", indicador);
 
-    const regioesFields = regioesForm.values.regioes.map((item, index) => (
-        <Group key={item.key} mt="xs">
-            <Select
-                className="flex-grow"
-                searchable
-                clearable
-                placeholder="Selecione o tipo de funcionário"
-                data={[
-                    { value: "permanentes", label: "Permanentes" },
-                    { value: "temporarios", label: "Temporários" },
-                    {
-                        value: "sgarantia",
-                        label: "Sem garantia de carga horária",
-                    },
-                    { value: "integral", label: "Tempo integral" },
-                    { value: "parcial", label: "Tempo parcial" },
-                ]}
-                {...regioesForm.getInputProps(`regioes.${index}.tipo`)}
-            />
-            <TextInput
-                withAsterisk
-                {...regioesForm.getInputProps(`tabela.${index}.feminino`)}
-            />
-            <TextInput
-                withAsterisk
-                {...regioesForm.getInputProps(`tabela.${index}.masculino`)}
-            />
-            <TextInput
-                withAsterisk
-                {...regioesForm.getInputProps(`tabela.${index}.outro`)}
-            />
-            <TextInput
-                withAsterisk
-                {...regioesForm.getInputProps(`tabela.${index}.ni`)}
-            />
-            <TextInput
-                withAsterisk
-                {...regioesForm.getInputProps(`tabela.${index}.total`)}
-            />
-            <ActionIcon
-                color="red"
-                onClick={() => regioesForm.removeListItem("regioes", index)}
-            >
-                <IconTrash size={16} />
-            </ActionIcon>
-        </Group>
-    ));
+    const tableAddRow = () => {
+        var table = tableRef.current;
+        table.addRow({
+            id: "",
+            regiao: "",
+            tipo: "permanentes",
+            feminino: "",
+            masculino: "",
+            outro: "",
+            ni: "",
+            total: "",
+        });
+        table.addRow({
+            id: "",
+            regiao: "",
+            tipo: "temporarios",
+            feminino: "",
+            masculino: "",
+            outro: "",
+            ni: "",
+            total: "",
+        });
+        table.addRow({
+            id: "",
+            regiao: "",
+            tipo: "sgarantia",
+            feminino: "",
+            masculino: "",
+            outro: "",
+            ni: "",
+            total: "",
+        });
+        table.addRow({
+            id: "",
+            regiao: "",
+            tipo: "integral",
+            feminino: "",
+            masculino: "",
+            outro: "",
+            ni: "",
+            total: "",
+        });
+        table.addRow({
+            id: "",
+            regiao: "",
+            tipo: "parcial",
+            feminino: "",
+            masculino: "",
+            outro: "",
+            ni: "",
+            total: "",
+        });
+        table.redraw();
+    };
 
     return (
         <div className="">
-            <form onSubmit={regioesSubmit}>
-                <TextInput hidden {...regioesForm.getInputProps("id")} />
-                <TextInput hidden {...regioesForm.getInputProps("quadro")} />
-                {regioesFields}
-                <Group position="right" mt="md">
-                    <Button type="submit">Salvar</Button>
-                </Group>
-            </form>
+            <ReactTabulator
+                className="w-full"
+                onRef={(ref) => (tableRef.current = ref.current)}
+                data={indicador.tabela}
+                colunms={indicador.config}
+                layout={"fitDataStretch"}
+                options={{ groupBy: "regiao" }}
+            />
+            <Button
+                className="bg-green_light text-white rounded-lg border-green_light border-2 hover:bg-white hover:text-green_light transition-all duration-300"
+                onClick={tableAddRow}
+            >
+                Adicionar região
+            </Button>
         </div>
     );
 };
 
-export default FormCampo;
+export default FormRegioes;
