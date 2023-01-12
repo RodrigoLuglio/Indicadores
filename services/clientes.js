@@ -7,11 +7,11 @@ const strapiUrl = "https://api.rlabs.com.br";
 
 
 // retorna os clientes
-export async function getUsersByRole(jwt, role) {
+export async function getUsersByRole(jwt, role, sortby = 'id', order = 'desc') {
     try {
         const org = `populate[organizacao][fields][0]=nome&`;
         const roleq = `populate[role][fields][0]=name&`;
-        const sort = `sort[0]=id:desc`;
+        const sort = `sort[0]=${sortby}:${order}`;
         const { data } = await axios.get(`${strapiUrl}/api/users?fields[0]=name&fields[1]=email&${roleq + org}&filters[role][name][$eq]=${role}&${sort}`, {
             headers: {
                 Authorization: `Bearer ${jwt}`,

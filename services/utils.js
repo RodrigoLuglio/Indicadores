@@ -132,6 +132,8 @@ export const getDepartamentosArrObject = () => {
 
 export const getDepartamentoLabel = (deparatamentoId) => getDepartamentosArrObject().filter(dep => dep.value == deparatamentoId)[0].label
 
+export const orderByCol = (obj, column) => obj.sort((a,b) => (a.column > b.column) ? 1 : ((b.column > a.column) ? -1 : 0))
+
 export const gmailTransporter = {
     service: 'gmail',
     auth: {

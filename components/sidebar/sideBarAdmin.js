@@ -13,15 +13,15 @@ const SideBarAdmin = () => {
     const subitens = [
         {
             norma : 'GRI',
-            link : '/gri'
+            link : '/admin/gri'
         },
         {
             norma : 'SASB',
-            link : '/gri'
+            link : ''
         },
         {
             norma : 'CDI',
-            link : '/cdi'
+            link : ''
         },
     ]
 
@@ -40,6 +40,7 @@ const SideBarAdmin = () => {
                             <LinkItem link="/admin" label="Dashboard" icon={<Gear className="group-hover:fill-orange" />} />
                             <LinkItemSubmenu label="Incluir" subLabel="Normas:" icon={<Profile className="group-hover:fill-orange" />} subItens={subitens} />
                             <LinkItem link="/admin/clientes" label="Clientes" icon={<Profile className="group-hover:fill-orange" />} />
+                            <LinkItem link="/admin/indicadores" label="Indicadores" icon={<Status className="group-hover:fill-orange" />} />
                             <LinkItem link="/mantine" label="Consultar" icon={<Research className="group-hover:fill-orange" />} />
                             <LinkItem link="/admin/status" label="Status" icon={<Status className="group-hover:fill-orange" />} />
                         </ul>
