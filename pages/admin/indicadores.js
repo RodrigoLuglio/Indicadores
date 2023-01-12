@@ -44,6 +44,7 @@ export default function Indicadores({ user, normaData, padroesSelectData, jwt })
     const [isLoadingPadrao, setIsLoadingPadrao] = useState(false);
     const [isLoadingSecao, setIsLoadingSecao] = useState(false);
     const [isLoadingConteudo, setIsLoadingConteudo] = useState(false);
+    const [isLoadingCampo, setIsLoadingCampo] = useState(false);
     const [description, setDescription] = useState("");
 
     
@@ -251,12 +252,14 @@ export default function Indicadores({ user, normaData, padroesSelectData, jwt })
     );
     const camposSubmit = camposForm.onSubmit(
         async (values) => {
+            setIsLoadingCampo(true);
             if (values.id == "") {
                 values.conteudo = selectedConteudo;
             }
             const collection = "campos";
             const res = await addUpItem(jwt, collection, values);
             await updateCamposData();
+            setIsLoadingCampo(false);
             setCampoOpen(false);
         },
         (errors) => console.log(errors)
@@ -722,7 +725,7 @@ export default function Indicadores({ user, normaData, padroesSelectData, jwt })
                         <div onClick={editCampo}><EditBtn  /></div>
                     </div>
                     <Collapse in={campoOpen}>
-                        <div className="light-wrapper -translate-y-4">
+                        <div className="light-wrapper overflow-visible -translate-y-4">
                             <form onSubmit={camposSubmit}>
                                 <div className="p-6 pb-4">
                                     <TitleBadge>Adicionar ou editar Campo</TitleBadge>
@@ -764,13 +767,17 @@ export default function Indicadores({ user, normaData, padroesSelectData, jwt })
                                             { value: "numero", label: "Numérico" },
                                             { value: "texto", label: "Texto" },
                                             { value: "tabela", label: "Tabela" },
+                                            { value: "boolean", label: "Sim/Não" },
                                         ]}
                                         {...camposForm.getInputProps("tipo")}
                                     />
                                 </div>
 
                                 <div className="flex relative justify-end w-full bg-green_input">
-                                    <Button type="submit" className='formClientBtn'>Salvar</Button>
+                                    {  !isLoadingCampo
+                                        ? <Button type="submit" className='formClientBtn'>Salvar</Button>
+                                        : <Loading color="cyan" text="registrando campo...aguarde" className="p-4" /> 
+                                    }
                                 </div>
                             </form>
                         </div>

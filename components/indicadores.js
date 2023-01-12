@@ -5,6 +5,7 @@ import {
     Button,
     Collapse,
     TextInput,
+    FileInput,
     Label,
     Tooltip,
     Group,
@@ -39,6 +40,8 @@ export const IndicSectionHead = ({ title }) => {
 
 export const IndicSectionItem = ({ status, indicador, salvar, atualizar }) => {
     const [opened, setOpened] = useState(false);
+
+    const [filevalues, setFilevalues] = useState([]);
 
     var tableRef = useRef(null);
 
@@ -147,6 +150,27 @@ export const IndicSectionItem = ({ status, indicador, salvar, atualizar }) => {
                     </Button>
                 </div>
             );
+        } else if (item.tipo == "boolean") {
+            return (
+                <Checkbox.Group
+                    label={item.label}
+                    description="Excolher uma opção"
+                    withAsterisk
+                >
+                    <Checkbox value="sim" label="Sim" />
+                    <Checkbox value="não" label="Não" />
+                </Checkbox.Group>
+            )
+        } else if (item.tipo == "file") {
+            return (
+                <FileInput 
+                    value={filevalues} 
+                    onChange={setFilevalues}
+                    label="Enviar arquivos"  
+                    placeholder="Selecione os arquivos" 
+                    multiple 
+                />
+            )
         } else {
             return (
                 <div key={item.key}>
