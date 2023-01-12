@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { Tbhr, FullCard, StatusBall } from "./misc";
 import ViewBtn from "./buttons/viewBtn";
+
+import FormRegioes from "./formQuadro";
+
 import {
     Button,
     Collapse,
@@ -18,7 +21,6 @@ import { randomId } from "@mantine/hooks";
 import { getStatusColor } from "../services/utils";
 
 import { ReactTabulator } from "react-tabulator";
-import DateEditor from "react-tabulator/lib/editors/DateEditor";
 
 export const IndicSectionHead = ({ title }) => {
     return (
@@ -40,7 +42,8 @@ export const IndicSectionHead = ({ title }) => {
 export const IndicSectionItem = ({ status, indicador, salvar, atualizar }) => {
     const [opened, setOpened] = useState(false);
 
-    var tableRef = useRef(null);
+    let tableRef = useRef(null);
+    let tableQuadroRef = useRef(null);
 
     const form = useForm({
         initialValues: {
@@ -119,8 +122,85 @@ export const IndicSectionItem = ({ status, indicador, salvar, atualizar }) => {
         table.redraw();
     };
 
+    const tableQuadroAddRow = () => {
+        console.log("Table Quadro Ref -> ", tableRef);
+        var table = tableRef.current;
+        table.addRow({
+            id: "",
+            regiao: "",
+            tipo: "permanentes",
+            feminino: "",
+            masculino: "",
+            outro: "",
+            ni: "",
+            total: "",
+        });
+        table.addRow({
+            id: "",
+            regiao: "",
+            tipo: "temporarios",
+            feminino: "",
+            masculino: "",
+            outro: "",
+            ni: "",
+            total: "",
+        });
+        table.addRow({
+            id: "",
+            regiao: "",
+            tipo: "sgarantia",
+            feminino: "",
+            masculino: "",
+            outro: "",
+            ni: "",
+            total: "",
+        });
+        table.addRow({
+            id: "",
+            regiao: "",
+            tipo: "integral",
+            feminino: "",
+            masculino: "",
+            outro: "",
+            ni: "",
+            total: "",
+        });
+        table.addRow({
+            id: "",
+            regiao: "",
+            tipo: "parcial",
+            feminino: "",
+            masculino: "",
+            outro: "",
+            ni: "",
+            total: "",
+        });
+        table.redraw();
+    };
+
     const fields = form.values.respostas.map((item, index) => {
-        if (item.tipo == "nenhum") {
+        if (item.campo == 29) {
+            return (
+                <div key={item.key} className="w-full">
+                    <div className="w-full font-gotham_medium text-sm pl-[6px] leading-[1.35] text-[#596983] mt-5 mb-0">
+                        {item.label}
+                    </div>
+                    <ReactTabulator
+                        className="w-full"
+                        onRef={(ref) => (tableRef.current = ref.current)}
+                        data={item.tabela}
+                        columns={item.config}
+                        layout={"fitDataStretch"}
+                    />
+                    <Button
+                        className="bg-green_light text-white rounded-lg border-green_light border-2 hover:bg-white hover:text-green_light transition-all duration-300"
+                        onClick={tableQuadroAddRow}
+                    >
+                        +
+                    </Button>
+                </div>
+            );
+        } else if (item.tipo == "nenhum") {
             return (
                 <div
                     className="w-full font-gotham_medium text-sm pl-[6px] leading-[1.35] text-[#596983] mt-5 mb-0"

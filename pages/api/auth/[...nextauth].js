@@ -31,9 +31,12 @@ export default NextAuth({
                     });
                     const data = await me(jwt);
                     console.log(data);
+                    user.id = data.id;
                     user.role = data.role.name;
                     user.name = data.username;
-                    user.id = data.id;
+                    user.organizacao = data.organizacao;
+                    user.departamento = data.departamento;
+                    user.avatar = data.avatar;                    
                     return { ...user, jwt };
                 } catch (error) {
                     // Sign In Fail
@@ -49,6 +52,9 @@ export default NextAuth({
             session.user.role = token.role;
             session.user.name = token.name;
             session.user.id = token.id;
+            session.user.organizacao = token.organizacao;
+            session.user.departamento = token.departamento;
+            session.user.avatar = token.avatar;              
             return Promise.resolve(session);
         },
         jwt: async ({ token, user }) => {
@@ -58,6 +64,9 @@ export default NextAuth({
                 token.jwt = user.jwt;
                 token.role = user.role;
                 token.name = user.name;
+                token.organizacao = user.organizacao;
+                token.departamento = user.departamento;
+                token.avatar = user.avatar;              
             }
             return Promise.resolve(token);
         },
